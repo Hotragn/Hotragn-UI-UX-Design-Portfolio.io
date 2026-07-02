@@ -8,7 +8,7 @@
     }
   },
   "urls": [
-    "http://localhost:8080/index.html",
+    "http://localhost:8080/",
     "http://localhost:8080/work/paypal.html",
     "http://localhost:8080/work/rare-rabbit.html",
     "http://localhost:8080/work/notion.html",

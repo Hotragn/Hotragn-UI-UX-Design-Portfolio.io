@@ -1,9 +1,0 @@
-{
-  "extends": ["html-validate:recommended"],
-  "rules": {
-    "no-inline-style": "off",
-    "long-title": "off",
-    "prefer-native-element": "off",
-    "no-trailing-whitespace": "off"
-  }
-}

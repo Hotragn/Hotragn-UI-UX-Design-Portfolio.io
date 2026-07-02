@@ -1,10 +1,10 @@
 name: Quality gates & production check
 
-# Vercel deploys this repo automatically on push. These gates run in
-# parallel with that deploy; if any gate fails, the commit is marked
-# failing so the regression is caught even though Vercel already shipped
-# it — fix forward or revert. The final job verifies production serves
-# the new commit successfully.
+# Vercel builds and deploys this repo automatically on push. These gates
+# run in parallel with that deploy; if any gate fails, the commit is
+# marked failing so the regression is caught even though Vercel already
+# shipped it. Fix forward or revert. The final job verifies production
+# serves the new commit successfully.
 
 on:
   push:
@@ -18,59 +18,80 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate-html:
-    name: HTML validation
+  typecheck-build:
+    name: Typecheck & static export
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Validate all HTML files
-        run: npx --yes html-validate@8 "index.html" "404.html" "work/*.html"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Build static export
+        run: npm run build
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-out
+          path: out
 
   check-links:
     name: Internal link integrity
+    needs: typecheck-build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: site-out
+          path: out
       - name: Check internal links and assets (offline)
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
             --offline
             --no-progress
-            --root-dir ${{ github.workspace }}
-            --exclude-path 404.html
-            "./**/*.html"
+            --root-dir ${{ github.workspace }}/out
+            --fallback-extensions html
+            "./out/**/*.html"
           fail: true
 
   accessibility:
     name: Accessibility audit (WCAG 2.1 AA)
+    needs: typecheck-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Serve site and run pa11y-ci
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: site-out
+          path: out
+      - name: Serve the export and run pa11y-ci
         run: |
-          npx --yes http-server@14 . -p 8080 --silent &
+          npx --yes http-server@14 out -p 8080 --silent &
           sleep 2
           npx --yes pa11y-ci@3 --config .pa11yci.json
 
   verify-production:
     name: Production smoke test (Vercel)
     if: github.event_name != 'pull_request'
-    needs: [validate-html, check-links, accessibility]
+    needs: [typecheck-build, check-links, accessibility]
     runs-on: ubuntu-latest
     steps:
       - name: Wait for Vercel to serve the site, then check every page
         run: |
           base="https://hotragnpettugani-design.vercel.app/"
-          sleep 45
+          sleep 60
           fail=0
-          for path in "" "work/paypal.html" "work/rare-rabbit.html" "work/notion.html" "work/family-foundations.html"; do
+          for path in "" "work/paypal" "work/rare-rabbit" "work/notion" "work/family-foundations"; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "${base}${path}")
             echo "$code  ${base}${path}"
             if [ "$code" != "200" ]; then fail=1; fi

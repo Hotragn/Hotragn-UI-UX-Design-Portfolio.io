@@ -1,0 +1,10 @@
+{
+  "framework": "nextjs",
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/work/paypal.html", "destination": "/work/paypal", "permanent": true },
+    { "source": "/work/rare-rabbit.html", "destination": "/work/rare-rabbit", "permanent": true },
+    { "source": "/work/notion.html", "destination": "/work/notion", "permanent": true },
+    { "source": "/work/family-foundations.html", "destination": "/work/family-foundations", "permanent": true }
+  ]
+}

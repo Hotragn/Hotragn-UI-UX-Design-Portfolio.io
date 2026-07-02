@@ -1,8 +1,9 @@
 name: Weekly external link health
 
-# Dead artifact links are how portfolios quietly die. This checks every
-# external link (Figma, Drive, Medium, deployed apps) once a week and
-# opens a GitHub issue when something breaks.
+# Dead artifact links are how portfolios quietly die. This builds the
+# site, then checks every external link in the exported HTML (Figma,
+# Drive, Medium, deployed apps) once a week and opens a GitHub issue
+# when something breaks.
 
 on:
   schedule:
@@ -18,6 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build static export
+        run: npm run build
       - name: Run lychee against external links
         id: lychee
         uses: lycheeverse/lychee-action@v2
@@ -28,7 +37,8 @@ jobs:
             --timeout 30
             --accept "200..=299,403,429"
             --exclude "mailto:.*"
-            "./**/*.html"
+            --fallback-extensions html
+            "./out/**/*.html"
           fail: false
           output: lychee-report.md
       - name: Open an issue if links are broken

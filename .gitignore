@@ -1,9 +1,16 @@
-# Private application strategy notes — never publish
+# Private application strategy notes, never publish
 EPIC-APPLICATION-NOTES.md
 
 # Tooling
 node_modules/
 .claude/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.vercel
 
 # OS noise
 Thumbs.db
