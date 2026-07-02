@@ -35,6 +35,7 @@ jobs:
             --offline
             --no-progress
             --root-dir ${{ github.workspace }}
+            --exclude-path 404.html
             "./**/*.html"
           fail: true
 
