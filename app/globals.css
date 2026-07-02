@@ -1589,4 +1589,180 @@ h1, h2, .contact h2 { text-wrap: balance; }
   color: var(--muted);
 }
 
+/* ---------- Screen-reader-only helper ---------- */
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Skills physics playground ---------- */
+
+.skills-playground { margin-top: 1.4rem; }
+.skills-playground-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+.skills-hint { margin: 0; font-size: 0.86rem; color: var(--muted); }
+.skills-reset {
+  flex: none;
+  font: 600 0.78rem var(--font-body);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.skills-reset:hover { border-color: var(--accent); color: var(--ink); }
+.skills-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper-deep);
+  overflow: hidden;
+  touch-action: none;
+}
+.dark .skills-canvas-wrap { backdrop-filter: blur(10px); }
+
+/* ---------- About reveal ---------- */
+
+.about-reveal { position: relative; }
+.about-motif {
+  position: absolute;
+  inset: -8% -12% auto auto;
+  width: 60%;
+  max-width: 420px;
+  height: auto;
+  z-index: 0;
+  pointer-events: none;
+}
+.about-reveal-content { position: relative; z-index: 1; }
+
+/* ---------- Projects: horizontal track + progress ---------- */
+
+.proj-progress {
+  position: relative;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--line);
+  margin-bottom: 1.6rem;
+  overflow: hidden;
+}
+.proj-progress-bar {
+  position: absolute;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: var(--grad);
+}
+.work-grid-horizontal {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: clamp(1.4rem, 3vw, 2.2rem);
+  width: max-content;
+  will-change: transform;
+}
+.work-grid-horizontal > .tilt-wrap {
+  flex: 0 0 min(78vw, 900px);
+}
+
+/* ---------- Projects: RGB-shift poster hover ---------- */
+
+.rgb-hover .art-frame { position: relative; }
+.rgb-hover .art-frame .art {
+  filter:
+    drop-shadow(var(--rgb-x, 0px) var(--rgb-y, 0px) 0 color-mix(in srgb, var(--accent) calc(var(--rgb-strength, 0) * 55%), transparent))
+    drop-shadow(calc(var(--rgb-x, 0px) * -1) calc(var(--rgb-y, 0px) * -1) 0 color-mix(in srgb, var(--iris) calc(var(--rgb-strength, 0) * 55%), transparent));
+  transition: filter 0.12s linear;
+}
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .rgb-hover .art-frame .art { filter: none; }
+}
+
+.expand-clone { border-radius: var(--radius-sm); box-shadow: var(--shadow-lift); }
+
+/* ---------- Contact kinetic type + confetti ---------- */
+
+.contact-confetti {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+.contact { position: relative; }
+.kinetic-heading .kinetic-char {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ---------- Fisheye dock (desktop enhancement) ---------- */
+
+.fisheye-dock {
+  position: fixed;
+  bottom: 1.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 130;
+  pointer-events: none;
+}
+.dock-track {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card) 88%, transparent);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lift);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  pointer-events: auto;
+}
+.dark .dock-track { background: rgba(33, 26, 51, 0.72); }
+.dock-item {
+  transform-origin: bottom center;
+  display: inline-flex;
+  align-items: center;
+}
+.dock-link {
+  display: inline-flex;
+  align-items: center;
+  font: 560 0.82rem var(--font-body);
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.dock-link:hover { color: var(--ink); }
+.dock-cta {
+  background: var(--ink);
+  color: var(--paper) !important;
+  font-weight: 600;
+}
+.dock-cta:hover { background: var(--accent-ink); }
+.dark .dock-cta:hover { color: var(--dark) !important; }
+.dock-sep {
+  width: 1px;
+  height: 22px;
+  background: var(--line);
+  margin: 0 0.15rem;
+  align-self: center;
+}
+
 } /* end @layer components */

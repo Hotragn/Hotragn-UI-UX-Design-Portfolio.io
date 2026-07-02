@@ -25,9 +25,10 @@ The first version of this site was framework-free on principle, and that princip
 | Framework | Next.js 15 (App Router) + TypeScript | Static export (`output: 'export'`); React 19 Server Components for all content |
 | Styling | Tailwind CSS v4 | CSS-first config via `@theme`; the original design tokens map 1:1 to utilities |
 | Components | shadcn/ui patterns, hand-rolled | `button`, `badge`, `card` built on class-variance-authority + `cn()` |
-| 3D | React Three Fiber + drei | Distorted-blob hero scene lit in the brand gradient, capability-gated |
-| Scroll motion | GSAP + ScrollTrigger | Section reveals, 70ms staggers, timeline draw-in, kicker parallax |
-| UI transitions | Framer Motion | Mobile menu, design-notes toggle, route-change fade; nothing more |
+| 3D | React Three Fiber + drei + GLSL | Custom vertex/fragment shader particle field in the hero, capability-gated |
+| Physics | React Three Rapier | Skills section as a draggable, throwable chip playground on capable desktops |
+| Scroll motion | GSAP + ScrollTrigger + Flip + SplitText + MorphSVG + ScrollTo | Section reveals, horizontal-scroll pin, kinetic type, SVG morph, shared-element expand |
+| UI transitions | Framer Motion | Fisheye dock, mobile menu, design-notes toggle, gradient-curtain route wipe |
 | Theming | Class-strategy dark mode | Persisted in localStorage, defaults to `prefers-color-scheme`, no flash |
 | Type | Fraunces (variable, optical sizing) + Inter via `next/font` | Two typefaces, two jobs: voice and information. Self-hosted, zero render-blocking font requests |
 | Prototypes | Figma embeds (`embed.figma.com`) | Case studies embed the playable prototypes, lazy-loaded |
@@ -50,7 +51,16 @@ app/
     family-foundations/page.tsx  Case study 04, sensitive-domain design, embedded prototype
 components/
   ui/                       button, badge, card (cva + cn)
-  hero-scene.tsx            R3F hero, gated on motion, pointer, and WebGL support
+  hero-scene.tsx            GLSL particle hero, gated on motion, pointer, and WebGL
+  hero-scene-canvas.tsx     The R3F Canvas + shader material (dynamic, ssr:false)
+  skills/                   physics playground (Rapier), fallback grid, shared data
+  about-reveal.tsx          scroll-tied clip mask + MorphSVG background motif
+  projects-horizontal.tsx   pinned horizontal-scroll track + progress
+  projects-fx.tsx           RGB-shift poster hover + cinematic expand on click
+  kinetic-contact.tsx       SplitText cursor-reactive heading + confetti reward
+  fisheye-dock.tsx          desktop fisheye dock over the real header nav
+  art/                      four hand-drawn SVG case posters
+  case/                     journey strip, before/after, user voice
   fx/                       cursor, delegated pointer effects, ScrollTrigger setup
 public/assets/              Wireframe PDFs served first-party
 .github/workflows/          CI/CD (see below)
@@ -60,7 +70,7 @@ public/assets/              Wireframe PDFs served first-party
 
 Everything animated respects `prefers-reduced-motion`, and everything pointer-driven is gated on `pointer: fine`, so touch and assistive-tech users get a calm, fully functional site.
 
-- **3D hero** built with React Three Fiber: distorted blobs lit by vermilion, plum, and iris point lights, with mouse parallax. The render loop pauses when the hero leaves the viewport, DPR is capped, and the scene never mounts for reduced-motion, touch, or no-WebGL visitors, who get the original gradient hero instead.
+- **GLSL hero particle field** built with React Three Fiber: a custom vertex/fragment shader drives roughly 20,000 points (4,000 on narrow screens) resting in a soft sphere, displaced by pointer velocity and springing back, tinted along the vermilion to iris gradient with a subtle chromatic lift. The render loop pauses off-screen, DPR is capped, and the canvas never mounts for reduced-motion, touch, or no-WebGL visitors, who get the original static gradient hero.
 - **GSAP scroll choreography**: section reveals with grid children entering in 70ms sequence, the work and prototype grids settling in with a slight rotateX and a soft elastic ease, the experience timeline line drawing itself in as you scroll, and subtle parallax on section kickers, all cleaned up per navigation.
 - **Masked section-title reveals**: every section title splits into words at runtime (accessible name preserved) and rises out of an overflow mask when it scrolls into view.
 - **Gradient curtain route transitions**: navigating sweeps a brand-gradient curtain up and off the viewport while the next page swaps in behind it. Reduced motion gets a short fade instead.
@@ -76,11 +86,27 @@ Everything animated respects `prefers-reduced-motion`, and everything pointer-dr
 - **Illustrated project posters**: each case-study card carries a hand-drawn SVG poster built from the design tokens, so the artwork recolors itself when the theme flips.
 - **Design-notes mode**: a nav toggle that reveals margin annotations telling the real story behind each design decision. State persists per session, the notes wear a proper sticky-note skin in both themes, and the palette note even changes its closing sentence depending on which theme you are reading it in.
 
+### Section-by-section interaction
+
+Each major section carries its own signature so no two animate the same way:
+
+- **Hero**: the GLSL particle field above, with the GSAP per-word headline rise and gradient shimmer layered over it. Text stays fully readable; the particles are low-opacity ambience.
+- **About**: content reveals through an expanding circular clip mask tied to scroll, and a background SVG motif morphs between geometric shapes (GSAP MorphSVG) as you scroll, the morph riding the scroll position so fast scrolling feels snappier.
+- **Skills**: on a capable desktop the Research, Design, and Build chips become draggable, throwable 3D chips with gravity and collision walls (React Three Rapier). Let go and an idle attractor gently tidies them back into three columns; a reset control snaps them home. Everywhere else it is the calm chip grid, and the labels always exist in the DOM for screen readers.
+- **Projects**: the four case studies become a pinned horizontal track that vertical scrolling drives sideways, with a progress bar and natural release at both ends. Tabbing a card scrolls it into view. Hovering a poster splits it with a pointer-tracked RGB shift, and clicking one clones the poster into a fixed overlay that expands toward the case hero before the route swaps, so navigation reads as a shared-element expand. Touch and reduced-motion keep the normal vertical grid.
+- **Experience**: the timeline line still draws in, and each entry now wipes in with a left-to-right clip-path.
+- **Process**: the dark-band steps assemble with a subtle staggered 3D rotateY flip.
+- **Writing**: cards reveal with a vertical-blinds clip, distinct from the projects wipe.
+- **Publications**: entries clip in line by line, like lines being typed.
+- **Contact**: the heading splits into characters (GSAP SplitText) that skew and spread toward the cursor by proximity and velocity, and activating the mailto fires a short palette-matched confetti burst as a reward.
+- **Navigation**: a macOS-style fisheye dock floats bottom-center on desktop, magnifying the hovered item and its neighbors. It is a layer on top of the real header nav, which stays the keyboard and screen-reader source of truth; on mobile, keyboard, and reduced-motion the dock does not render.
+
 ## Accessibility and performance
 
 - WCAG 2.1 AA is enforced by CI on every page, not just claimed.
 - Ink-on-paper palette holds 7:1 contrast for body text; interactive states have visible focus rings. Dark-theme hues are brightened to hold AA on aubergine.
 - Fonts are self-hosted through `next/font` with no render-blocking font requests; Figma iframes are `loading="lazy"`.
+- The heavy interactions are capability-gated and degrade honestly. The shader hero, physics skills, horizontal projects, kinetic contact, and fisheye dock only run on wide, fine-pointer, non-reduced-motion viewports with WebGL where they need it; everyone else gets the calm version (static gradient hero, plain skill grid, vertical project cards, plain heading, header menu). Every WebGL and physics canvas mounts only when it is near the viewport and unmounts when scrolled far away, so the browser never juggles more than one live GL context at a time. Particle counts scale by device, DPR is capped at 1.75, and render loops pause off-screen to hold a mid-range laptop at 60fps. The skill chip labels are always present in the DOM, so the 3D version never costs a screen-reader user the content.
 
 ## CI/CD
 

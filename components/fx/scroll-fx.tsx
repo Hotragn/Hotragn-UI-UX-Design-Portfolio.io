@@ -138,7 +138,72 @@ export function ScrollFx() {
             },
           }
         );
+
+        // Experience items: clip-path wipe as each enters (distinct from
+        // the grid reveals).
+        gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item) => {
+          gsap.fromTo(
+            item,
+            { clipPath: "inset(0 100% 0 0)", opacity: 0.4 },
+            {
+              clipPath: "inset(0 0% 0 0)",
+              opacity: 1,
+              duration: 0.7,
+              ease: "power3.out",
+              scrollTrigger: { trigger: item, start: "top 85%", once: true },
+            }
+          );
+        });
       }
+
+      // Process (dark band): steps assemble with a subtle 3D rotateY flip.
+      const processSteps = gsap.utils.toArray<HTMLElement>(".process-step");
+      if (processSteps.length) {
+        gsap.set(processSteps, { transformPerspective: 800, transformOrigin: "50% 50%" });
+        gsap.from(processSteps, {
+          rotationY: -32,
+          opacity: 0,
+          y: 20,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.08,
+          scrollTrigger: { trigger: ".process-grid", start: "top 80%", once: true },
+          clearProps: "transform,opacity",
+        });
+      }
+
+      // Writing cards: vertical-blinds mask reveal (distinct from the
+      // horizontal card wipe used on projects).
+      gsap.utils.toArray<HTMLElement>(".cards-3 .mini-card").forEach((card, i) => {
+        gsap.fromTo(
+          card,
+          { clipPath: "inset(0 0 100% 0)", opacity: 0.3 },
+          {
+            clipPath: "inset(0 0 0% 0)",
+            opacity: 1,
+            duration: 0.7,
+            ease: "power2.out",
+            delay: i * 0.08,
+            scrollTrigger: { trigger: ".cards-3", start: "top 82%", once: true },
+          }
+        );
+      });
+
+      // Publications: line-by-line clip reveal, like lines being typed in.
+      gsap.utils.toArray<HTMLElement>(".pub-list li").forEach((li, i) => {
+        gsap.fromTo(
+          li,
+          { clipPath: "inset(0 100% 0 0)", opacity: 0.2 },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            opacity: 1,
+            duration: 0.5,
+            ease: "none",
+            delay: i * 0.12,
+            scrollTrigger: { trigger: ".pub-list", start: "top 82%", once: true },
+          }
+        );
+      });
 
       // Subtle parallax on section kickers
       gsap.utils.toArray<HTMLElement>(".section .kicker").forEach((kicker) => {

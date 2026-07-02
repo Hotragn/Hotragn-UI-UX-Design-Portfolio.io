@@ -15,6 +15,12 @@ import { ArrowRight, ExternalArrow } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { SkillsSection } from "@/components/skills/skills-section";
+import { AboutReveal } from "@/components/about-reveal";
+import { KineticContact } from "@/components/kinetic-contact";
+import { FisheyeDock } from "@/components/fisheye-dock";
+import { ProjectsHorizontal } from "@/components/projects-horizontal";
+import { ProjectsFx } from "@/components/projects-fx";
 
 export const metadata: Metadata = {
   title: "Hotragn Pettugani — UX Designer & Engineer",
@@ -215,6 +221,8 @@ export default function HomePage() {
               </p>
             </div>
 
+            <ProjectsHorizontal />
+            <ProjectsFx />
             <div className="work-grid">
               <div className="tilt-wrap reveal">
                 <Link className="work-card tilt" href="/work/paypal">
@@ -725,7 +733,7 @@ export default function HomePage() {
         <section className="section" id="about">
           <div className="wrap">
             <div className="about-grid">
-              <div className="reveal">
+              <AboutReveal>
                 <p className="kicker">About</p>
                 <p className="lead">
                   I came to design from engineering, which means I have sat on both sides of the
@@ -765,36 +773,8 @@ export default function HomePage() {
                     their blur when there is a little color left glowing behind them.
                   </span>
                 </DesignNote>
-                <div className="chips">
-                  <Badge tone="green">Research</Badge>
-                  <Badge>User interviews</Badge>
-                  <Badge>Moderated usability testing</Badge>
-                  <Badge>A/B &amp; first-click testing</Badge>
-                  <Badge>Heuristic evaluation</Badge>
-                  <Badge>Journey mapping</Badge>
-                  <Badge>Personas</Badge>
-                  <Badge>Competitive analysis</Badge>
-                </div>
-                <div className="chips">
-                  <Badge tone="green">Design</Badge>
-                  <Badge>Interaction design</Badge>
-                  <Badge>Visual design</Badge>
-                  <Badge>Information architecture</Badge>
-                  <Badge>Wireframing → hi-fi prototyping</Badge>
-                  <Badge>Design systems &amp; tokens</Badge>
-                  <Badge>Figma Auto Layout &amp; variables</Badge>
-                  <Badge>Typography &amp; color theory</Badge>
-                  <Badge>Motion design</Badge>
-                </div>
-                <div className="chips">
-                  <Badge tone="green">Build</Badge>
-                  <Badge>HTML / CSS / JS</Badge>
-                  <Badge>React &amp; Material UI</Badge>
-                  <Badge>Webflow &amp; Framer</Badge>
-                  <Badge>Accessibility (WCAG 2.1 AA)</Badge>
-                  <Badge>Design-to-dev handoff</Badge>
-                </div>
-              </div>
+                <SkillsSection />
+              </AboutReveal>
               <div className="reveal">
                 <ul className="fact-list">
                   <li>
@@ -843,24 +823,11 @@ export default function HomePage() {
 
         {/* ============ CONTACT ============ */}
         <section className="section contact" id="contact" style={{ background: "var(--paper-deep)" }}>
-          <div className="wrap reveal">
-            <p className="kicker" style={{ justifyContent: "center" }}>
-              Let&apos;s talk
-            </p>
-            <h2>Have a workflow your users quietly struggle with?</h2>
-            <p>I would love to hear about it. I read everything sent to this address and reply within a day.</p>
-            <Button
-              as="a"
-              variant="primary"
-              className="magnetic mt-[1.4rem] text-[1.05rem]"
-              href="mailto:pettugani.h@northeastern.edu"
-            >
-              pettugani.h@northeastern.edu
-            </Button>
-          </div>
+          <KineticContact />
         </section>
       </main>
 
+      <FisheyeDock links={navLinks} />
       <Footer variant="home" />
     </>
   );
