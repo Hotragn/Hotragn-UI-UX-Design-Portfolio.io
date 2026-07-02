@@ -89,7 +89,7 @@ jobs:
         run: |
           sleep 10
           for path in "" "work/paypal.html" "work/rare-rabbit.html" "work/notion.html" "work/family-foundations.html"; do
-            url="https://hotragn.github.io/UI-UX-Design-Portfolio/${path}"
+            url="https://hotragn.github.io/Hotragn-UI-UX-Design-Portfolio.io/${path}"
             code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
             echo "$code  $url"
             if [ "$code" != "200" ]; then

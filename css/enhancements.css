@@ -5,6 +5,23 @@
    All motion honors prefers-reduced-motion.
    ========================================================================== */
 
+/* ---------- Cross-document view transitions ---------- */
+/* Same-origin navigations crossfade instead of flashing white.
+   Progressive enhancement: browsers without support just navigate. */
+
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+  }
+}
+
+/* Balanced ragging on display type; ignored where unsupported */
+h1, h2, .contact h2 { text-wrap: balance; }
+
 /* ---------- Custom cursor ---------- */
 
 @media (pointer: fine) {
