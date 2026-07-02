@@ -5,6 +5,9 @@ import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { JourneyStrip } from "@/components/case/journey-strip";
+import { BeforeAfter } from "@/components/case/before-after";
+import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
   title: "PayPal Wallet: forgiving flows for money tasks — Hotragn Pettugani",
@@ -226,6 +229,16 @@ export default function PayPalCaseStudy() {
                 the action had actually worked, because in a finance product feeling unsure is
                 nearly as bad as failing.
               </p>
+              <JourneyStrip
+                label="Journey before and after the redesign: sign-in stays calm; linking a bank, hitting an invalid one-time code, recovering, and confirming all move from friction to calm."
+                stages={[
+                  { label: "Sign in", before: "calm", after: "calm" },
+                  { label: "Link a bank", before: "pain", after: "calm" },
+                  { label: "Invalid OTP", before: "pain", after: "calm" },
+                  { label: "Recover", before: "pain", after: "calm" },
+                  { label: "Confirmed", before: "pain", after: "calm" },
+                ]}
+              />
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -259,6 +272,34 @@ export default function PayPalCaseStudy() {
                   </p>
                 </div>
               </div>
+              <BeforeAfter
+                rows={[
+                  {
+                    aspect: "OTP error recovery",
+                    before:
+                      "Four of six missed the resend when it was styled as a text link; two said they would start over",
+                    after: "Resend promoted to a full button directly under the error message",
+                    metric: "5 of 6 recovered unaided",
+                  },
+                  {
+                    aspect: "Points redemption",
+                    before: "Participants paused at the points field, unsure what points were worth in dollars",
+                    after: "Inline conversion preview that updates as you type",
+                  },
+                  {
+                    aspect: "Post-task confidence",
+                    before: "Silent transitions in bank linking dragged average confidence to 3.2 of 5",
+                    after: "Explicit progress and confirmation states at each handoff",
+                    metric: "Confidence 3.2 to 4.4",
+                  },
+                ]}
+              />
+              <UserVoice
+                quotes={[
+                  "I would just start over from the beginning.",
+                  "Did the bank actually link? I am not sure it went through.",
+                ]}
+              />
             </div>
           </section>
 

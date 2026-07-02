@@ -61,16 +61,20 @@ public/assets/              Wireframe PDFs served first-party
 Everything animated respects `prefers-reduced-motion`, and everything pointer-driven is gated on `pointer: fine`, so touch and assistive-tech users get a calm, fully functional site.
 
 - **3D hero** built with React Three Fiber: distorted blobs lit by vermilion, plum, and iris point lights, with mouse parallax. The render loop pauses when the hero leaves the viewport, DPR is capped, and the scene never mounts for reduced-motion, touch, or no-WebGL visitors, who get the original gradient hero instead.
-- **GSAP scroll choreography**: section reveals with grid children entering in 70ms sequence, the experience timeline line drawing itself in as you scroll, and subtle parallax on section kickers, all cleaned up per navigation.
+- **GSAP scroll choreography**: section reveals with grid children entering in 70ms sequence, the work and prototype grids settling in with a slight rotateX and a soft elastic ease, the experience timeline line drawing itself in as you scroll, and subtle parallax on section kickers, all cleaned up per navigation.
+- **Masked section-title reveals**: every section title splits into words at runtime (accessible name preserved) and rises out of an overflow mask when it scrolls into view.
+- **Gradient curtain route transitions**: navigating sweeps a brand-gradient curtain up and off the viewport while the next page swaps in behind it. Reduced motion gets a short fade instead.
 - **Dark mode + glassmorphism**: a class-strategy theme flips the whole token set to a deep aubergine palette with translucent, backdrop-blurred header and cards. Persists in localStorage, defaults to system preference, applied before paint so there is no flash.
-- **Framer Motion UI transitions**: mobile menu open/close, the design-notes reveal, and a 150ms route-change fade. State transitions only; scroll work stays with GSAP.
-- **Custom cursor** with a spring-lagged ring driven by GSAP `quickTo`, so an idle page costs zero frames.
+- **Framer Motion UI transitions**: mobile menu open/close, the design-notes reveal, and the route curtain. State transitions only; scroll work stays with GSAP.
+- **Custom cursor** with a spring-lagged ring driven by GSAP `quickTo`, so an idle page costs zero frames. Over a case-study card the ring grows and shows a small "View" invitation.
 - **3D tilt on case-study cards**: perspective transforms with a radial glare that tracks the pointer through CSS custom properties.
 - **Spotlight surfaces**: a soft light follows the pointer across cards, driven by one delegated listener writing two custom properties.
 - **Scroll-driven title accents**: a gradient rule draws itself under each section title using CSS `animation-timeline: view()`, no JavaScript involved.
 - **Hero artifact stage**: layered wireframe, flow-chip, and persona cards with depth-weighted mouse parallax and an idle float that pauses when off screen.
-- **Word-by-word headline reveal** pre-split at build time, so the markup stays clean for crawlers and screen readers.
-- **Design-notes mode**: a nav toggle that reveals margin annotations telling the real story behind each design decision. State persists per session.
+- **Word-by-word headline reveal** pre-split at build time and driven by GSAP: each word rises out of a mask with a slight blur and rotation that settles, and the gradient phrase carries a slow shimmer.
+- **Gradient-sweep button hover**: primary buttons cross-fade to the brand gradient and drift its position on hover, 250ms and nothing more.
+- **Illustrated project posters**: each case-study card carries a hand-drawn SVG poster built from the design tokens, so the artwork recolors itself when the theme flips.
+- **Design-notes mode**: a nav toggle that reveals margin annotations telling the real story behind each design decision. State persists per session, the notes wear a proper sticky-note skin in both themes, and the palette note even changes its closing sentence depending on which theme you are reading it in.
 
 ## Accessibility and performance
 

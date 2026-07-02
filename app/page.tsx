@@ -7,7 +7,10 @@ import { HeroHeadline } from "@/components/hero-headline";
 import { HeroScene } from "@/components/hero-scene";
 import { ArtifactStage } from "@/components/artifact-stage";
 import { DesignNote } from "@/components/design-note";
-import { MockPayPal, MockRareRabbit, MockNotion, MockFamilyFoundations } from "@/components/mocks";
+import { PayPalPoster } from "@/components/art/paypal-poster";
+import { RareRabbitPoster } from "@/components/art/rare-rabbit-poster";
+import { NotionPoster } from "@/components/art/notion-poster";
+import { FamilyFoundationsPoster } from "@/components/art/family-foundations-poster";
 import { ArrowRight, ExternalArrow } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -235,7 +238,7 @@ export default function HomePage() {
                       <ArrowRight />
                     </span>
                   </div>
-                  <MockPayPal />
+                  <PayPalPoster />
                 </Link>
               </div>
 
@@ -262,7 +265,7 @@ export default function HomePage() {
                       <ArrowRight />
                     </span>
                   </div>
-                  <MockRareRabbit />
+                  <RareRabbitPoster />
                 </Link>
               </div>
 
@@ -288,7 +291,7 @@ export default function HomePage() {
                       <ArrowRight />
                     </span>
                   </div>
-                  <MockNotion />
+                  <NotionPoster />
                 </Link>
               </div>
 
@@ -315,7 +318,7 @@ export default function HomePage() {
                       <ArrowRight />
                     </span>
                   </div>
-                  <MockFamilyFoundations />
+                  <FamilyFoundationsPoster />
                 </Link>
               </div>
             </div>
@@ -750,7 +753,17 @@ export default function HomePage() {
                   engineering warmth on one end, design curiosity on the other. Every combination
                   still clears WCAG AA contrast, because craft that excludes people is not craft.
                   Fraunces carries the voice, Inter carries the information. Two typefaces, two
-                  jobs.
+                  jobs.{" "}
+                  <span className="note-light-only">
+                    And if the page looks like cream paper right now, that is the point: cream is
+                    kinder to the eyes in a bright room, which is where most daytime reading
+                    actually happens.
+                  </span>
+                  <span className="note-dark-only">
+                    And since you flipped this site to dark: the background is aubergine instead of
+                    black because pure black flattens every shadow, and the glass panels only earn
+                    their blur when there is a little color left glowing behind them.
+                  </span>
                 </DesignNote>
                 <div className="chips">
                   <Badge tone="green">Research</Badge>

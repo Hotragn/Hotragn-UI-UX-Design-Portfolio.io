@@ -4,6 +4,9 @@ import { Header, type NavLink } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
 import { Badge } from "@/components/ui/badge";
+import { JourneyStrip } from "@/components/case/journey-strip";
+import { BeforeAfter } from "@/components/case/before-after";
+import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
   title: "Family Foundations: designing for the hardest conversation — Hotragn Pettugani",
@@ -180,6 +183,16 @@ export default function FamilyFoundationsCaseStudy() {
                 profile, and get an answer through the Q&amp;A. Round one surfaced real problems;
                 round two verified the fixes.
               </p>
+              <JourneyStrip
+                label="Journey before and after round-two fixes: searching and saving a profile stay calm; setting preferences, asking the AI, and acting on its answers move from friction to calm."
+                stages={[
+                  { label: "Set preferences", before: "pain", after: "calm" },
+                  { label: "Search", before: "calm", after: "calm" },
+                  { label: "Save a profile", before: "calm", after: "calm" },
+                  { label: "Ask the AI", before: "pain", after: "calm" },
+                  { label: "Act on answers", before: "pain", after: "calm" },
+                ]}
+              />
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -216,6 +229,35 @@ export default function FamilyFoundationsCaseStudy() {
                   </p>
                 </div>
               </div>
+              <BeforeAfter
+                rows={[
+                  {
+                    aspect: "Setting preferences",
+                    before:
+                      "Three of five stalled, unsure whether choices could be changed later; two felt locked in",
+                    after: "A persistent update-anytime note and an edit path from search results",
+                    metric: "Round two: nobody stalled",
+                  },
+                  {
+                    aspect: "Asking the AI",
+                    before: "Every participant hesitated; two asked out loud who could see their question",
+                    after: "Privacy line directly above the input, entry point moved off the profile page",
+                    metric: "All five typed unprompted",
+                  },
+                  {
+                    aspect: "Trusting the answers",
+                    before: "Participants wanted to know where answers came from before acting on anything",
+                    after: "A plain-language source line plus a talk-to-a-person handoff",
+                    metric: "Task success 9 of 15 to 14 of 15",
+                  },
+                ]}
+              />
+              <UserVoice
+                quotes={[
+                  "Who can see what I type here?",
+                  "Can we change this later, or are we locked in?",
+                ]}
+              />
               <p>
                 Task completion went from 9 of 15 tasks in round one to 14 of 15 in round two. The
                 one remaining failure was a discoverability issue on saved profiles, documented as

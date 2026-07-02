@@ -37,7 +37,7 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(
-  ({ className, variant, as, ...props }, ref) => {
+  ({ className, variant, as, children, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const Comp = (as ?? (props.href ? "a" : "button")) as any;
     return (
@@ -45,7 +45,13 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(
         ref={ref}
         className={cn(buttonVariants({ variant }), className)}
         {...props}
-      />
+      >
+        {/* Inner wrapper keeps the label above the gradient hover overlay
+            painted by .btn-primary::before */}
+        <span className="relative z-[1] inline-flex items-center gap-[0.55rem]">
+          {children}
+        </span>
+      </Comp>
     );
   }
 );

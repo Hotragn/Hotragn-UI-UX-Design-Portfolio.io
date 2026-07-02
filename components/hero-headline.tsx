@@ -1,31 +1,65 @@
-import type { CSSProperties } from "react";
+"use client";
+
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 /**
- * Word-by-word hero headline reveal. The words are pre-split at build
- * time so the semantic text is preserved in the HTML; the animation is
- * pure CSS and honors prefers-reduced-motion.
+ * Word-by-word hero headline reveal, driven by GSAP: each word rises out
+ * of its overflow mask with a slight blur and a small rotation that
+ * settles. The words are pre-split at build time so the semantic text is
+ * in the HTML; a .js guard in CSS hides them before the intro only when
+ * scripting is available, and reduced-motion users skip the whole thing.
  */
-function Word({ i, children }: { i: number; children: React.ReactNode }) {
+function Word({ children }: { children: React.ReactNode }) {
   return (
     <span className="word">
-      <span style={{ "--d": `${i * 0.07}s` } as CSSProperties}>{children}</span>
+      <span>{children}</span>
     </span>
   );
 }
 
 export function HeroHeadline() {
+  const ref = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.add("words-in");
+      return;
+    }
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".word > span",
+        { yPercent: 110, rotation: 2.6, filter: "blur(6px)", transformOrigin: "0% 100%" },
+        {
+          yPercent: 0,
+          rotation: 0,
+          filter: "blur(0px)",
+          duration: 0.9,
+          ease: "power4.out",
+          stagger: 0.06,
+          onComplete: () => {
+            el.classList.add("words-in");
+            gsap.set(el.querySelectorAll(".word > span"), { clearProps: "all" });
+          },
+        }
+      );
+    }, el);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <h1 className="reveal-words" id="hero-headline">
-      <Word i={0}>I</Word> <Word i={1}>design</Word> <Word i={2}>software</Word>{" "}
-      <Word i={3}>that</Word> <Word i={4}>people</Word> <Word i={5}>can</Word>{" "}
-      <Word i={6}>trust</Word> <Word i={7}>with</Word>{" "}
+    <h1 ref={ref} className="reveal-words" id="hero-headline">
+      <Word>I</Word> <Word>design</Word> <Word>software</Word> <Word>that</Word>{" "}
+      <Word>people</Word> <Word>can</Word> <Word>trust</Word> <Word>with</Word>{" "}
       {/* The gradient phrase reveals as one unit: Chrome will not paint an
           ancestor's background-clip:text through transformed descendants,
           so the clip lives on the animated span itself. */}
       <em>
-        <Word i={8}>the important stuff</Word>
+        <Word>the important stuff</Word>
       </em>
-      <Word i={9}>.</Word>
+      <Word>.</Word>
     </h1>
   );
 }

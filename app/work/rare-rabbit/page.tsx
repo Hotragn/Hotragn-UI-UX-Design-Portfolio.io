@@ -5,6 +5,9 @@ import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { JourneyStrip } from "@/components/case/journey-strip";
+import { BeforeAfter } from "@/components/case/before-after";
+import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
   title: "Rare Rabbit: a redesign aimed at the abandoned cart — Hotragn Pettugani",
@@ -196,6 +199,16 @@ export default function RareRabbitCaseStudy() {
                 five-second tests on the redesigned product page to check that the brand still read
                 as premium.
               </p>
+              <JourneyStrip
+                label="Journey before and after the redesign: browsing stays calm; the product page, cart, checkout, and order tracking all move from friction to calm."
+                stages={[
+                  { label: "Browse", before: "calm", after: "calm" },
+                  { label: "Product page", before: "pain", after: "calm" },
+                  { label: "Cart", before: "pain", after: "calm" },
+                  { label: "Checkout", before: "pain", after: "calm" },
+                  { label: "Tracking", before: "pain", after: "calm" },
+                ]}
+              />
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -230,6 +243,33 @@ export default function RareRabbitCaseStudy() {
                   </p>
                 </div>
               </div>
+              <BeforeAfter
+                rows={[
+                  {
+                    aspect: "Cost transparency",
+                    before:
+                      "Costs collapsed behind a view-summary control; first clicks scattered and missed",
+                    after: "Full cost breakdown inline in the cart, on by default",
+                    metric: "First-click 9 of 12",
+                  },
+                  {
+                    aspect: "Exit questions on the product page",
+                    before: "Recall of the returns policy was near zero, and the page read as sparse",
+                    after: "Size, fabric, and returns in a scannable strip beside the buy button",
+                  },
+                  {
+                    aspect: "The account wall",
+                    before: "Every benchmarked competitor forced account creation before checkout",
+                    after: "Guest checkout by default, with an account offered after purchase",
+                  },
+                ]}
+              />
+              <UserVoice
+                quotes={[
+                  "It looks premium, but I could not tell you what I would actually pay.",
+                  "If I have to create an account before I can buy, I usually just leave.",
+                ]}
+              />
             </div>
           </section>
 

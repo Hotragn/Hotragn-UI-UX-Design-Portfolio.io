@@ -38,7 +38,9 @@ export function Cursor() {
     };
     const onOver = (e: MouseEvent) => {
       const target = e.target as Element | null;
-      ring.classList.toggle("is-hover", Boolean(target?.closest?.("a, button")));
+      const overCase = Boolean(target?.closest?.(".work-card"));
+      ring.classList.toggle("is-view", overCase);
+      ring.classList.toggle("is-hover", !overCase && Boolean(target?.closest?.("a, button")));
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -53,7 +55,9 @@ export function Cursor() {
 
   return (
     <>
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
+      <div ref={ringRef} className="cursor-ring" aria-hidden="true">
+        <span className="cursor-label">View</span>
+      </div>
       <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
     </>
   );

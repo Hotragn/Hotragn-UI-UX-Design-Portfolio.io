@@ -5,6 +5,9 @@ import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { JourneyStrip } from "@/components/case/journey-strip";
+import { BeforeAfter } from "@/components/case/before-after";
+import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
   title: "Notion templates: architecture before pixels — Hotragn Pettugani",
@@ -299,6 +302,16 @@ export default function NotionCaseStudy() {
                 the sitemap-level prototype and watched their first clicks. Two structural fixes
                 came out of it, then the hi-fi prototype went through the same tasks.
               </p>
+              <JourneyStrip
+                label="Journey before and after the redesign: needing a template stays calm; finding it, previewing it, and exporting move from friction to calm, and applying stays calm."
+                stages={[
+                  { label: "Need a template", before: "calm", after: "calm" },
+                  { label: "Find it", before: "pain", after: "calm" },
+                  { label: "Preview", before: "pain", after: "calm" },
+                  { label: "Apply", before: "calm", after: "calm" },
+                  { label: "Export", before: "pain", after: "calm" },
+                ]}
+              />
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -333,6 +346,35 @@ export default function NotionCaseStudy() {
                   </p>
                 </div>
               </div>
+              <BeforeAfter
+                rows={[
+                  {
+                    aspect: "Finding templates",
+                    before:
+                      "Participants headed to global search even when Browse was one tap closer; search sat a level down",
+                    after: "Search promoted to a first-class branch with filters and saved searches",
+                    metric: "First-click 2 of 5 to 5 of 5",
+                  },
+                  {
+                    aspect: "Export",
+                    before:
+                      "Participants selected Done and assumed the file had gone somewhere, with no idea where",
+                    after: "Export split into explicit format and destination steps",
+                    metric: "Time on task roughly halved",
+                  },
+                  {
+                    aspect: "Committing to a template",
+                    before: "Two participants backed out of the flow just to hunt for screenshots",
+                    after: "A preview state ahead of the apply action",
+                  },
+                ]}
+              />
+              <UserVoice
+                quotes={[
+                  "I hit Done, so where did it actually go?",
+                  "Can I see the template before it takes over my page?",
+                ]}
+              />
             </div>
           </section>
 
