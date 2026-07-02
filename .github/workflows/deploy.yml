@@ -78,7 +78,7 @@ jobs:
         run: |
           npx --yes http-server@14 out -p 8080 --silent &
           sleep 2
-          npx --yes pa11y-ci@3 --config .pa11yci.json
+          npx --yes pa11y-ci@latest --config .pa11yci.json
 
   verify-production:
     name: Production smoke test (Vercel)
