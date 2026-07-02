@@ -1,0 +1,40 @@
+name: Weekly external link health
+
+# Dead artifact links are how portfolios quietly die. This checks every
+# external link (Figma, Drive, Medium, deployed apps) once a week and
+# opens a GitHub issue when something breaks.
+
+on:
+  schedule:
+    - cron: "0 13 * * 1" # Mondays 13:00 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  external-links:
+    name: Check external links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run lychee against external links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-retries 3
+            --timeout 30
+            --accept "200..=299,403,429"
+            --exclude "mailto:.*"
+            "./**/*.html"
+          fail: false
+          output: lychee-report.md
+      - name: Open an issue if links are broken
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Broken links detected on the portfolio"
+          content-filepath: lychee-report.md
+          labels: link-health

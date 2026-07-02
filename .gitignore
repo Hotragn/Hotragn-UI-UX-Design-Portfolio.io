@@ -1,0 +1,10 @@
+# Private application strategy notes — never publish
+EPIC-APPLICATION-NOTES.md
+
+# Tooling
+node_modules/
+.claude/
+
+# OS noise
+Thumbs.db
+.DS_Store

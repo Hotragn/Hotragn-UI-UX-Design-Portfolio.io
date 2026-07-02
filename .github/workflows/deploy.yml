@@ -1,0 +1,98 @@
+name: Build quality gates & deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate-html:
+    name: HTML validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate all HTML files
+        run: npx --yes html-validate@8 "index.html" "404.html" "work/*.html"
+
+  check-links:
+    name: Internal link integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check internal links and assets (offline)
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --offline
+            --no-progress
+            --root-dir ${{ github.workspace }}
+            "./**/*.html"
+          fail: true
+
+  accessibility:
+    name: Accessibility audit (WCAG 2.1 AA)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Serve site and run pa11y-ci
+        run: |
+          npx --yes http-server@14 . -p 8080 --silent &
+          sleep 2
+          npx --yes pa11y-ci@3 --config .pa11yci.json
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: [validate-html, check-links, accessibility]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  verify-live:
+    name: Post-deploy smoke test
+    needs: deploy
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the live site responds
+        run: |
+          sleep 10
+          for path in "" "work/paypal.html" "work/rare-rabbit.html" "work/notion.html" "work/family-foundations.html"; do
+            url="https://hotragn.github.io/UI-UX-Design-Portfolio/${path}"
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+            echo "$code  $url"
+            if [ "$code" != "200" ]; then
+              echo "::error::$url returned $code"
+              exit 1
+            fi
+          done

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rare Rabbit: a redesign aimed at the abandoned cart — Hotragn Pettugani</title>
+  <meta name="description" content="Case study: redesigning a fashion retailer's website around the cart, backed by published research on why shoppers abandon checkout.">
+  <link rel="canonical" href="https://hotragn.github.io/UI-UX-Design-Portfolio/work/rare-rabbit.html">
+  <meta name="theme-color" content="#faf6ef">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Rare Rabbit: a redesign aimed at the abandoned cart">
+  <meta property="og:description" content="A/B tested cart transparency, five-second brand tests, and competitor benchmarking behind a mobile redesign.">
+  <meta property="og:url" content="https://hotragn.github.io/UI-UX-Design-Portfolio/work/rare-rabbit.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/enhancements.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%23c74a22'/></svg>">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="../index.html"><span class="brand-dot" aria-hidden="true"></span>Hotragn Pettugani</a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#process">Process</a></li>
+        <li><a href="../index.html#research">Research</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a class="nav-cta" href="mailto:pettugani.h@northeastern.edu">Get in touch</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="case-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="kicker">Case study 02 · E-commerce</p>
+        <h1>Rare Rabbit: a redesign aimed at the abandoned cart</h1>
+        <p class="hero-sub">A fashion retailer's website, redesigned around the single moment that decides most of its revenue: the shopping cart. The research behind it became a published article; the design became a full set of wireframes.</p>
+        <dl class="case-meta">
+          <div><dt>Role</dt><dd>Researcher &amp; designer</dd></div>
+          <div><dt>Methods</dt><dd>Competitive research, redesign, wireframing</dd></div>
+          <div><dt>Tools</dt><dd>Figma, Balsamiq</dd></div>
+          <div><dt>Output</dt><dd>Wireframe set + published design plan</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="case-body">
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">The problem</span>
+          <h2>Shoppers do not leave stores. They leave carts.</h2>
+          <p>Rare Rabbit is a premium menswear brand with strong product photography and a weak path to purchase. Browsing felt like the brand; buying felt like paperwork. That gap is expensive: industry research from the Baymard Institute consistently puts average cart abandonment near 70 percent, and most of the causes are design decisions, not shopper indecision.</p>
+          <div class="stat-band">
+            <div class="stat"><b>~70%</b><span>of online carts are abandoned on average (Baymard Institute)</span></div>
+            <div class="stat"><b>#1</b><span>cited reason: unexpected costs appearing late in checkout</span></div>
+            <div class="stat"><b>2nd</b><span>most cited: being forced to create an account first</span></div>
+          </div>
+          <p>Before redesigning anything, I wrote up the research: what actually drives abandonment, which patterns fix it, and what the evidence says about each. I published that plan on Medium so the reasoning could stand on its own, then used it as the spec for the redesign.</p>
+          <div class="artifacts">
+            <a class="btn btn-ghost" href="https://medium.com/@hotragn/rethinking-the-e-commerce-shopping-cart-a-ux-ui-design-plan-8177c73e55a1" target="_blank" rel="noopener">Read the research article on Medium</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">The approach</span>
+          <h2>Fix the moment of commitment, then work backwards</h2>
+          <p>Most redesigns start at the homepage. I started at the cart and worked backwards, because every earlier screen exists to deliver a shopper to that moment with confidence intact.</p>
+          <h3>The cart and checkout</h3>
+          <ul>
+            <li><strong>No surprise costs.</strong> Shipping and taxes are estimated in the cart itself, before checkout begins. The total a shopper commits to is the total they pay.</li>
+            <li><strong>Guest checkout by default.</strong> Account creation is offered after the purchase, when the shopper has a reason to want order tracking, not as a toll booth before it.</li>
+            <li><strong>The cart is a save-for-later space, not a countdown.</strong> Items persist, and moving something to a wishlist is one tap. Pressure tactics trade long-term trust for short-term conversion.</li>
+            <li><strong>Progress is visible.</strong> Checkout shows its steps up front, so the shopper always knows how much is left.</li>
+          </ul>
+          <h3>The path to the cart</h3>
+          <ul>
+            <li><strong>Product pages answer the exit questions inline.</strong> Size guidance, fabric, and returns policy sit next to the buy button, because a shopper who leaves to find the returns policy often does not come back.</li>
+            <li><strong>Category browsing got a clearer hierarchy.</strong> Filters that matter for clothing (size in stock, color, price) are one tap away instead of buried in a drawer.</li>
+            <li><strong>The tracking page obeys Fitts' Law.</strong> On mobile, the actions people reach for most (track order, contact support) became large targets in the thumb zone instead of small links at the top. Minimal color accents mark the current order state so status is readable at a glance.</li>
+            <li><strong>The brand survives the redesign.</strong> Rare Rabbit's visual identity, generous whitespace and strong photography, is kept intact. The redesign changes the plumbing, not the personality.</li>
+          </ul>
+          <div class="callout">
+            <span class="callout-label">Design decision</span>
+            <p>Every element in the checkout either moves the purchase forward or answers a question that would stop it. Anything that did neither was cut.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Research &amp; validation</span>
+          <h2>Two carts, twelve shoppers, one winner</h2>
+          <ul class="method-chips">
+            <li class="tag">A/B preference testing</li>
+            <li class="tag">First-click testing</li>
+            <li class="tag">Five-second tests</li>
+            <li class="tag">Competitor benchmarking</li>
+          </ul>
+          <p>Before committing to the redesigned cart, I ran an unmoderated A/B comparison with twelve participants: variant A kept costs collapsed behind a "view summary" control, variant B showed the full cost breakdown inline. Each participant got one variant and the same task: "find out exactly what you would pay." I also benchmarked the flow against four competing retailers and ran five-second tests on the redesigned product page to check that the brand still read as premium.</p>
+          <div class="findings">
+            <div class="finding">
+              <p class="saw">First-click success on the total-cost task: 9 of 12 clicks landed right on variant B's inline breakdown, versus a scattered mix of misses on variant A's collapsed summary.</p>
+              <p class="changed">Inline cost transparency won and became the default. The collapsed pattern was dropped entirely rather than kept as an option.</p>
+            </div>
+            <div class="finding">
+              <p class="saw">Five-second tests on the first redesigned product page: asked what kind of store this was, participants said "premium" and "clean," but two also said "sparse," and recall of the returns policy was near zero.</p>
+              <p class="changed">Kept the whitespace but moved size, fabric, and returns into a scannable strip beside the buy button, where the exit questions actually get asked.</p>
+            </div>
+            <div class="finding">
+              <p class="saw">Benchmarking showed every competitor forcing account creation before checkout, and forum complaints about it were easy to find for all four.</p>
+              <p class="changed">Guest checkout by default became a differentiator, not just a fix, with account creation offered after purchase when it finally benefits the shopper.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Outcome &amp; learnings</span>
+          <h2>What this project taught me</h2>
+          <p>Publishing the research before designing changed the quality of the design. When every pattern in the wireframes traces back to a documented reason, review conversations shift from "I like it" versus "I don't" to "does this solve the abandonment cause we identified." That is a much better conversation to have with engineers and stakeholders.</p>
+          <p>It also taught me restraint. My first instinct was to redesign everything; the evidence kept pointing at a handful of moments that carry almost all the risk. Designing less, more precisely, is usually the stronger move.</p>
+          <p>The next step I would take: instrument the funnel and A/B test the cost-transparency change first, since the research ranks it as the highest-impact fix. Design plans are hypotheses until the data comes in.</p>
+          <div class="artifacts">
+            <a class="btn btn-ghost" href="../assets/rare-rabbit-wireframes.pdf" target="_blank" rel="noopener">View the full wireframe PDF</a>
+            <a class="btn btn-ghost" href="https://drive.google.com/file/d/1wTKRkKail8UhGEQ0rxL-mWqr4ggzyOGF/view?usp=drive_link" target="_blank" rel="noopener">Design walkthrough</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <nav class="case-nav" aria-label="More case studies">
+      <div class="wrap case-nav-row">
+        <a href="paypal.html"><small>Previous</small>← PayPal Wallet</a>
+        <a href="notion.html" style="text-align:right"><small>Next case study</small>Notion: architecture before pixels →</a>
+      </div>
+    </nav>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>© <span id="year"></span> Hotragn Pettugani. Designed and hand-coded by me.</span>
+      <span><a href="mailto:pettugani.h@northeastern.edu">pettugani.h@northeastern.edu</a></span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

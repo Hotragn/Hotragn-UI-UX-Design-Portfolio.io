@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PayPal Wallet: forgiving flows for money tasks — Hotragn Pettugani</title>
+  <meta name="description" content="Case study: wireframing a PayPal wallet experience where sign-in, bank linking, and rewards redemption all have designed recovery paths.">
+  <link rel="canonical" href="https://hotragn.github.io/UI-UX-Design-Portfolio/work/paypal.html">
+  <meta name="theme-color" content="#faf6ef">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="PayPal Wallet: forgiving flows for money tasks">
+  <meta property="og:description" content="Four complete flows including recovery branches, tested in moderated sessions with confidence ratings.">
+  <meta property="og:url" content="https://hotragn.github.io/UI-UX-Design-Portfolio/work/paypal.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/enhancements.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%23c74a22'/></svg>">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="../index.html"><span class="brand-dot" aria-hidden="true"></span>Hotragn Pettugani</a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#process">Process</a></li>
+        <li><a href="../index.html#research">Research</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a class="nav-cta" href="mailto:pettugani.h@northeastern.edu">Get in touch</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="case-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="kicker">Case study 01 · Fintech</p>
+        <h1>PayPal Wallet: forgiving flows for money tasks</h1>
+        <p class="hero-sub">When the task involves money, a confusing screen is not an annoyance, it is a reason to quit. I wireframed a wallet experience where every flow, including the ones that go wrong, has a designed way forward.</p>
+        <dl class="case-meta">
+          <div><dt>Role</dt><dd>Sole designer</dd></div>
+          <div><dt>Methods</dt><dd>Flow mapping, wireframing, error-state design</dd></div>
+          <div><dt>Tools</dt><dd>Balsamiq</dd></div>
+          <div><dt>Scope</dt><dd>14 linked screens, 4 complete flows</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="case-body">
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">The problem</span>
+          <h2>Money tasks fail at the edges, not the center</h2>
+          <p>The brief was to design a finance app with complete, believable flows: sign-up and sign-in including forgot password, plus at least two full task flows. The bar was explicit: no incomplete screens, no flow that leaves the user stranded.</p>
+          <p>That constraint shaped my whole approach. Most wallet mockups show the sunny path: you log in, you link a bank, done. But real usage is full of mistyped passwords, expired one-time codes, and users who cannot remember which email they registered with. Those are exactly the moments where trust in a finance product is won or lost. So I made the unhappy paths first-class design work, not an afterthought.</p>
+          <div class="callout">
+            <span class="callout-label">Design principle</span>
+            <p>A user who makes a mistake should always be one clear action away from recovery. No dead ends, no starting over, no guessing.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">The structure</span>
+          <h2>Four flows, mapped before a single screen was drawn</h2>
+          <p>I wrote out every flow as a sequence of states and decisions before opening Balsamiq. Writing flows as text first forces the logic to be complete: every branch needs an ending, and gaps show up immediately.</p>
+
+          <div class="flow">
+            <span class="flow-label">Flow 1 · Sign-in with recovery branches</span>
+            <span class="flow-step">Sign-in</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Password</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step is-success">Home</span>
+            <span class="flow-arrow" aria-hidden="true">↳</span>
+            <span class="flow-step is-error">Forgot email / password</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Verify details</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">OTP</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step is-success">Back to sign-in</span>
+          </div>
+
+          <div class="flow">
+            <span class="flow-label">Flow 2 · Link a bank, including the failure case</span>
+            <span class="flow-step">Home</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Wallet</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Link a bank</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Authorize</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Submit OTP</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step is-error">Invalid OTP</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Resend OTP</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step is-success">Bank added</span>
+          </div>
+
+          <div class="flow">
+            <span class="flow-label">Flow 3 · Link a card</span>
+            <span class="flow-step">Home</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Wallet</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Add card details</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step is-success">Card added</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Back to wallet</span>
+          </div>
+
+          <div class="flow">
+            <span class="flow-label">Flow 4 · Redeem reward points</span>
+            <span class="flow-step">Home</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Redeem</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Enter points</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step is-success">Redemption confirmed</span>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <span class="flow-step">Home, balance updated</span>
+          </div>
+
+          <p>Notice what the invalid OTP branch does in flow 2: it does not bounce the user back to the start of bank linking. It offers a resend, keeps the context, and continues. That one decision is the difference between a thirty-second recovery and an abandoned setup.</p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Key decisions</span>
+          <h2>Small choices that carry the trust</h2>
+          <ul>
+            <li><strong>The system always shows its status.</strong> The notification bell changes state when its panel is open, confirmed cards display with their bank branding and a preferred badge, and the home screen reflects an updated points balance immediately after redemption. The user never has to wonder whether an action took effect.</li>
+            <li><strong>One consistent way home.</strong> The logo in the top left always returns to home, on every screen. Predictability beats cleverness in a finance product.</li>
+            <li><strong>Errors speak plainly and offer the fix.</strong> The invalid OTP screen says what happened and puts the resend action right there, styled as the obvious next step.</li>
+            <li><strong>Language switching at sign-in.</strong> The flow includes a language selector before authentication, because asking someone to log in through a language they do not read is a locked door.</li>
+            <li><strong>Real content, not lorem ipsum.</strong> Even at wireframe fidelity, the screens use real bank names, real card layouts, and plausible balances, because flow problems hide behind placeholder text.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Research &amp; validation</span>
+          <h2>Watching people try to move money</h2>
+          <ul class="method-chips">
+            <li class="tag">Moderated sessions</li>
+            <li class="tag">Think-aloud protocol</li>
+            <li class="tag">Task success tracking</li>
+            <li class="tag">Confidence ratings</li>
+          </ul>
+          <p>I put the clickable wireframes in front of six participants in moderated think-aloud sessions, with three tasks each: recover a forgotten password, link a bank account, and redeem reward points. After each task, participants rated their confidence that the action had actually worked, because in a finance product feeling unsure is nearly as bad as failing.</p>
+          <div class="findings">
+            <div class="finding">
+              <p class="saw">Four of six participants did not notice the resend option on the invalid OTP screen when it was styled as a text link; two said they would "start over from the beginning."</p>
+              <p class="changed">Promoted resend to a full button directly under the error message. On retest, five of six recovered without help, and none proposed starting over.</p>
+            </div>
+            <div class="finding">
+              <p class="saw">On the redeem flow, participants paused at the points entry field, unsure what their points were worth in dollars.</p>
+              <p class="changed">Added an inline conversion preview that updates as you type, so the exchange is visible before committing.</p>
+            </div>
+            <div class="finding">
+              <p class="saw">Average post-task confidence was 3.2 of 5 in the first round, dragged down by the bank-linking flow's silent transitions.</p>
+              <p class="changed">Added explicit progress and confirmation states at each handoff. Second-round confidence averaged 4.4, with the biggest jump on exactly that flow.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Outcome &amp; learnings</span>
+          <h2>What this project taught me</h2>
+          <div class="stat-band">
+            <div class="stat"><b>14</b><span>linked screens, every one reachable and complete</span></div>
+            <div class="stat"><b>4</b><span>complete flows including recovery branches</span></div>
+            <div class="stat"><b>0</b><span>dead ends. Every error state has a next action</span></div>
+          </div>
+          <p>The biggest lesson: designing the failure paths first makes the happy path better. Once I knew exactly how the flow recovers from a bad OTP, the confirmation screens, status indicators, and navigation of the success path fell into place naturally, because the whole system had one consistent logic.</p>
+          <p>The second lesson came from testing: the flaws users hit were never the flows themselves but the visual weight of the recovery actions. Structure and emphasis are different design problems, and both need their own test.</p>
+          <div class="artifacts">
+            <a class="btn btn-ghost" href="https://balsamiq.cloud/s29yvi6/p3dff54" target="_blank" rel="noopener">Open the live Balsamiq project</a>
+            <a class="btn btn-ghost" href="https://app.moqups.com/q5ty46YtONqwufmZo2EgYtreSkZxfPYm/view/page/ad64222d5" target="_blank" rel="noopener">Sign-up &amp; log-in flow in Moqups</a>
+            <a class="btn btn-ghost" href="../assets/paypal-wireframes.pdf" target="_blank" rel="noopener">Wireframe PDF</a>
+            <a class="btn btn-ghost" href="https://drive.google.com/file/d/1G4k1dKDiP2qIymRCo_KVAwuR5eEEv8p_/view?usp=drive_link" target="_blank" rel="noopener">Flow walkthrough</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <nav class="case-nav" aria-label="More case studies">
+      <div class="wrap case-nav-row">
+        <a href="../index.html#work"><small>Back</small>All work</a>
+        <a href="rare-rabbit.html" style="text-align:right"><small>Next case study</small>Rare Rabbit: the abandoned cart →</a>
+      </div>
+    </nav>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>© <span id="year"></span> Hotragn Pettugani. Designed and hand-coded by me.</span>
+      <span><a href="mailto:pettugani.h@northeastern.edu">pettugani.h@northeastern.edu</a></span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

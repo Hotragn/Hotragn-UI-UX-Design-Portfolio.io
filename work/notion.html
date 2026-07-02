@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notion templates: architecture before pixels — Hotragn Pettugani</title>
+  <meta name="description" content="Case study: information architecture for Notion template discovery, search, and export, scoped with a MoSCoW matrix published as a FigJam community template.">
+  <link rel="canonical" href="https://hotragn.github.io/UI-UX-Design-Portfolio/work/notion.html">
+  <meta name="theme-color" content="#faf6ef">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Notion: architecture before pixels">
+  <meta property="og:description" content="Information architecture tested with first-click tasks, then carried to an embedded hi-fi prototype.">
+  <meta property="og:url" content="https://hotragn.github.io/UI-UX-Design-Portfolio/work/notion.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/enhancements.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='%23c74a22'/></svg>">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="../index.html"><span class="brand-dot" aria-hidden="true"></span>Hotragn Pettugani</a>
+      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html#work">Work</a></li>
+        <li><a href="../index.html#process">Process</a></li>
+        <li><a href="../index.html#research">Research</a></li>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a class="nav-cta" href="mailto:pettugani.h@northeastern.edu">Get in touch</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="case-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="kicker">Case study 03 · Productivity</p>
+        <h1>Notion templates: architecture before pixels</h1>
+        <p class="hero-sub">Templates are how most people actually start using Notion, yet finding, applying, and exporting them takes real effort. My final course project mapped the information architecture for that whole journey, and scoped it with a prioritization method I later published for other designers.</p>
+        <dl class="case-meta">
+          <div><dt>Role</dt><dd>IA &amp; interaction design</dd></div>
+          <div><dt>Methods</dt><dd>Site mapping, MoSCoW prioritization, flow design</dd></div>
+          <div><dt>Tools</dt><dd>Figma, FigJam</dd></div>
+          <div><dt>Bonus</dt><dd>Published FigJam community template</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="case-body">
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">The problem</span>
+          <h2>Powerful tools fail at the front door</h2>
+          <p>Notion's flexibility is its pitch and its problem. A new user staring at an empty page has infinite options and no path; templates are the intended fix, but the journey from "I need a project tracker" to "my content lives in a template I can export" crosses discovery, search, sign-in, editing, and export. If any step is unclear, the user falls back to a blank page or leaves.</p>
+          <p>Before drawing screens, I needed to answer a structural question: what are all the places a user can be, and how do they move between them? That is an information architecture problem, and it had to be solved first.</p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">The architecture</span>
+          <h2>One map, every path accounted for</h2>
+          <p>I mapped the full system as a sitemap radiating from the homepage. Five top-level regions, each with its own depth. The two paths that mattered most, and got the most design attention, were template discovery and content export.</p>
+
+          <div class="ia-tree" role="img" aria-label="Sitemap: Homepage branches into browse templates, sign in, template workspace, search, and global navigation">
+            <span class="ia-root">Homepage</span>
+            <div class="ia-branches">
+              <div class="ia-branch">
+                <h4>Browse</h4>
+                <ul>
+                  <li>Browse templates</li>
+                  <li>Most-used suggestions</li>
+                  <li>Scroll results</li>
+                  <li>Filter templates</li>
+                </ul>
+              </div>
+              <div class="ia-branch">
+                <h4>Account</h4>
+                <ul>
+                  <li>Sign in</li>
+                  <li>Single sign-on</li>
+                  <li>Login</li>
+                  <li>Sign up</li>
+                </ul>
+              </div>
+              <div class="ia-branch">
+                <h4>Workspace</h4>
+                <ul>
+                  <li>Template list</li>
+                  <li>Add work content</li>
+                  <li>Select done</li>
+                  <li>Export dropdown</li>
+                  <li>Export format → path</li>
+                </ul>
+              </div>
+              <div class="ia-branch">
+                <h4>Search</h4>
+                <ul>
+                  <li>Global search</li>
+                  <li>Search templates / work</li>
+                  <li>Advanced filters</li>
+                  <li>Saved searches</li>
+                </ul>
+              </div>
+              <div class="ia-branch">
+                <h4>Global</h4>
+                <ul>
+                  <li>Navigation bar</li>
+                  <li>Any page</li>
+                  <li>Logout</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <p class="embed-caption">This is the working board, not a cleaned-up export: <a href="https://www.figma.com/board/v2l5GqRwgriAXW14dzSR20/Information-Arch_Notion" target="_blank" rel="noopener">open the live FigJam sitemap</a> to see the thinking at full messiness, or the <a href="https://www.figma.com/board/jxZ18Ifdu2tQDRpk81oZkO/Information-Architecture-FigJam" target="_blank" rel="noopener">companion IA board</a>.</p>
+          <ul>
+            <li><strong>Discovery leads with social proof.</strong> The browse path surfaces most-used templates first, so new users see what works before wading into the catalog. Fewer choices up front, better ones.</li>
+            <li><strong>Search is a first-class citizen, not a fallback.</strong> Global search, advanced filters, and saved searches get their own branch, because returning users navigate by search while new users navigate by browsing. The architecture serves both without forcing either.</li>
+            <li><strong>Export is a flow, not a button.</strong> Format selection and destination path are explicit steps. Where your content goes should never be a surprise.</li>
+            <li><strong>Every page carries the exits.</strong> Navigation bar and logout are reachable from any page. No screen in the map is a trap.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Prioritization</span>
+          <h2>MoSCoW: deciding what earns engineering time</h2>
+          <p>An architecture this size cannot ship at once, so the team scoped it with a MoSCoW matrix: must have, should have, could have, will not have. Core discovery, sign-in, and export landed in must; saved searches and advanced filters in should; personalization ideas parked in could, deliberately, with reasons written down.</p>
+          <p>The matrix worked well enough as a working surface that I rebuilt it as a reusable FigJam template and published it to the Figma Community, where other designers now use it for their own scoping sessions.</p>
+          <div class="callout callout-green">
+            <span class="callout-label">Shipped to the community</span>
+            <p>The MoSCoW matrix template is live on Figma Community. Designing tools for other designers is a different discipline: the template has to explain itself with no author in the room.</p>
+          </div>
+          <p>The must-haves then went to high fidelity: a clickable Figma prototype of the Notion mobile experience with weekly to-dos, customizable template selection, quick notes, and support for diverse attachment formats. The architecture decided what got built; the prototype proved it could feel effortless. Try it here:</p>
+          <div class="embed-frame">
+            <iframe src="https://embed.figma.com/proto/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=89-1324&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=67%3A77&embed-host=share" title="Notion mobile high-fidelity interactive prototype" loading="lazy" allowfullscreen></iframe>
+          </div>
+          <p class="embed-caption">Interactive hi-fi prototype, embedded live. <a href="https://www.figma.com/proto/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=89-1324&amp;p=f&amp;scaling=min-zoom&amp;content-scaling=fixed&amp;page-id=0%3A1&amp;starting-point-node-id=67%3A77" target="_blank" rel="noopener">Open full screen</a> or inspect the <a href="https://www.figma.com/design/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=0-1" target="_blank" rel="noopener">design file</a>.</p>
+          <div class="artifacts">
+            <a class="btn btn-ghost" href="https://www.figma.com/proto/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=0-1&amp;t=ns8KRwLhUqk4vKpW-1" target="_blank" rel="noopener">Play the hi-fi prototype</a>
+            <a class="btn btn-ghost" href="https://www.figma.com/community/file/1437946660522065479" target="_blank" rel="noopener">Open the FigJam template</a>
+            <a class="btn btn-ghost" href="../assets/notion-information-architecture.pdf" target="_blank" rel="noopener">View the sitemap PDF</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Research &amp; validation</span>
+          <h2>Testing the structure, then the screens</h2>
+          <ul class="method-chips">
+            <li class="tag">Task-based usability tests</li>
+            <li class="tag">First-click testing</li>
+            <li class="tag">Time on task</li>
+            <li class="tag">Peer critique rounds</li>
+          </ul>
+          <p>The IA was tested before the visuals existed: I gave five participants task prompts ("get your class notes into a template and export it as a PDF") against the sitemap-level prototype and watched their first clicks. Two structural fixes came out of it, then the hi-fi prototype went through the same tasks.</p>
+          <div class="findings">
+            <div class="finding">
+              <p class="saw">First-click tests on the early structure showed participants heading to global search for templates even when Browse was one tap closer. Search was buried a level down.</p>
+              <p class="changed">Promoted search to a first-class branch with its own filters and saved searches. In the hi-fi round, first-click success on the template-finding task went from 2 of 5 to 5 of 5.</p>
+            </div>
+            <div class="finding">
+              <p class="saw">Export confused everyone in the early round: participants selected Done and assumed the file had gone somewhere, with no idea where.</p>
+              <p class="changed">Split export into explicit format and destination steps. Hi-fi round: all participants completed export, and time on task dropped by roughly half.</p>
+            </div>
+            <div class="finding">
+              <p class="saw">Participants applying a template wanted to see it before committing; two backed out of the flow just to look for screenshots.</p>
+              <p class="changed">Added a template preview state ahead of the apply action, which also created a natural home for the most-used badge.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="wrap-narrow reveal">
+          <span class="case-num">Outcome &amp; learnings</span>
+          <h2>What this project taught me</h2>
+          <p>Information architecture is where I learned to argue with my own designs. A screen can look right and still be structurally wrong: unreachable states, duplicate paths, or search and browse quietly competing for the same job. Mapping the system first caught all three in my early drafts.</p>
+          <p>The second lesson came from publishing the MoSCoW template. Feedback from strangers using your artifact, with zero context, is the purest usability test there is. The first version assumed too much; the published version explains every zone in one line each because real users got lost without it.</p>
+          <p>This is the project that most shaped how I would work on a large product: structure first, prioritize with the whole team looking at the same matrix, and only then spend pixels.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <nav class="case-nav" aria-label="More case studies">
+      <div class="wrap case-nav-row">
+        <a href="rare-rabbit.html"><small>Previous</small>← Rare Rabbit</a>
+        <a href="family-foundations.html" style="text-align:right"><small>Next case study</small>Family Foundations →</a>
+      </div>
+    </nav>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <span>© <span id="year"></span> Hotragn Pettugani. Designed and hand-coded by me.</span>
+      <span><a href="mailto:pettugani.h@northeastern.edu">pettugani.h@northeastern.edu</a></span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

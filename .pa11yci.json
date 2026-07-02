@@ -1,0 +1,18 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "timeout": 30000,
+    "wait": 1500,
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox"]
+    }
+  },
+  "urls": [
+    "http://localhost:8080/index.html",
+    "http://localhost:8080/work/paypal.html",
+    "http://localhost:8080/work/rare-rabbit.html",
+    "http://localhost:8080/work/notion.html",
+    "http://localhost:8080/work/family-foundations.html",
+    "http://localhost:8080/404.html"
+  ]
+}
