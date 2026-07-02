@@ -1,4 +1,10 @@
-name: Build quality gates & deploy
+name: Quality gates & production check
+
+# Vercel deploys this repo automatically on push. These gates run in
+# parallel with that deploy; if any gate fails, the commit is marked
+# failing so the regression is caught even though Vercel already shipped
+# it — fix forward or revert. The final job verifies production serves
+# the new commit successfully.
 
 on:
   push:
@@ -8,8 +14,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate-html:
@@ -53,47 +59,23 @@ jobs:
           sleep 2
           npx --yes pa11y-ci@3 --config .pa11yci.json
 
-  deploy:
-    name: Deploy to GitHub Pages
+  verify-production:
+    name: Production smoke test (Vercel)
     if: github.event_name != 'pull_request'
     needs: [validate-html, check-links, accessibility]
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-      contents: read
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  verify-live:
-    name: Post-deploy smoke test
-    needs: deploy
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check the live site responds
+      - name: Wait for Vercel to serve the site, then check every page
         run: |
-          sleep 10
+          base="https://hotragnpettugani-design.vercel.app/"
+          sleep 45
+          fail=0
           for path in "" "work/paypal.html" "work/rare-rabbit.html" "work/notion.html" "work/family-foundations.html"; do
-            url="https://hotragn.github.io/Hotragn-UI-UX-Design-Portfolio.io/${path}"
-            code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
-            echo "$code  $url"
-            if [ "$code" != "200" ]; then
-              echo "::error::$url returned $code"
-              exit 1
-            fi
+            code=$(curl -s -o /dev/null -w "%{http_code}" "${base}${path}")
+            echo "$code  ${base}${path}"
+            if [ "$code" != "200" ]; then fail=1; fi
           done
+          if [ "$fail" != "0" ]; then
+            echo "::error::One or more production pages are not serving 200"
+            exit 1
+          fi

@@ -23,14 +23,24 @@ if (toggle && links) {
   });
 }
 
-// ---------- Scroll reveal ----------
+// ---------- Scroll reveal with sibling stagger ----------
+// Children of a grid reveal in sequence (70ms steps) rather than as a block.
 const reveals = document.querySelectorAll(".reveal");
+document.querySelectorAll(
+  ".work-grid, .cards-3, .live-grid, .board-grid, .process-grid, .findings, .xp-side"
+).forEach((grid) => {
+  [...grid.children].forEach((child, i) => {
+    const target = child.classList.contains("reveal") ? child : child.querySelector(".reveal");
+    if (target) target.dataset.stagger = String(Math.min(i, 6) * 70);
+  });
+});
 if ("IntersectionObserver" in window) {
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("in");
+          const delay = prefersReduced ? 0 : Number(entry.target.dataset.stagger || 0);
+          setTimeout(() => entry.target.classList.add("in"), delay);
           io.unobserve(entry.target);
         }
       });
@@ -40,6 +50,27 @@ if ("IntersectionObserver" in window) {
   reveals.forEach((el) => io.observe(el));
 } else {
   reveals.forEach((el) => el.classList.add("in"));
+}
+
+// ---------- Spotlight coordinates for card surfaces ----------
+if (finePointer && !prefersReduced) {
+  document.addEventListener("pointermove", (e) => {
+    const card = e.target.closest(".mini-card, .live-card, .process-step");
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--sx", `${((e.clientX - r.left) / r.width) * 100}%`);
+    card.style.setProperty("--sy", `${((e.clientY - r.top) / r.height) * 100}%`);
+  }, { passive: true });
+}
+
+// ---------- Speculative prefetch for instant navigation ----------
+if (HTMLScriptElement.supports && HTMLScriptElement.supports("speculationrules")) {
+  const rules = document.createElement("script");
+  rules.type = "speculationrules";
+  rules.textContent = JSON.stringify({
+    prefetch: [{ source: "document", where: { href_matches: "/*" }, eagerness: "moderate" }]
+  });
+  document.head.appendChild(rules);
 }
 
 // ---------- Reading progress (case pages) ----------

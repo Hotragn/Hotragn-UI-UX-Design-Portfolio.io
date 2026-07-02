@@ -13,15 +13,18 @@
   --muted: #6f6759;
   --line: #e2d9c8;
   --card: #fffdf8;
-  --accent: #c74a22;        /* persimmon, AA on paper at 18px+ bold */
-  --accent-ink: #a33a17;    /* darker persimmon, AA for body-size text */
+  --accent: #d0431d;        /* vermilion, AA on paper at 18px+ bold */
+  --accent-ink: #a2320f;    /* darker vermilion, AA for body-size text */
+  --plum: #b23a8a;          /* magenta-plum, midpoint of the signature gradient */
+  --iris: #5b4bd4;          /* electric iris, cool counterweight */
+  --grad: linear-gradient(115deg, var(--accent), var(--plum) 52%, var(--iris));
   --forest: #1d4b3f;
   --forest-soft: #e4ede7;
   --gold: #b98a2f;
-  --dark: #17140f;
-  --dark-2: #221e17;
-  --on-dark: #f5efe3;
-  --on-dark-muted: #b8ae9c;
+  --dark: #171226;          /* deep aubergine, not brown-black */
+  --dark-2: #211a33;
+  --on-dark: #f2eefa;
+  --on-dark-muted: #b3aac9;
   --radius: 18px;
   --radius-sm: 10px;
   --shadow: 0 2px 6px rgba(30, 27, 22, 0.05), 0 16px 40px -18px rgba(30, 27, 22, 0.22);
@@ -169,7 +172,7 @@ a:hover { color: var(--ink); }
   top: 0; left: 0;
   height: 3px;
   width: 0;
-  background: linear-gradient(90deg, var(--accent), var(--gold));
+  background: var(--grad);
   z-index: 120;
 }
 
@@ -215,6 +218,10 @@ a:hover { color: var(--ink); }
   font-style: italic;
   font-weight: 480;
   color: var(--accent-ink);
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-sub {
@@ -273,7 +280,7 @@ a:hover { color: var(--ink); }
 }
 .section-title { font-size: clamp(1.9rem, 3.8vw, 2.9rem); margin: 0; }
 .section-lede { color: var(--muted); max-width: 44ch; margin: 0.4rem 0 0; }
-.section-dark .section-lede { color: #b8ae9c; }
+.section-dark .section-lede { color: var(--on-dark-muted); }
 
 /* ---------- Work cards ---------- */
 
@@ -373,11 +380,13 @@ a:hover { color: var(--ink); }
 }
 .process-step {
   background: var(--dark-2);
-  border: 1px solid #35302699;
+  border: 1px solid #3c325699;
   border-radius: var(--radius);
   padding: 1.6rem 1.4rem;
   counter-increment: step;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
+.process-step:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--iris) 55%, transparent); }
 .process-step::before {
   content: "0" counter(step);
   font-family: var(--font-display);
@@ -388,7 +397,7 @@ a:hover { color: var(--ink); }
   margin-bottom: 0.9rem;
 }
 .process-step h3 { font-size: 1.2rem; color: var(--on-dark); margin-bottom: 0.4em; }
-.process-step p { color: #b8ae9c; font-size: 0.94rem; margin: 0; }
+.process-step p { color: var(--on-dark-muted); font-size: 0.94rem; margin: 0; }
 
 /* ---------- Research cards ---------- */
 
@@ -658,8 +667,8 @@ a:hover { color: var(--ink); }
 
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(26px) scale(0.985);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.in { opacity: 1; transform: none; }
 

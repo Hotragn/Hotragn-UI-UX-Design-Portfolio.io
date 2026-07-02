@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hotragn.github.io/Hotragn-UI-UX-Design-Portfolio.io/sitemap.xml
+Sitemap: https://hotragnpettugani-design.vercel.app/sitemap.xml

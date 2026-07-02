@@ -2,9 +2,9 @@
 
 **Hotragn Pettugani** · UX Designer & Engineer · [pettugani.h@northeastern.edu](mailto:pettugani.h@northeastern.edu)
 
-**Live:** https://hotragn.github.io/Hotragn-UI-UX-Design-Portfolio.io/
+**Live:** https://hotragnpettugani-design.vercel.app/
 
-[![Build quality gates & deploy](https://github.com/Hotragn/Hotragn-UI-UX-Design-Portfolio.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/Hotragn/Hotragn-UI-UX-Design-Portfolio.io/actions/workflows/deploy.yml)
+[![Quality gates](https://github.com/Hotragn/Hotragn-UI-UX-Design-Portfolio.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/Hotragn/Hotragn-UI-UX-Design-Portfolio.io/actions/workflows/deploy.yml)
 
 Four case studies with the research behind them, live-embedded Figma prototypes, shipped products, and the working FigJam boards, presented on a site I designed and hand-coded myself. The site is its own portfolio piece: the design system, the interaction engineering, and the CI pipeline below are all part of the exhibit.
 
@@ -28,8 +28,8 @@ A portfolio's job is to load fast, read well, and prove craft. That is a static-
 | Behavior | Vanilla ES2020+ | ~200 lines, no dependencies: IntersectionObserver reveals, rAF-throttled cursor and parallax, tilt with pointer-tracked glare |
 | Type | Fraunces (variable, optical sizing) + Inter | Two typefaces, two jobs: voice and information |
 | Prototypes | Figma embeds (`embed.figma.com`) | Case studies embed the playable prototypes, lazy-loaded |
-| Hosting | GitHub Pages | Deployed by GitHub Actions, not branch magic |
-| CI | GitHub Actions | html-validate, lychee, pa11y-ci, post-deploy smoke test |
+| Hosting | Vercel | Auto-deploys every push to `main`; global edge CDN, preview deploys per branch |
+| CI | GitHub Actions | html-validate, lychee, pa11y-ci, production smoke test against Vercel |
 
 ## Architecture
 
@@ -55,12 +55,16 @@ Two CSS files on purpose: `style.css` is the stable design system, `enhancements
 
 Everything animated respects `prefers-reduced-motion`, and everything pointer-driven is gated on `pointer: fine`, so touch and assistive-tech users get a calm, fully functional site.
 
+- **Aurora hero**: three gradient fields in the signature vermilion → plum → iris palette drifting on a transform-only animation, GPU-composited with zero repaints.
 - **Custom cursor** with a spring-lagged ring; the `requestAnimationFrame` loop self-cancels when the cursor converges, so an idle page costs zero frames.
 - **3D tilt on case-study cards**: perspective transforms with a radial glare that tracks the pointer through CSS custom properties.
+- **Spotlight surfaces**: a soft light follows the pointer across cards, driven by one delegated listener writing two custom properties.
+- **Staggered scroll reveals**: grid children enter in 70ms sequence via IntersectionObserver, with an entrance curve tuned on `cubic-bezier(0.22, 1, 0.36, 1)`.
+- **Scroll-driven title accents**: a gradient rule draws itself under each section title using CSS `animation-timeline: view()`, no JavaScript involved.
 - **Hero artifact stage**: layered wireframe, flow-chip, and persona cards with depth-weighted mouse parallax and an idle drift that pauses via IntersectionObserver when off screen.
 - **Word-by-word headline reveal** built by wrapping text nodes at runtime, so the markup stays clean for crawlers and screen readers.
-- **Design-notes mode**: a nav toggle that reveals margin annotations explaining the site's own design decisions (palette, pacing, typography). State persists per session.
-- **Cross-document view transitions** so page-to-page navigation crossfades in supporting browsers.
+- **Design-notes mode**: a nav toggle that reveals margin annotations telling the real story behind each design decision. State persists per session.
+- **Cross-document view transitions** and **Speculation Rules prefetching**, so page-to-page navigation crossfades and loads near-instantly in supporting browsers.
 
 ## Accessibility and performance
 
@@ -78,7 +82,7 @@ Two workflows, both in `.github/workflows/`:
 2. `lychee --offline` — every internal link and asset reference must resolve inside the repo
 3. `pa11y-ci` — WCAG 2.1 AA audit of all six pages against a locally served copy
 
-Only when all three pass does the site deploy to GitHub Pages, followed by a smoke test that curls every live URL and fails loudly on anything but a 200.
+Hosting is Vercel, which auto-deploys every push to `main` and gives each branch its own preview URL. The gates run in parallel with that deploy and mark the commit red if anything regresses; a final job smoke-tests every production URL on Vercel and fails loudly on anything but a 200.
 
 **`link-health.yml`** — portfolios die quietly when an external artifact link rots. Every Monday this checks every outbound link (Figma, Google Drive, Medium, deployed apps) and opens a GitHub issue with a full report if anything breaks. Bot-hostile hosts that return 403/429 to automated checks are treated as alive.
 
@@ -92,9 +96,9 @@ npx pa11y-ci --config .pa11yci.json
 
 ## Roadmap
 
-- Scroll-driven animations (`animation-timeline: scroll()`) to replace the JS progress bar where supported
-- Speculation Rules prefetching for instant case-study navigation
+- Move the reading-progress bar from JS to `animation-timeline: scroll()` where supported
 - A WebGL paper-grain shader for the hero, budgeted to stay under one frame of main-thread cost
+- Case-study OG images for richer link unfurls
 - Custom domain
 
 ## License
