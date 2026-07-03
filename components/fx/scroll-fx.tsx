@@ -46,6 +46,7 @@ export function ScrollFx() {
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const cleanups: Array<() => void> = [];
       // Masked per-word section-title reveals
       gsap.utils
         .toArray<HTMLElement>(".section-title, .case-section h2")
@@ -58,6 +59,8 @@ export function ScrollFx() {
             duration: 0.8,
             ease: "power4.out",
             stagger: 0.045,
+            immediateRender: false,
+            clearProps: "transform",
             scrollTrigger: {
               trigger: title,
               start: "top 88%",
@@ -117,8 +120,18 @@ export function ScrollFx() {
             }
           },
         });
-        // Safety net: anything already revealed stays visible on refresh
+        // Safety net: recompute trigger positions after layout settles, and
+        // as a last resort force any reveal still hidden after 3s to show,
+        // so content is never permanently stuck invisible.
         ScrollTrigger.refresh();
+        const safety = window.setTimeout(() => {
+          reveals.forEach((el) => {
+            if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
+              gsap.set(el, { clearProps: "opacity,transform" });
+            }
+          });
+        }, 3000);
+        cleanups.push(() => window.clearTimeout(safety));
       }
 
       // Experience timeline: vertical line draw-in
@@ -139,71 +152,72 @@ export function ScrollFx() {
           }
         );
 
-        // Experience items: clip-path wipe as each enters (distinct from
-        // the grid reveals).
+        // Experience items: a soft slide-and-fade as each enters. We animate
+        // FROM a hidden state with immediateRender:false so the natural,
+        // fully-visible state is the default: if the trigger never fires
+        // (reduced motion is handled above, but also odd layouts, refresh
+        // mid-page, or a missed trigger) the text is always readable and
+        // never clipped. clearProps wipes any transform when done.
         gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item) => {
-          gsap.fromTo(
-            item,
-            { clipPath: "inset(0 100% 0 0)", opacity: 0.4 },
-            {
-              clipPath: "inset(0 0% 0 0)",
-              opacity: 1,
-              duration: 0.7,
-              ease: "power3.out",
-              scrollTrigger: { trigger: item, start: "top 85%", once: true },
-            }
-          );
+          gsap.from(item, {
+            opacity: 0,
+            x: -24,
+            duration: 0.7,
+            ease: "power3.out",
+            immediateRender: false,
+            clearProps: "opacity,transform",
+            scrollTrigger: { trigger: item, start: "top 85%", once: true },
+          });
         });
       }
 
       // Process (dark band): steps assemble with a subtle 3D rotateY flip.
       const processSteps = gsap.utils.toArray<HTMLElement>(".process-step");
       if (processSteps.length) {
-        gsap.set(processSteps, { transformPerspective: 800, transformOrigin: "50% 50%" });
         gsap.from(processSteps, {
-          rotationY: -32,
+          rotationY: -28,
+          transformPerspective: 800,
+          transformOrigin: "50% 50%",
           opacity: 0,
           y: 20,
           duration: 0.7,
           ease: "power3.out",
           stagger: 0.08,
-          scrollTrigger: { trigger: ".process-grid", start: "top 80%", once: true },
+          immediateRender: false,
           clearProps: "transform,opacity",
+          scrollTrigger: { trigger: ".process-grid", start: "top 80%", once: true },
         });
       }
 
-      // Writing cards: vertical-blinds mask reveal (distinct from the
-      // horizontal card wipe used on projects).
-      gsap.utils.toArray<HTMLElement>(".cards-3 .mini-card").forEach((card, i) => {
-        gsap.fromTo(
-          card,
-          { clipPath: "inset(0 0 100% 0)", opacity: 0.3 },
-          {
-            clipPath: "inset(0 0 0% 0)",
-            opacity: 1,
-            duration: 0.7,
-            ease: "power2.out",
-            delay: i * 0.08,
-            scrollTrigger: { trigger: ".cards-3", start: "top 82%", once: true },
-          }
-        );
-      });
+      // Writing cards: a gentle upward fade, staggered.
+      const miniCards = gsap.utils.toArray<HTMLElement>(".cards-3 .mini-card");
+      if (miniCards.length) {
+        gsap.from(miniCards, {
+          opacity: 0,
+          y: 22,
+          duration: 0.65,
+          ease: "power2.out",
+          stagger: 0.08,
+          immediateRender: false,
+          clearProps: "opacity,transform",
+          scrollTrigger: { trigger: ".cards-3", start: "top 82%", once: true },
+        });
+      }
 
-      // Publications: line-by-line clip reveal, like lines being typed in.
-      gsap.utils.toArray<HTMLElement>(".pub-list li").forEach((li, i) => {
-        gsap.fromTo(
-          li,
-          { clipPath: "inset(0 100% 0 0)", opacity: 0.2 },
-          {
-            clipPath: "inset(0 0% 0 0)",
-            opacity: 1,
-            duration: 0.5,
-            ease: "none",
-            delay: i * 0.12,
-            scrollTrigger: { trigger: ".pub-list", start: "top 82%", once: true },
-          }
-        );
-      });
+      // Publications: line-by-line fade-in, like lines arriving in order.
+      const pubItems = gsap.utils.toArray<HTMLElement>(".pub-list li");
+      if (pubItems.length) {
+        gsap.from(pubItems, {
+          opacity: 0,
+          x: -18,
+          duration: 0.5,
+          ease: "power2.out",
+          stagger: 0.1,
+          immediateRender: false,
+          clearProps: "opacity,transform",
+          scrollTrigger: { trigger: ".pub-list", start: "top 82%", once: true },
+        });
+      }
 
       // Subtle parallax on section kickers
       gsap.utils.toArray<HTMLElement>(".section .kicker").forEach((kicker) => {
@@ -222,6 +236,8 @@ export function ScrollFx() {
           }
         );
       });
+
+      return () => cleanups.forEach((fn) => fn());
     });
 
     return () => mm.revert();

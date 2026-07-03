@@ -124,7 +124,7 @@ export function KineticContact() {
     };
 
     burstRef.current = (x: number, y: number) => {
-      for (let i = 0; i < 90; i++) {
+      for (let i = 0; i < 60; i++) {
         const a = Math.random() * Math.PI * 2;
         const sp = 2 + Math.random() * 7;
         parts.push({

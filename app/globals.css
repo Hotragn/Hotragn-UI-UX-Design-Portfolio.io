@@ -187,62 +187,121 @@ a:hover { color: var(--ink); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding-block: 0.9rem;
+  gap: 1.5rem;
+  padding-block: 0.85rem;
 }
 
+/* ---- Wordmark ---- */
 .brand {
-  font-family: var(--font-display);
-  font-weight: 640;
-  font-size: 1.25rem;
   color: var(--ink);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.6rem;
+  flex: none;
+}
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 30px; height: 30px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease;
 }
 .brand-dot {
-  width: 11px; height: 11px;
+  width: 12px; height: 12px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+  background: var(--grad);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.brand-name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+.brand-first { font-weight: 640; color: var(--ink); }
+.brand-last { font-weight: 460; color: var(--muted); transition: color 0.25s ease; }
+.brand:hover .brand-mark { transform: rotate(-6deg); background: color-mix(in srgb, var(--accent) 18%, transparent); }
+.brand:hover .brand-dot { transform: scale(1.15); }
+.brand:hover .brand-last { color: var(--ink-soft); }
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark, .brand-dot { transition: none; }
+  .brand:hover .brand-mark, .brand:hover .brand-dot { transform: none; }
 }
 
+/* ---- Nav clusters ---- */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: clamp(0.9rem, 2.5vw, 1.9rem);
+  gap: 1.25rem;
   list-style: none;
   margin: 0; padding: 0;
 }
-.nav-links a {
+.nav-primary-group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.2rem;
+  border-radius: 999px;
+}
+.nav-util {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.nav-link {
+  position: relative;
+  z-index: 1;
   color: var(--ink-soft);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 520;
-  position: relative;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  transition: color 0.2s ease;
 }
-.nav-links a::after {
-  content: "";
+.nav-link:hover { color: var(--ink); }
+.nav-link.is-active { color: var(--ink); font-weight: 580; }
+
+/* Sliding pill indicator behind the active/hovered primary link */
+.nav-pill {
   position: absolute;
-  left: 0; right: 100%; bottom: -5px;
-  height: 2px;
-  background: var(--accent);
-  transition: right 0.25s ease;
+  z-index: 0;
+  top: 0.2rem; bottom: 0.2rem;
+  left: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
-.nav-links a:hover { color: var(--ink); }
-.nav-links a:hover::after { right: 0; }
+.nav-pill.is-animated {
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.2s ease;
+}
+.dark .nav-pill { background: color-mix(in srgb, var(--accent) 16%, transparent); }
 
 .nav-cta {
   background: var(--ink);
   color: var(--paper) !important;
-  padding: 0.55rem 1.1rem;
+  padding: 0.5rem 1.05rem;
   border-radius: 999px;
-  font-weight: 560;
+  font-size: 0.9rem;
+  font-weight: 580;
+  text-decoration: none;
   white-space: nowrap;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-.nav-cta::after { display: none; }
-.nav-cta:hover { background: var(--accent-ink); }
+.nav-cta:hover { background: var(--accent-ink); transform: translateY(-1px); }
 .dark .nav-cta:hover { color: var(--dark) !important; }
 
 .menu-toggle { display: none; }
@@ -298,9 +357,10 @@ a:hover { color: var(--ink); }
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.5;
+  opacity: 0.42;
+  z-index: 0; /* stays behind .hero-stage (z-index:1) */
 }
-.dark .hero-scene { opacity: 0.55; }
+.dark .hero-scene { opacity: 0.5; }
 .hero-scene canvas { height: 100% !important; }
 
 .kicker {
@@ -798,12 +858,27 @@ a:hover { color: var(--ink); }
     background: var(--paper);
     border-bottom: 1px solid var(--line);
     padding: 1rem clamp(1.25rem, 4vw, 2.5rem) 1.4rem;
-    gap: 0.4rem;
+    gap: 0.6rem;
     display: none;
   }
   .nav-links.open { display: flex; }
-  .nav-links a { padding: 0.6rem 0.2rem; font-size: 1.05rem; }
-  .nav-cta { text-align: center; justify-content: center; display: inline-flex; }
+  /* In the mobile drawer the pill indicator is off; links and utilities
+     stack vertically. */
+  .nav-pill { display: none; }
+  .nav-primary-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.2rem;
+    padding: 0;
+  }
+  .nav-link { padding: 0.6rem 0.4rem; font-size: 1.05rem; }
+  .nav-util {
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--line);
+  }
+  .nav-cta { text-align: center; justify-content: center; display: inline-flex; flex: 1; }
   .dark .nav-links { background: var(--paper-deep); }
 }
 
@@ -932,6 +1007,7 @@ h1, h2, .contact h2 { text-wrap: balance; }
   gap: clamp(2rem, 5vw, 4rem);
   align-items: center;
   position: relative;
+  z-index: 1; /* keep headline and copy above the ambient particle layer */
 }
 
 /* word-by-word reveal (driven by GSAP: rise + blur + slight rotation).
@@ -1671,12 +1747,23 @@ h1, h2, .contact h2 { text-wrap: balance; }
 .work-grid-horizontal {
   display: flex;
   flex-wrap: nowrap;
+  align-items: stretch; /* every card stretches to the tallest, so equal height */
   gap: clamp(1.4rem, 3vw, 2.2rem);
   width: max-content;
+  /* start padding so card 1 is fully visible on load, matched trailing pad */
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
   will-change: transform;
 }
+/* Uniform fixed width for every card in the track */
 .work-grid-horizontal > .tilt-wrap {
-  flex: 0 0 min(78vw, 900px);
+  flex: 0 0 min(72vw, 760px);
+  display: flex;
+}
+.work-grid-horizontal > .tilt-wrap > .work-card {
+  width: 100%;
+  height: 100%;
+  min-height: 420px; /* equal height floor across all four */
+  align-content: center;
 }
 
 /* ---------- Projects: RGB-shift poster hover ---------- */
@@ -1708,61 +1795,6 @@ h1, h2, .contact h2 { text-wrap: balance; }
 .kinetic-heading .kinetic-char {
   display: inline-block;
   will-change: transform;
-}
-
-/* ---------- Fisheye dock (desktop enhancement) ---------- */
-
-.fisheye-dock {
-  position: fixed;
-  bottom: 1.1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 130;
-  pointer-events: none;
-}
-.dock-track {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.5rem;
-  padding: 0.5rem 0.8rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--card) 88%, transparent);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-lift);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  pointer-events: auto;
-}
-.dark .dock-track { background: rgba(33, 26, 51, 0.72); }
-.dock-item {
-  transform-origin: bottom center;
-  display: inline-flex;
-  align-items: center;
-}
-.dock-link {
-  display: inline-flex;
-  align-items: center;
-  font: 560 0.82rem var(--font-body);
-  color: var(--ink-soft);
-  text-decoration: none;
-  padding: 0.35rem 0.6rem;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-.dock-link:hover { color: var(--ink); }
-.dock-cta {
-  background: var(--ink);
-  color: var(--paper) !important;
-  font-weight: 600;
-}
-.dock-cta:hover { background: var(--accent-ink); }
-.dark .dock-cta:hover { color: var(--dark) !important; }
-.dock-sep {
-  width: 1px;
-  height: 22px;
-  background: var(--line);
-  margin: 0 0.15rem;
-  align-self: center;
 }
 
 } /* end @layer components */

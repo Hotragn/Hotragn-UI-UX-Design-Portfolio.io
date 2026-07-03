@@ -55,11 +55,12 @@ export function HeroHeadline() {
       <Word>people</Word> <Word>can</Word> <Word>trust</Word> <Word>with</Word>{" "}
       {/* The gradient phrase reveals as one unit: Chrome will not paint an
           ancestor's background-clip:text through transformed descendants,
-          so the clip lives on the animated span itself. */}
+          so the clip lives on the animated span itself. The trailing period
+          lives inside this same word so it never renders as a stray dot on
+          its own line. */}
       <em>
-        <Word>the important stuff</Word>
+        <Word>the important stuff.</Word>
       </em>
-      <Word>.</Word>
     </h1>
   );
 }

@@ -1,12 +1,20 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
 
 /**
- * Custom cursor dot + spring-lagged ring.
- * Gated on pointer:fine and prefers-reduced-motion; the GSAP quickTo
- * tweens cost nothing while the pointer is idle.
+ * Custom cursor: an instant dot and a spring-lagged ring.
+ *
+ * Decoupled from GSAP so it stays smooth even while the hero shader or
+ * physics canvas are busy. The dot is written directly in the pointer
+ * handler (no rAF). The ring uses one minimal self-cancelling rAF that
+ * does transform writes only, with zero layout reads per frame. The loop
+ * parks itself the moment the ring catches up, so an idle page costs no
+ * frames.
+ *
+ * Gated on pointer:fine and prefers-reduced-motion (CSS also hides it on
+ * coarse pointers). If it ever feels heavy on a device the native cursor
+ * remains fully functional underneath.
  */
 export function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -22,20 +30,32 @@ export function Cursor() {
 
     document.body.classList.add("has-cursor");
 
-    // park both offscreen until the first pointer move
-    gsap.set([dot, ring], { x: -100, y: -100 });
+    let mx = -100;
+    let my = -100; // pointer target
+    let rx = -100;
+    let ry = -100; // ring current
+    let raf = 0;
 
-    const dotX = gsap.quickTo(dot, "x", { duration: 0.05, ease: "none" });
-    const dotY = gsap.quickTo(dot, "y", { duration: 0.05, ease: "none" });
-    const ringX = gsap.quickTo(ring, "x", { duration: 0.4, ease: "power3" });
-    const ringY = gsap.quickTo(ring, "y", { duration: 0.4, ease: "power3" });
+    const loop = () => {
+      // spring the ring toward the pointer; transform writes only
+      rx += (mx - rx) * 0.18;
+      ry += (my - ry) * 0.18;
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+      if (Math.abs(mx - rx) > 0.2 || Math.abs(my - ry) > 0.2) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        raf = 0;
+      }
+    };
 
     const onMove = (e: MouseEvent) => {
-      dotX(e.clientX);
-      dotY(e.clientY);
-      ringX(e.clientX);
-      ringY(e.clientY);
+      mx = e.clientX;
+      my = e.clientY;
+      // dot tracks instantly, no rAF
+      dot.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+      if (!raf) raf = requestAnimationFrame(loop);
     };
+
     const onOver = (e: MouseEvent) => {
       const target = e.target as Element | null;
       const overCase = Boolean(target?.closest?.(".work-card"));
@@ -44,11 +64,12 @@ export function Cursor() {
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
-    document.addEventListener("mouseover", onOver);
+    document.addEventListener("mouseover", onOver, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
+      if (raf) cancelAnimationFrame(raf);
       document.body.classList.remove("has-cursor");
     };
   }, []);

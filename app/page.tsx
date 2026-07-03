@@ -18,7 +18,6 @@ import { Card } from "@/components/ui/card";
 import { SkillsSection } from "@/components/skills/skills-section";
 import { AboutReveal } from "@/components/about-reveal";
 import { KineticContact } from "@/components/kinetic-contact";
-import { FisheyeDock } from "@/components/fisheye-dock";
 import { ProjectsHorizontal } from "@/components/projects-horizontal";
 import { ProjectsFx } from "@/components/projects-fx";
 
@@ -149,7 +148,7 @@ function LiveCard({ card }: { card: LiveCardData }) {
 export default function HomePage() {
   return (
     <>
-      <Header links={navLinks} showNotesToggle />
+      <Header links={navLinks} showNotesToggle spy />
 
       <main id="main">
         {/* ============ HERO ============ */}
@@ -827,7 +826,6 @@ export default function HomePage() {
         </section>
       </main>
 
-      <FisheyeDock links={navLinks} />
       <Footer variant="home" />
     </>
   );
