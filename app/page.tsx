@@ -20,8 +20,7 @@ import { AboutReveal } from "@/components/about-reveal";
 import { KineticContact } from "@/components/kinetic-contact";
 import { ProjectsFx } from "@/components/projects-fx";
 import { ProjectsHorizontal } from "@/components/projects-horizontal";
-import { SpectraDemo } from "@/components/systems/spectra-demo";
-import { CadenceDemo } from "@/components/systems/cadence-demo";
+import { Frameworks } from "@/components/systems/frameworks";
 
 export const metadata: Metadata = {
   title: "Hotragn Pettugani · UX Designer & Engineer",
@@ -662,77 +661,22 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ============ ORIGINAL SYSTEMS ============ */}
+        {/* ============ RESEARCH FRAMEWORKS ============ */}
         <section className="section" id="systems">
           <div className="wrap">
             <div className="section-head reveal">
               <div>
-                <p className="kicker">Research &amp; invention</p>
-                <h2 className="section-title">Original systems</h2>
+                <p className="kicker">Methodology</p>
+                <h2 className="section-title">Research frameworks I developed</h2>
               </div>
               <p className="section-lede">
-                Two systems I built to fix problems I kept hitting: color that is accessible by
-                construction, and type sized for how people actually read.
+                Three measurement frameworks I built by synthesizing established HCI and behavioral
+                science to close gaps that SUS, NPS, and time-on-task leave open in modern
+                interfaces.
               </p>
             </div>
 
-            <div className="systems-grid">
-              {/* Card A: Spectra */}
-              <div className="tilt-wrap reveal">
-                <article className="sys-card tilt">
-                  <span className="tilt-glare" aria-hidden="true"></span>
-                  <p className="sys-label">Perceptual color system</p>
-                  <h3 className="sys-name">Spectra</h3>
-                  <div className="sys-body">
-                    <p>
-                      <b>The problem.</b> Most palettes are picked by eye, so some role pairings
-                      quietly fail contrast and themes drift when you add a color.
-                    </p>
-                    <p>
-                      <b>The idea.</b> Spectra defines one perceptual arc in OKLCH and samples every
-                      role, surface, ink, accent, success, and focus, as a fixed lightness stop on
-                      it. Because lightness is perceptually even in OKLCH, the pairings pass WCAG AA
-                      by construction, and dark mode is the same arc re-anchored to a dark surface
-                      rather than a second hand-tuned palette.
-                    </p>
-                    <p>
-                      <b>Why it is different.</b> The palette is generated from one rule instead of
-                      assembled swatch by swatch, so it stays harmonious and accessible even as it
-                      grows.
-                    </p>
-                  </div>
-                  <SpectraDemo />
-                </article>
-              </div>
-
-              {/* Card B: Cadence */}
-              <div className="tilt-wrap reveal">
-                <article className="sys-card tilt">
-                  <span className="tilt-glare" aria-hidden="true"></span>
-                  <p className="sys-label">Reading-rhythm type scale</p>
-                  <h3 className="sys-name">Cadence</h3>
-                  <div className="sys-body">
-                    <p>
-                      <b>The problem.</b> A type scale built on a single fixed ratio looks tidy in a
-                      spec and then breaks on real screens: headings crowd small viewports and body
-                      text runs too wide to read comfortably.
-                    </p>
-                    <p>
-                      <b>The idea.</b> Cadence sizes each step to protect a target reading measure
-                      of about 66 characters and uses the font&apos;s optical-size axis so display
-                      type is tuned for large sizes and body type for small. Steps are chosen for
-                      reading rhythm and comprehension, not a blind multiplier.
-                    </p>
-                    <p>
-                      <b>Why it is different.</b> The scale is anchored to how far the eye travels
-                      per line and how type is optically drawn, so hierarchy stays legible at every
-                      breakpoint instead of only in the spec.
-                    </p>
-                  </div>
-                  <CadenceDemo />
-                </article>
-              </div>
-            </div>
+            <Frameworks />
           </div>
         </section>
 

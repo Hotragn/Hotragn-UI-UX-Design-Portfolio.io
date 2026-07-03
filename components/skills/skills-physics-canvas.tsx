@@ -91,12 +91,16 @@ function Chip({
     dragging.current = false;
     const b = body.current;
     b.setBodyType(0, true); // dynamic
-    // throw with the last drag velocity, clamped
-    const clamp = (v: number) => Math.max(-8, Math.min(8, v));
-    b.setLinvel(
-      { x: clamp(lastPointer.current.vx), y: clamp(lastPointer.current.vy), z: 0 },
-      true
-    );
+    // Throw the chip: translate the captured drag velocity into an impulse
+    // so the release has real momentum. Clamped so a hard flick cannot
+    // launch a chip off-stage or spike the solver.
+    const clamp = (v: number) => Math.max(-10, Math.min(10, v));
+    const vx = clamp(lastPointer.current.vx);
+    const vy = clamp(lastPointer.current.vy);
+    b.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    b.applyImpulse({ x: vx * 0.9, y: vy * 0.9, z: 0 }, true);
+    // a little spin from the throw direction for life
+    b.applyTorqueImpulse({ x: 0, y: 0, z: -vx * 0.04 }, true);
     idleTimer.current = 0;
   };
 

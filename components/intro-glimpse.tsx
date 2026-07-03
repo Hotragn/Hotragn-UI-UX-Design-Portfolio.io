@@ -20,6 +20,7 @@ const SESSION_KEY = "intro-seen";
  */
 export function IntroGlimpse() {
   const [active, setActive] = useState(false);
+  const [runId, setRunId] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const skipRef = useRef<HTMLButtonElement>(null);
   const dismissedRef = useRef(false);
@@ -64,14 +65,31 @@ export function IntroGlimpse() {
     try {
       seen = sessionStorage.getItem(SESSION_KEY) === "1";
     } catch {}
-    // Skip entirely for reduced motion or if already seen this session.
+    // Auto-play only once per session, and never auto-play for reduced
+    // motion. (The footer "Replay intro" control can still replay it on an
+    // explicit click, which is user-initiated.)
     if (reduced || seen) {
       try {
         sessionStorage.setItem(SESSION_KEY, "1");
       } catch {}
-      return;
+    } else {
+      setActive(true);
     }
-    setActive(true);
+
+    // Explicit replay from the footer control: re-arm and play again, even
+    // under reduced motion since the user asked for it directly. Bump a
+    // key so the overlay fully remounts and re-runs its keyframes from the
+    // start, whether or not it was currently active.
+    const onReplay = () => {
+      dismissedRef.current = false;
+      try {
+        sessionStorage.removeItem(SESSION_KEY);
+      } catch {}
+      setRunId((n) => n + 1);
+      setActive(true);
+    };
+    window.addEventListener("intro:replay", onReplay);
+    return () => window.removeEventListener("intro:replay", onReplay);
   }, []);
 
   // Play the intro. The visuals are pure CSS keyframes (started by adding
@@ -115,12 +133,14 @@ export function IntroGlimpse() {
       window.removeEventListener("wheel", onScroll);
       window.removeEventListener("touchmove", onScroll);
     };
-  }, [active, dismiss]);
+    // runId re-runs this on an explicit replay even if `active` was already true
+  }, [active, runId, dismiss]);
 
   if (!active) return null;
 
   return (
     <div
+      key={runId}
       className="intro-glimpse"
       ref={rootRef}
       role="dialog"

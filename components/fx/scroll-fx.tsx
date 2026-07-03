@@ -169,16 +169,17 @@ export function ScrollFx() {
         gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item, i) => {
           gsap.from(item, {
             opacity: 0,
-            y: 34,
-            rotation: i % 2 === 0 ? -5 : 5,
-            transformOrigin: "50% 100%",
-            duration: 0.7,
+            y: 56,
+            x: -18,
+            rotation: i % 2 === 0 ? -4 : 4,
+            transformOrigin: "0% 100%",
+            duration: 0.85,
             ease: "power3.out",
             immediateRender: false,
             clearProps: "opacity,transform",
             scrollTrigger: {
               trigger: item,
-              start: "top 85%",
+              start: "top 88%",
               toggleActions: "play none none none",
               once: true,
             },

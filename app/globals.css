@@ -321,7 +321,10 @@ a:hover { color: var(--ink); }
 }
 .theme-toggle:hover { border-color: var(--accent); color: var(--ink); transform: rotate(15deg); }
 
-/* Reading progress (case pages) */
+/* Reading progress (case pages).
+   Preferred path: native scroll-driven animation (no JS per frame).
+   Fallback: the ProgressBar component sets width from a scroll handler,
+   but only when animation-timeline: scroll() is unsupported. */
 .progress {
   position: fixed;
   top: 0; left: 0;
@@ -329,6 +332,21 @@ a:hover { color: var(--ink); }
   width: 0;
   background: var(--grad);
   z-index: 120;
+}
+@supports (animation-timeline: scroll()) {
+  .progress {
+    width: 100%;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    animation: progress-grow linear both;
+    /* scroll-linked position mapping, not autonomous motion, so it is
+       appropriate to keep under reduced motion as a scroll indicator */
+    animation-timeline: scroll(root block);
+  }
+  @keyframes progress-grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
 }
 
 /* ---------- Hero ---------- */
@@ -640,6 +658,24 @@ a:hover { color: var(--ink); }
   justify-content: space-between;
 }
 .footer-row a { color: var(--ink-soft); }
+.footer-aside {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.replay-intro {
+  font: 600 0.82rem var(--font-body);
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.replay-intro:hover { border-color: var(--accent); color: var(--ink); }
+.replay-intro:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
 /* ---------- Case study pages ---------- */
 
@@ -1874,26 +1910,27 @@ h1, h2, .contact h2 { text-wrap: balance; }
   white-space: nowrap;
 }
 
-/* ---------- Original systems section ---------- */
+/* ---------- Research frameworks section ---------- */
 
-.systems-grid {
+.frameworks-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: clamp(1.4rem, 3vw, 2.2rem);
+  align-items: stretch;
 }
-.sys-card {
+.fw-card {
   position: relative;
   display: flex;
   flex-direction: column;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: clamp(1.5rem, 3vw, 2.2rem);
+  padding: clamp(1.5rem, 3vw, 2rem);
   box-shadow: var(--shadow);
   height: 100%;
 }
-.dark .sys-card { backdrop-filter: blur(14px); border-color: rgba(255,255,255,0.12); }
-.sys-label {
+.dark .fw-card { backdrop-filter: blur(14px); border-color: rgba(255,255,255,0.12); }
+.fw-label {
   font-size: 0.72rem;
   font-weight: 680;
   letter-spacing: 0.13em;
@@ -1901,89 +1938,70 @@ h1, h2, .contact h2 { text-wrap: balance; }
   color: var(--accent-ink);
   margin: 0 0 0.4rem;
 }
-.sys-name { font-size: clamp(1.6rem, 3vw, 2.1rem); margin: 0 0 0.9rem; }
-.sys-body p { color: var(--ink-soft); font-size: 0.97rem; margin: 0 0 0.85rem; }
-.sys-body p b { color: var(--ink); }
-
-/* shared demo shell */
-.sys-demo {
-  margin-top: auto;
-  border: 1px solid var(--line);
+.fw-name { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.2; margin: 0 0 1rem; }
+.fw-heading {
+  font-size: 0.7rem;
+  font-weight: 680;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--forest);
+  margin: 1rem 0 0.35rem;
+}
+.fw-text { color: var(--ink-soft); font-size: 0.92rem; margin: 0; }
+.fw-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.fw-chip {
+  font-size: 0.74rem;
+  font-weight: 560;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  background: var(--forest-soft);
+  color: var(--forest);
+  border: 1px solid color-mix(in srgb, var(--forest) 25%, transparent);
+}
+.fw-formula {
+  margin: 0;
+  padding: 0.9rem 1rem;
   border-radius: var(--radius-sm);
-  padding: 1.1rem 1.2rem 1.3rem;
-  margin-top: 1.2rem;
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
-.sys-demo-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.9rem;
+.dark .fw-formula { background: rgba(0,0,0,0.22); }
+.fw-outcome {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 560;
 }
-.sys-demo-caption {
-  font-size: 0.72rem;
-  font-weight: 660;
-  letter-spacing: 0.1em;
+.fw-illustrative {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 680;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
-}
-
-/* Spectra demo */
-.spectra-demo { transition: background 0.3s ease, color 0.3s ease; }
-.spectra-toggle {
-  font: 600 0.74rem var(--font-body);
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 0.32rem 0.75rem;
-  cursor: pointer;
-  background: transparent;
-  border: 1.5px solid currentColor;
-  color: inherit;
-  opacity: 0.85;
+  padding: 0.1rem 0.5rem;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+  vertical-align: middle;
 }
-.spectra-toggle:hover { opacity: 1; }
-.spectra-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-.spectra-arc {
-  height: 16px;
-  border-radius: 999px;
-  margin-bottom: 1rem;
-}
-.spectra-roles { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
-.spectra-role { display: flex; align-items: center; gap: 0.7rem; }
-.spectra-swatch {
-  width: 30px; height: 30px;
-  flex: none;
-  border-radius: 8px;
-  border: 1px solid;
-}
-.spectra-role-meta { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
-.spectra-role-meta b { font-size: 0.95rem; font-family: var(--font-body); }
-.spectra-role-meta code { font-size: 0.76rem; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; opacity: 0.85; }
-.spectra-ratio { font-size: 0.74rem; opacity: 0.8; }
-
-/* Cadence demo */
-.cadence-ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
-.cadence-row { display: grid; grid-template-columns: 116px 1fr; gap: 1rem; align-items: baseline; }
-.cadence-label { display: flex; flex-direction: column; gap: 0.15rem; }
-.cadence-label b { font-size: 0.82rem; }
-.cadence-label code { font-size: 0.72rem; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; color: var(--muted); }
-.cadence-note { font-size: 0.68rem; color: var(--muted); }
-.cadence-sample { position: relative; min-width: 0; }
-.cadence-sample-text { display: block; color: var(--ink); }
-/* faint 66ch measure guide behind the body sample */
-.cadence-sample.is-measured::before {
-  content: "";
-  position: absolute;
-  top: -0.2rem; bottom: -0.2rem;
-  left: 0;
-  width: min(66ch, 100%);
-  border-left: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
-  border-right: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
-  pointer-events: none;
-  opacity: 0.5;
-}
-@media (max-width: 560px) {
-  .cadence-row { grid-template-columns: 1fr; gap: 0.3rem; }
+.fw-practice {
+  margin: 1rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
 }
 
 } /* end @layer components */
