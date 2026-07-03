@@ -19,6 +19,7 @@ import { SkillsSection } from "@/components/skills/skills-section";
 import { AboutReveal } from "@/components/about-reveal";
 import { KineticContact } from "@/components/kinetic-contact";
 import { ProjectsFx } from "@/components/projects-fx";
+import { ProjectsHorizontal } from "@/components/projects-horizontal";
 
 export const metadata: Metadata = {
   title: "Hotragn Pettugani · UX Designer & Engineer",
@@ -220,7 +221,7 @@ export default function HomePage() {
             </div>
 
             <ProjectsFx />
-            <div className="work-grid">
+            <ProjectsHorizontal>
               <div className="tilt-wrap reveal">
                 <Link className="work-card tilt" href="/work/paypal">
                   <span className="tilt-glare" aria-hidden="true"></span>
@@ -326,7 +327,7 @@ export default function HomePage() {
                   <FamilyFoundationsPoster />
                 </Link>
               </div>
-            </div>
+            </ProjectsHorizontal>
 
             {/* Live prototypes & shipped products */}
             <div className="section-head reveal" style={{ marginTop: "clamp(3rem,7vw,5rem)" }}>
