@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { NotesToggle } from "@/components/design-note";
@@ -155,9 +156,11 @@ export function Header({
           aria-label="Toggle menu"
           onClick={() => setOpen((o) => !o)}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          {open ? (
+            <X size={20} strokeWidth={2} aria-hidden="true" />
+          ) : (
+            <Menu size={20} strokeWidth={2} aria-hidden="true" />
+          )}
         </button>
 
         <motion.ul

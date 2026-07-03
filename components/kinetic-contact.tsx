@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { Button } from "@/components/ui/button";
+import { CurvedType } from "@/components/curved-type";
 
 gsap.registerPlugin(SplitText);
 
@@ -167,6 +168,7 @@ export function KineticContact() {
   return (
     <div className="wrap reveal">
       <canvas ref={canvasRef} className="contact-confetti" aria-hidden="true" />
+      <CurvedType />
       <p className="kicker" style={{ justifyContent: "center" }}>
         Let&apos;s talk
       </p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { Pencil } from "lucide-react";
 import { useDesignNotes } from "@/components/providers";
 
 /**
@@ -36,14 +37,7 @@ export function NotesToggle() {
       title="Reveal the design decisions behind this site"
       onClick={toggleNotes}
     >
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path
-          d="M11.5 1.5 14.5 4.5 5.5 13.5 2 14 2.5 10.5 11.5 1.5Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-      </svg>
+      <Pencil size={14} strokeWidth={1.6} aria-hidden="true" />
       Design notes
     </button>
   );

@@ -1,27 +1,17 @@
+/**
+ * Shared icon wrappers over Lucide, so the whole site draws from one
+ * consistent icon set. Named imports only, so bundling stays per-icon.
+ * All decorative (aria-hidden); the link text carries the meaning.
+ *
+ *  ArrowRight    -> inline "read more" arrows
+ *  ExternalArrow -> outbound / new-tab links (ArrowUpRight)
+ */
+import { ArrowRight as LucideArrowRight, ArrowUpRight } from "lucide-react";
+
 export function ArrowRight({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M3 8h10m0 0-4-4m4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  return <LucideArrowRight size={size} strokeWidth={1.8} aria-hidden="true" />;
 }
 
 export function ExternalArrow({ size = 15 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden="true">
-      <path
-        d="M6 3h7v7M13 3 3 13"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+  return <ArrowUpRight size={size} strokeWidth={1.8} aria-hidden="true" />;
 }

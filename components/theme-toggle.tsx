@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 
 /**
  * Dark/light mode toggle. The initial class is applied by an inline
@@ -33,26 +34,9 @@ export function ThemeToggle() {
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       {isDark ? (
-        /* sun */
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <circle cx="8" cy="8" r="3.2" stroke="currentColor" strokeWidth="1.5" />
-          <path
-            d="M8 1v1.8M8 13.2V15M15 8h-1.8M2.8 8H1M12.95 3.05l-1.27 1.27M4.32 11.68l-1.27 1.27M12.95 12.95l-1.27-1.27M4.32 4.32 3.05 3.05"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
+        <Sun size={16} strokeWidth={1.6} aria-hidden="true" />
       ) : (
-        /* moon */
-        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <Moon size={16} strokeWidth={1.6} aria-hidden="true" />
       )}
     </button>
   );
