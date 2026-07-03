@@ -5,13 +5,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 const SESSION_KEY = "intro-seen";
 
 /**
- * First-load intro glimpse: the wordmark draws in with the brand gradient,
- * a quick fan of poster silhouettes flashes, then a gradient curtain wipes
- * up to reveal the hero. Shown ONCE per session, skipped entirely under
- * reduced motion. Fully skippable (Skip button, Esc, any key, scroll, or
- * click). The overlay is decorative (aria-hidden) with a single labeled,
- * focusable Skip control; the real prerendered content stays in the DOM
- * beneath it, so SEO/LCP and a11y are unaffected.
+ * First-load intro: a short cinematic title sequence on the modern
+ * "Spectra" palette (scoped locally, it does not touch the global theme).
+ *  Beat 1: a thin perceptual-gradient line draws across a dark surface.
+ *  Beat 2: the line blooms into the "Hotragn Pettugani" wordmark with the
+ *          Spectra gradient fill, and a tagline fades in under it.
+ *  Beat 3: a quick fan of poster silhouettes, then the gradient curtain
+ *          wipes up to reveal the hero.
+ * Shown ONCE per session, skipped entirely under reduced motion, fully
+ * skippable (focusable Skip button, Esc, any key, pointerdown, scroll).
+ * The overlay is pointer-events:none except the Skip button and does not
+ * trap focus; the real prerendered content stays in the DOM beneath, so
+ * SEO/LCP and a11y are unaffected.
  */
 export function IntroGlimpse() {
   const [active, setActive] = useState(false);
@@ -83,8 +88,9 @@ export function IntroGlimpse() {
     // trigger the CSS keyframes
     requestAnimationFrame(() => root.classList.add("is-playing"));
 
-    // hard guarantee: dismiss after the intro's run length no matter what
-    const autoTimer = window.setTimeout(dismiss, 2200);
+    // hard guarantee: dismiss after the sequence completes (curtain wipe
+    // finishes near 2.3s), no matter what
+    const autoTimer = window.setTimeout(dismiss, 2400);
 
     // Dismiss on the first real interaction. The overlay is
     // pointer-events:none, so these fire from interactions with the page
@@ -121,18 +127,21 @@ export function IntroGlimpse() {
       aria-label="Intro animation"
     >
       <div className="intro-stage" aria-hidden="true">
+        {/* Beat 1: perceptual-gradient line draws across the center */}
+        <span className="intro-line" />
+        {/* Beat 2: wordmark blooms with the Spectra gradient fill */}
         <svg
           className="intro-wordmark"
-          viewBox="0 0 520 90"
+          viewBox="0 0 560 90"
           xmlns="http://www.w3.org/2000/svg"
           role="img"
           aria-label="Hotragn Pettugani"
         >
           <defs>
             <linearGradient id="intro-grad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="var(--accent)" />
-              <stop offset="0.52" stopColor="var(--plum)" />
-              <stop offset="1" stopColor="var(--iris)" />
+              <stop offset="0" stopColor="var(--spectra-a)" />
+              <stop offset="0.5" stopColor="var(--spectra-b)" />
+              <stop offset="1" stopColor="var(--spectra-c)" />
             </linearGradient>
           </defs>
           <text
@@ -144,6 +153,8 @@ export function IntroGlimpse() {
             Hotragn Pettugani
           </text>
         </svg>
+        <p className="intro-tagline">I design software people can trust.</p>
+        {/* Beat 3: quick poster-silhouette glimpse */}
         <div className="intro-posters" aria-hidden="true">
           <span className="intro-poster" />
           <span className="intro-poster" />

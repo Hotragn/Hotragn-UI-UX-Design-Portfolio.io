@@ -157,22 +157,31 @@ export function ScrollFx() {
           }
         );
 
-        // Story beats: each entry rotates and slides in from the spine, one
-        // at a time as it enters. Animated FROM the hidden state with
-        // immediateRender:false + clearProps, so the natural fully-visible,
-        // unclipped state is the default and nothing can get stuck hidden.
-        gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item) => {
+        // Story beats: each entry slides up and fades in with a small
+        // rotate settle as it enters the viewport, reading as a clear
+        // sequence. One ScrollTrigger PER item (start "top 85%", once,
+        // toggleActions play-none-none-none) so it fires independently and
+        // never depends on a shared batch. Animated FROM the hidden state
+        // with immediateRender:false + clearProps, so every entry ends at
+        // opacity 1 with no transform or clip and nothing is left hidden.
+        // The timeline items no longer carry the generic .reveal class, so
+        // this is the only tween that touches them (no competing batch).
+        gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item, i) => {
           gsap.from(item, {
             opacity: 0,
-            x: -36,
-            rotationY: 12,
-            transformOrigin: "0% 50%",
-            transformPerspective: 900,
-            duration: 0.75,
+            y: 34,
+            rotation: i % 2 === 0 ? -5 : 5,
+            transformOrigin: "50% 100%",
+            duration: 0.7,
             ease: "power3.out",
             immediateRender: false,
             clearProps: "opacity,transform",
-            scrollTrigger: { trigger: item, start: "top 82%", once: true },
+            scrollTrigger: {
+              trigger: item,
+              start: "top 85%",
+              toggleActions: "play none none none",
+              once: true,
+            },
           });
         });
       }
@@ -256,6 +265,26 @@ export function ScrollFx() {
           }
         );
       });
+
+      // Now that every trigger exists, recompute positions so items that
+      // are already in view on load evaluate correctly.
+      ScrollTrigger.refresh();
+
+      // Global safety net: any element we animate FROM a hidden state must
+      // never be left invisible. After layout settles, force-clear anything
+      // still at ~0 opacity. Covers the groups that do not carry the
+      // generic .reveal class (timeline items, process steps, etc.).
+      const guarded = gsap.utils.toArray<HTMLElement>(
+        ".timeline-item, .process-step, .cards-3 .mini-card, .pub-list li"
+      );
+      const guardTimer = window.setTimeout(() => {
+        guarded.forEach((el) => {
+          if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
+            gsap.set(el, { clearProps: "opacity,transform" });
+          }
+        });
+      }, 3000);
+      cleanups.push(() => window.clearTimeout(guardTimer));
 
       return () => cleanups.forEach((fn) => fn());
     });

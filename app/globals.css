@@ -1874,6 +1874,118 @@ h1, h2, .contact h2 { text-wrap: balance; }
   white-space: nowrap;
 }
 
+/* ---------- Original systems section ---------- */
+
+.systems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: clamp(1.4rem, 3vw, 2.2rem);
+}
+.sys-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 3vw, 2.2rem);
+  box-shadow: var(--shadow);
+  height: 100%;
+}
+.dark .sys-card { backdrop-filter: blur(14px); border-color: rgba(255,255,255,0.12); }
+.sys-label {
+  font-size: 0.72rem;
+  font-weight: 680;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+  margin: 0 0 0.4rem;
+}
+.sys-name { font-size: clamp(1.6rem, 3vw, 2.1rem); margin: 0 0 0.9rem; }
+.sys-body p { color: var(--ink-soft); font-size: 0.97rem; margin: 0 0 0.85rem; }
+.sys-body p b { color: var(--ink); }
+
+/* shared demo shell */
+.sys-demo {
+  margin-top: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.2rem 1.3rem;
+  margin-top: 1.2rem;
+}
+.sys-demo-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+.sys-demo-caption {
+  font-size: 0.72rem;
+  font-weight: 660;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Spectra demo */
+.spectra-demo { transition: background 0.3s ease, color 0.3s ease; }
+.spectra-toggle {
+  font: 600 0.74rem var(--font-body);
+  border-radius: 999px;
+  padding: 0.32rem 0.75rem;
+  cursor: pointer;
+  background: transparent;
+  border: 1.5px solid currentColor;
+  color: inherit;
+  opacity: 0.85;
+}
+.spectra-toggle:hover { opacity: 1; }
+.spectra-toggle:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.spectra-arc {
+  height: 16px;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+.spectra-roles { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+.spectra-role { display: flex; align-items: center; gap: 0.7rem; }
+.spectra-swatch {
+  width: 30px; height: 30px;
+  flex: none;
+  border-radius: 8px;
+  border: 1px solid;
+}
+.spectra-role-meta { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.spectra-role-meta b { font-size: 0.95rem; font-family: var(--font-body); }
+.spectra-role-meta code { font-size: 0.76rem; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; opacity: 0.85; }
+.spectra-ratio { font-size: 0.74rem; opacity: 0.8; }
+
+/* Cadence demo */
+.cadence-ladder { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
+.cadence-row { display: grid; grid-template-columns: 116px 1fr; gap: 1rem; align-items: baseline; }
+.cadence-label { display: flex; flex-direction: column; gap: 0.15rem; }
+.cadence-label b { font-size: 0.82rem; }
+.cadence-label code { font-size: 0.72rem; font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; color: var(--muted); }
+.cadence-note { font-size: 0.68rem; color: var(--muted); }
+.cadence-sample { position: relative; min-width: 0; }
+.cadence-sample-text { display: block; color: var(--ink); }
+/* faint 66ch measure guide behind the body sample */
+.cadence-sample.is-measured::before {
+  content: "";
+  position: absolute;
+  top: -0.2rem; bottom: -0.2rem;
+  left: 0;
+  width: min(66ch, 100%);
+  border-left: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  border-right: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+  pointer-events: none;
+  opacity: 0.5;
+}
+@media (max-width: 560px) {
+  .cadence-row { grid-template-columns: 1fr; gap: 0.3rem; }
+}
+
 } /* end @layer components */
 
 /* ==========================================================================
@@ -1883,12 +1995,18 @@ h1, h2, .contact h2 { text-wrap: balance; }
    ========================================================================== */
 
 .intro-glimpse {
+  /* Spectra palette scoped locally to the intro only */
+  --spectra-a: oklch(0.70 0.19 30);
+  --spectra-b: oklch(0.63 0.24 350);
+  --spectra-c: oklch(0.58 0.20 282);
+  --spectra-line: linear-gradient(90deg, var(--spectra-a), var(--spectra-b) 50%, var(--spectra-c));
+  --spectra-surface: #141322;
   position: fixed;
   inset: 0;
   z-index: 300;
   display: grid;
   place-items: center;
-  background: var(--paper);
+  background: var(--spectra-surface);
   overflow: hidden;
   opacity: 1;
   transition: opacity 0.38s ease;
@@ -1904,87 +2022,135 @@ h1, h2, .contact h2 { text-wrap: balance; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(1.4rem, 4vw, 2.6rem);
+  gap: clamp(1rem, 3vw, 1.8rem);
   padding: 1.5rem;
-  width: min(92vw, 640px);
+  width: min(92vw, 680px);
 }
+
+/* Beat 1: a thin perceptual-gradient line draws across the center */
+.intro-line {
+  width: min(80%, 520px);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--spectra-line);
+  transform: scaleX(0);
+  transform-origin: 50% 50%;
+  opacity: 0.95;
+}
+.intro-glimpse.is-playing .intro-line {
+  animation: intro-line 0.85s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+@keyframes intro-line {
+  0% { transform: scaleX(0); }
+  55% { transform: scaleX(1); }
+  /* the line thins away as the wordmark blooms */
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+/* Beat 2: wordmark blooms with the Spectra gradient fill + tagline */
 .intro-wordmark {
   width: 100%;
   height: auto;
   overflow: visible;
   opacity: 0;
-  clip-path: inset(0 100% 0 0);
+  transform: scale(0.96);
 }
 .intro-glimpse.is-playing .intro-wordmark {
-  animation: intro-wordmark 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: intro-wordmark 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.7s;
 }
 @keyframes intro-wordmark {
-  from { opacity: 0; clip-path: inset(0 100% 0 0); }
-  to { opacity: 1; clip-path: inset(0 0% 0 0); }
+  from { opacity: 0; transform: scale(0.96); filter: blur(6px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
 }
+.intro-tagline {
+  margin: 0;
+  font: 500 clamp(0.95rem, 1.6vw, 1.15rem) var(--font-body);
+  letter-spacing: 0.01em;
+  color: #d9d5ea; /* light on the dark Spectra surface, AA */
+  opacity: 0;
+}
+.intro-glimpse.is-playing .intro-tagline {
+  animation: intro-fade-up 0.55s ease forwards;
+  animation-delay: 1.05s;
+}
+@keyframes intro-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Beat 3: quick poster-silhouette glimpse */
 .intro-posters {
   display: flex;
   justify-content: center;
   gap: 0.9rem;
+  margin-top: 0.4rem;
 }
 .intro-poster {
-  width: clamp(46px, 9vw, 74px);
+  width: clamp(40px, 8vw, 64px);
   aspect-ratio: 3 / 4;
   border-radius: 10px;
-  background: var(--grad);
+  background: var(--spectra-line);
   opacity: 0;
   transform: translateY(30%);
-  box-shadow: var(--shadow-lift);
+  box-shadow: 0 12px 30px -14px rgba(0, 0, 0, 0.6);
   transform-origin: bottom center;
 }
-.intro-poster:nth-child(2) { background: linear-gradient(150deg, var(--plum), var(--iris)); }
-.intro-poster:nth-child(3) { background: linear-gradient(150deg, var(--iris), var(--accent)); }
-.intro-poster:nth-child(4) { background: linear-gradient(150deg, var(--gold), var(--accent)); }
+.intro-poster:nth-child(2) { background: linear-gradient(150deg, var(--spectra-b), var(--spectra-c)); }
+.intro-poster:nth-child(3) { background: linear-gradient(150deg, var(--spectra-c), var(--spectra-a)); }
+.intro-poster:nth-child(4) { background: linear-gradient(150deg, var(--spectra-a), var(--spectra-b)); }
 .intro-glimpse.is-playing .intro-poster {
   animation: intro-poster 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
-.intro-glimpse.is-playing .intro-poster:nth-child(1) { animation-delay: 0.55s; }
-.intro-glimpse.is-playing .intro-poster:nth-child(2) { animation-delay: 0.62s; }
-.intro-glimpse.is-playing .intro-poster:nth-child(3) { animation-delay: 0.69s; }
-.intro-glimpse.is-playing .intro-poster:nth-child(4) { animation-delay: 0.76s; }
+.intro-glimpse.is-playing .intro-poster:nth-child(1) { animation-delay: 1.5s; }
+.intro-glimpse.is-playing .intro-poster:nth-child(2) { animation-delay: 1.57s; }
+.intro-glimpse.is-playing .intro-poster:nth-child(3) { animation-delay: 1.64s; }
+.intro-glimpse.is-playing .intro-poster:nth-child(4) { animation-delay: 1.71s; }
 @keyframes intro-poster {
   from { opacity: 0; transform: translateY(30%); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Beat 3 end: the gradient curtain wipes up to reveal the hero */
 .intro-curtain {
   position: absolute;
   inset: 0;
-  background: var(--grad);
-  transform: translateY(104%); /* starts below; wipes up at the end */
+  background: var(--spectra-line);
+  transform: translateY(104%);
   z-index: 2;
 }
 .intro-glimpse.is-playing .intro-curtain {
-  animation: intro-curtain 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-  animation-delay: 1.5s;
+  animation: intro-curtain 0.55s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation-delay: 1.75s;
 }
 @keyframes intro-curtain {
   from { transform: translateY(104%); }
-  40% { transform: translateY(0); }
+  45% { transform: translateY(0); }
   to { transform: translateY(-104%); }
 }
+
 @media (prefers-reduced-motion: reduce) {
+  .intro-glimpse.is-playing .intro-line,
   .intro-glimpse.is-playing .intro-wordmark,
+  .intro-glimpse.is-playing .intro-tagline,
   .intro-glimpse.is-playing .intro-poster,
   .intro-glimpse.is-playing .intro-curtain { animation: none; }
 }
+
+/* Skip control: light pill with dark text, high contrast on the dark
+   Spectra surface in both site themes */
 .intro-skip {
   position: fixed;
   bottom: 1.4rem;
   right: 1.4rem;
   z-index: 4;
   font: 600 0.85rem var(--font-body);
-  color: var(--paper);
-  background: var(--ink);
-  border: 1px solid var(--ink);
+  color: #141322;
+  background: #f3f1fb;
+  border: 1px solid #f3f1fb;
   border-radius: 999px;
   padding: 0.55rem 1.2rem;
   cursor: pointer;
 }
-.intro-skip:hover { background: var(--accent-ink); }
-.dark .intro-skip:hover { color: var(--dark); }
-.intro-skip:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.intro-skip:hover { background: #fff; }
+.intro-skip:focus-visible { outline: 3px solid #f3f1fb; outline-offset: 3px; }

@@ -20,6 +20,8 @@ import { AboutReveal } from "@/components/about-reveal";
 import { KineticContact } from "@/components/kinetic-contact";
 import { ProjectsFx } from "@/components/projects-fx";
 import { ProjectsHorizontal } from "@/components/projects-horizontal";
+import { SpectraDemo } from "@/components/systems/spectra-demo";
+import { CadenceDemo } from "@/components/systems/cadence-demo";
 
 export const metadata: Metadata = {
   title: "Hotragn Pettugani · UX Designer & Engineer",
@@ -411,7 +413,7 @@ export default function HomePage() {
                     <i></i>
                   </span>
                 </span>
-                <div className="timeline-item reveal">
+                <div className="timeline-item">
                   <span className="timeline-when">Jan 2025 to May 2026</span>
                   <h3>Teaching Assistant, Understanding Design</h3>
                   <p className="timeline-org">Northeastern University</p>
@@ -425,7 +427,7 @@ export default function HomePage() {
                     <Badge as="li">Critique</Badge>
                   </ul>
                 </div>
-                <div className="timeline-item reveal">
+                <div className="timeline-item">
                   <span className="timeline-when">Sep 2024 to May 2025</span>
                   <h3>Graduate Research Assistant</h3>
                   <p className="timeline-org">Northeastern University</p>
@@ -440,7 +442,7 @@ export default function HomePage() {
                     <Badge as="li">Algorithms</Badge>
                   </ul>
                 </div>
-                <div className="timeline-item reveal">
+                <div className="timeline-item">
                   <span className="timeline-when">Jan 2024 to May 2024</span>
                   <h3>Project Management Intern</h3>
                   <p className="timeline-org">
@@ -464,7 +466,7 @@ export default function HomePage() {
                     <Badge as="li">Analytics</Badge>
                   </ul>
                 </div>
-                <div className="timeline-item reveal">
+                <div className="timeline-item">
                   <span className="timeline-when">Jan 2024 to May 2024</span>
                   <h3>UI/UX Design Fellow</h3>
                   <p className="timeline-org">
@@ -485,7 +487,7 @@ export default function HomePage() {
                     <Badge as="li">Hi-fi prototyping</Badge>
                   </ul>
                 </div>
-                <div className="timeline-item reveal">
+                <div className="timeline-item">
                   <span className="timeline-when">Feb 2023 to Jul 2023</span>
                   <h3>Research Intern</h3>
                   <p className="timeline-org">AppsTek Corp</p>
@@ -656,6 +658,80 @@ export default function HomePage() {
                   <ArrowRight />
                 </a>
               </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ ORIGINAL SYSTEMS ============ */}
+        <section className="section" id="systems">
+          <div className="wrap">
+            <div className="section-head reveal">
+              <div>
+                <p className="kicker">Research &amp; invention</p>
+                <h2 className="section-title">Original systems</h2>
+              </div>
+              <p className="section-lede">
+                Two systems I built to fix problems I kept hitting: color that is accessible by
+                construction, and type sized for how people actually read.
+              </p>
+            </div>
+
+            <div className="systems-grid">
+              {/* Card A: Spectra */}
+              <div className="tilt-wrap reveal">
+                <article className="sys-card tilt">
+                  <span className="tilt-glare" aria-hidden="true"></span>
+                  <p className="sys-label">Perceptual color system</p>
+                  <h3 className="sys-name">Spectra</h3>
+                  <div className="sys-body">
+                    <p>
+                      <b>The problem.</b> Most palettes are picked by eye, so some role pairings
+                      quietly fail contrast and themes drift when you add a color.
+                    </p>
+                    <p>
+                      <b>The idea.</b> Spectra defines one perceptual arc in OKLCH and samples every
+                      role, surface, ink, accent, success, and focus, as a fixed lightness stop on
+                      it. Because lightness is perceptually even in OKLCH, the pairings pass WCAG AA
+                      by construction, and dark mode is the same arc re-anchored to a dark surface
+                      rather than a second hand-tuned palette.
+                    </p>
+                    <p>
+                      <b>Why it is different.</b> The palette is generated from one rule instead of
+                      assembled swatch by swatch, so it stays harmonious and accessible even as it
+                      grows.
+                    </p>
+                  </div>
+                  <SpectraDemo />
+                </article>
+              </div>
+
+              {/* Card B: Cadence */}
+              <div className="tilt-wrap reveal">
+                <article className="sys-card tilt">
+                  <span className="tilt-glare" aria-hidden="true"></span>
+                  <p className="sys-label">Reading-rhythm type scale</p>
+                  <h3 className="sys-name">Cadence</h3>
+                  <div className="sys-body">
+                    <p>
+                      <b>The problem.</b> A type scale built on a single fixed ratio looks tidy in a
+                      spec and then breaks on real screens: headings crowd small viewports and body
+                      text runs too wide to read comfortably.
+                    </p>
+                    <p>
+                      <b>The idea.</b> Cadence sizes each step to protect a target reading measure
+                      of about 66 characters and uses the font&apos;s optical-size axis so display
+                      type is tuned for large sizes and body type for small. Steps are chosen for
+                      reading rhythm and comprehension, not a blind multiplier.
+                    </p>
+                    <p>
+                      <b>Why it is different.</b> The scale is anchored to how far the eye travels
+                      per line and how type is optically drawn, so hierarchy stays legible at every
+                      breakpoint instead of only in the spec.
+                    </p>
+                  </div>
+                  <CadenceDemo />
+                </article>
+              </div>
             </div>
           </div>
         </section>
