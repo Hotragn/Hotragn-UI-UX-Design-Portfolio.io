@@ -399,6 +399,18 @@ export default function HomePage() {
             </div>
             <div className="xp-grid">
               <div className="timeline">
+                {/* Low-poly marker (CSS 3D, no WebGL) that rides down the
+                    spine as a scroll-progress guide. Decorative only. */}
+                <span className="tl-marker" aria-hidden="true">
+                  <span className="tl-orb">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                  </span>
+                </span>
                 <div className="timeline-item reveal">
                   <span className="timeline-when">Jan 2025 to May 2026</span>
                   <h3>Teaching Assistant, Understanding Design</h3>

@@ -134,58 +134,78 @@ export function ScrollFx() {
         cleanups.push(() => window.clearTimeout(safety));
       }
 
-      // Experience timeline: vertical line draw-in
+      // Experience timeline: the spine draws down and a low-poly marker
+      // (CSS 3D, no WebGL) rides down it as a scroll-progress guide, while
+      // each entry unveils in sequence like a story beat.
       const timeline = document.querySelector<HTMLElement>(".timeline");
       if (timeline) {
+        // Spine draw + marker travel share one scrubbed progress so the
+        // marker sits at the leading edge of the drawn line.
         gsap.fromTo(
           timeline,
-          { "--tl-draw": 0 },
+          { "--tl-draw": 0, "--tl-marker": 0 },
           {
             "--tl-draw": 1,
+            "--tl-marker": 1,
             ease: "none",
             scrollTrigger: {
               trigger: timeline,
-              start: "top 80%",
-              end: "bottom 60%",
+              start: "top 78%",
+              end: "bottom 65%",
               scrub: 0.6,
             },
           }
         );
 
-        // Experience items: a soft slide-and-fade as each enters. We animate
-        // FROM a hidden state with immediateRender:false so the natural,
-        // fully-visible state is the default: if the trigger never fires
-        // (reduced motion is handled above, but also odd layouts, refresh
-        // mid-page, or a missed trigger) the text is always readable and
-        // never clipped. clearProps wipes any transform when done.
+        // Story beats: each entry rotates and slides in from the spine, one
+        // at a time as it enters. Animated FROM the hidden state with
+        // immediateRender:false + clearProps, so the natural fully-visible,
+        // unclipped state is the default and nothing can get stuck hidden.
         gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item) => {
           gsap.from(item, {
             opacity: 0,
-            x: -24,
-            duration: 0.7,
+            x: -36,
+            rotationY: 12,
+            transformOrigin: "0% 50%",
+            transformPerspective: 900,
+            duration: 0.75,
             ease: "power3.out",
             immediateRender: false,
             clearProps: "opacity,transform",
-            scrollTrigger: { trigger: item, start: "top 85%", once: true },
+            scrollTrigger: { trigger: item, start: "top 82%", once: true },
           });
         });
       }
 
-      // Process (dark band): steps assemble with a subtle 3D rotateY flip.
+      // Process (dark band): the five steps deal out of a held deck.
+      // They start stacked and overlapped, then fan into their row as the
+      // section enters. Animating FROM the stacked state with
+      // immediateRender:false keeps the dealt (natural grid) layout as the
+      // default, so if the trigger never fires the cards are readable and
+      // in place. clearProps wipes the deck transforms when done.
       const processSteps = gsap.utils.toArray<HTMLElement>(".process-step");
       if (processSteps.length) {
-        gsap.from(processSteps, {
-          rotationY: -28,
-          transformPerspective: 800,
-          transformOrigin: "50% 50%",
-          opacity: 0,
-          y: 20,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.08,
-          immediateRender: false,
-          clearProps: "transform,opacity",
-          scrollTrigger: { trigger: ".process-grid", start: "top 80%", once: true },
+        const n = processSteps.length;
+        const grid = document.querySelector<HTMLElement>(".process-grid");
+        processSteps.forEach((step, i) => {
+          // offset from center so the deck sits mid-row before dealing
+          const fromCenter = i - (n - 1) / 2;
+          gsap.from(step, {
+            // slide each card back toward the center of the row (the "hand")
+            xPercent: -fromCenter * 96,
+            y: 26,
+            rotation: fromCenter * -5,
+            scale: 0.94,
+            opacity: 0,
+            transformOrigin: "50% 100%",
+            transformPerspective: 900,
+            duration: 0.7,
+            ease: "power3.out",
+            delay: i * 0.09,
+            immediateRender: false,
+            clearProps: "transform,opacity",
+            scrollTrigger: { trigger: grid ?? step, start: "top 80%", once: true },
+          });
         });
       }
 

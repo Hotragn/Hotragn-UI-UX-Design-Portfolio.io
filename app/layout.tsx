@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Cursor } from "@/components/fx/cursor";
 import { PointerFx } from "@/components/fx/pointer-fx";
+import { IntroGlimpse } from "@/components/intro-glimpse";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <Providers>
           <a className="skip-link" href="#main">Skip to content</a>
+          <IntroGlimpse />
           <Cursor />
           <PointerFx />
           {children}

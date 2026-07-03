@@ -535,6 +535,7 @@ a:hover { color: var(--ink); }
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.2rem;
   counter-reset: step;
+  perspective: 1200px; /* gives the deck deal a little physical depth */
 }
 .process-step {
   background: var(--dark-2);
@@ -542,9 +543,18 @@ a:hover { color: var(--ink); }
   border-radius: var(--radius);
   padding: 1.6rem 1.4rem;
   counter-increment: step;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.process-step:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--iris) 55%, transparent); }
+/* Hover: the card lifts and squares up (zero any residual deck rotation) */
+.process-step:hover {
+  transform: translateY(-6px) rotate(0deg) scale(1.015);
+  border-color: color-mix(in srgb, var(--iris) 55%, transparent);
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .process-step:hover { transform: none; }
+}
 .process-step::before {
   content: "0" counter(step);
   font-family: var(--font-display);
@@ -1206,6 +1216,51 @@ h1, h2, .contact h2 { text-wrap: balance; }
   transform: scaleY(var(--tl-draw, 1));
   transform-origin: top;
 }
+/* Low-poly scroll marker riding the spine (CSS 3D, no WebGL).
+   Positioned along the same rail as the spine via --tl-marker (0..1),
+   which ScrollFx scrubs. Hidden entirely for reduced motion. */
+.tl-marker {
+  position: absolute;
+  left: 9px;
+  top: calc(6px + var(--tl-marker, 0) * (100% - 12px));
+  width: 22px; height: 22px;
+  margin-left: -11px;
+  translate: 1px 0;
+  pointer-events: none;
+  z-index: 3;
+  perspective: 120px;
+}
+.tl-orb {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: tl-orb-spin 6s linear infinite;
+  filter: drop-shadow(0 3px 6px rgba(30, 27, 22, 0.28));
+}
+.tl-orb i {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 15px; height: 15px;
+  background: var(--grad);
+  border: 1px solid color-mix(in srgb, #fff 35%, transparent);
+  clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%); /* pentagon facet */
+  opacity: 0.92;
+}
+.tl-orb i:nth-child(1) { transform: rotateY(0deg) translateZ(7px); }
+.tl-orb i:nth-child(2) { transform: rotateY(72deg) translateZ(7px); }
+.tl-orb i:nth-child(3) { transform: rotateY(144deg) translateZ(7px); }
+.tl-orb i:nth-child(4) { transform: rotateY(216deg) translateZ(7px); }
+.tl-orb i:nth-child(5) { transform: rotateY(288deg) translateZ(7px); filter: brightness(1.1); }
+.tl-orb i:nth-child(6) { transform: rotateX(90deg) translateZ(7px); opacity: 0.7; }
+@keyframes tl-orb-spin {
+  from { transform: rotateY(0deg) rotateX(12deg); }
+  to { transform: rotateY(360deg) rotateX(12deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tl-marker { display: none; }
+}
+
 .timeline-item { position: relative; padding-bottom: 2.6rem; }
 .timeline-item:last-child { padding-bottom: 0; }
 .timeline-item::before {
@@ -1820,3 +1875,116 @@ h1, h2, .contact h2 { text-wrap: balance; }
 }
 
 } /* end @layer components */
+
+/* ==========================================================================
+   Intro glimpse overlay (first load, once per session, unlayered so it
+   reliably sits above everything). Opaque paper/aubergine background gives
+   the Skip button a high-contrast surface for the a11y audit.
+   ========================================================================== */
+
+.intro-glimpse {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.38s ease;
+  /* The overlay never traps interaction: clicks, taps and automated
+     tooling pass straight through to the page beneath, and any such
+     interaction dismisses the intro. Only the Skip button is clickable
+     on the overlay itself. */
+  pointer-events: none;
+}
+.intro-skip { pointer-events: auto; }
+.intro-glimpse.is-leaving { opacity: 0; }
+.intro-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.4rem, 4vw, 2.6rem);
+  padding: 1.5rem;
+  width: min(92vw, 640px);
+}
+.intro-wordmark {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+}
+.intro-glimpse.is-playing .intro-wordmark {
+  animation: intro-wordmark 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+@keyframes intro-wordmark {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0 0% 0 0); }
+}
+.intro-posters {
+  display: flex;
+  justify-content: center;
+  gap: 0.9rem;
+}
+.intro-poster {
+  width: clamp(46px, 9vw, 74px);
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  background: var(--grad);
+  opacity: 0;
+  transform: translateY(30%);
+  box-shadow: var(--shadow-lift);
+  transform-origin: bottom center;
+}
+.intro-poster:nth-child(2) { background: linear-gradient(150deg, var(--plum), var(--iris)); }
+.intro-poster:nth-child(3) { background: linear-gradient(150deg, var(--iris), var(--accent)); }
+.intro-poster:nth-child(4) { background: linear-gradient(150deg, var(--gold), var(--accent)); }
+.intro-glimpse.is-playing .intro-poster {
+  animation: intro-poster 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.intro-glimpse.is-playing .intro-poster:nth-child(1) { animation-delay: 0.55s; }
+.intro-glimpse.is-playing .intro-poster:nth-child(2) { animation-delay: 0.62s; }
+.intro-glimpse.is-playing .intro-poster:nth-child(3) { animation-delay: 0.69s; }
+.intro-glimpse.is-playing .intro-poster:nth-child(4) { animation-delay: 0.76s; }
+@keyframes intro-poster {
+  from { opacity: 0; transform: translateY(30%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.intro-curtain {
+  position: absolute;
+  inset: 0;
+  background: var(--grad);
+  transform: translateY(104%); /* starts below; wipes up at the end */
+  z-index: 2;
+}
+.intro-glimpse.is-playing .intro-curtain {
+  animation: intro-curtain 0.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation-delay: 1.5s;
+}
+@keyframes intro-curtain {
+  from { transform: translateY(104%); }
+  40% { transform: translateY(0); }
+  to { transform: translateY(-104%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-glimpse.is-playing .intro-wordmark,
+  .intro-glimpse.is-playing .intro-poster,
+  .intro-glimpse.is-playing .intro-curtain { animation: none; }
+}
+.intro-skip {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  z-index: 4;
+  font: 600 0.85rem var(--font-body);
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.55rem 1.2rem;
+  cursor: pointer;
+}
+.intro-skip:hover { background: var(--accent-ink); }
+.dark .intro-skip:hover { color: var(--dark); }
+.intro-skip:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
