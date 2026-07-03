@@ -18,24 +18,23 @@ import { Card } from "@/components/ui/card";
 import { SkillsSection } from "@/components/skills/skills-section";
 import { AboutReveal } from "@/components/about-reveal";
 import { KineticContact } from "@/components/kinetic-contact";
-import { ProjectsHorizontal } from "@/components/projects-horizontal";
 import { ProjectsFx } from "@/components/projects-fx";
 
 export const metadata: Metadata = {
-  title: "Hotragn Pettugani — UX Designer & Engineer",
+  title: "Hotragn Pettugani · UX Designer & Engineer",
   description:
     "Portfolio of Hotragn Pettugani, a UX designer and engineer who researches real workflows, maps information architecture, designs forgiving flows, and ships the result in code.",
   alternates: { canonical: "https://hotragnpettugani-design.vercel.app/" },
   openGraph: {
     type: "website",
-    title: "Hotragn Pettugani — UX Designer & Engineer",
+    title: "Hotragn Pettugani · UX Designer & Engineer",
     description:
       "Case studies with real research, playable prototypes, and shipped products. I design forgiving flows and build what I design.",
     url: "/",
   },
   twitter: {
     card: "summary",
-    title: "Hotragn Pettugani — UX Designer & Engineer",
+    title: "Hotragn Pettugani · UX Designer & Engineer",
     description: "Case studies with real research, playable prototypes, and shipped products.",
   },
 };
@@ -75,14 +74,14 @@ const liveCards: LiveCardData[] = [
     href: "https://huskybot.vercel.app/",
     type: "Shipped · Next.js",
     title: "HuskyBot",
-    desc: "Full-stack web app I designed and built at HeadStarter: Material UI, Firebase auth, real-time analytics. Engagement rose 30% after launch.",
+    desc: "A full-stack app I designed and shipped end to end: Material UI, Firebase auth, and real-time analytics, tuned to a 95/100 accessibility score.",
     cta: "Open the app",
   },
   {
     href: "https://quibate.webflow.io/",
     type: "Shipped · Webflow",
     title: "Quibate: Master Debates",
-    desc: "Designed at Foruppo while leading a cross-functional team: usability testing, personas, and hi-fi prototyping carried into a live Webflow build.",
+    desc: "Designed as a UI/UX design fellow at Foruppo: usability testing, personas, and hi-fi prototyping carried into a live Webflow build.",
     cta: "Open the site",
   },
   {
@@ -220,14 +219,13 @@ export default function HomePage() {
               </p>
             </div>
 
-            <ProjectsHorizontal />
             <ProjectsFx />
             <div className="work-grid">
               <div className="tilt-wrap reveal">
                 <Link className="work-card tilt" href="/work/paypal">
                   <span className="tilt-glare" aria-hidden="true"></span>
                   <div>
-                    <p className="work-index">01 — Fintech</p>
+                    <p className="work-index">01 · Fintech</p>
                     <h3>PayPal Wallet: forgiving flows for money tasks</h3>
                     <p className="work-desc">
                       Wireframing a wallet experience where every flow has a recovery path. Sign-in,
@@ -253,7 +251,7 @@ export default function HomePage() {
                 <Link className="work-card tilt" href="/work/rare-rabbit">
                   <span className="tilt-glare" aria-hidden="true"></span>
                   <div>
-                    <p className="work-index">02 — E-commerce</p>
+                    <p className="work-index">02 · E-commerce</p>
                     <h3>Rare Rabbit: a redesign aimed at the abandoned cart</h3>
                     <p className="work-desc">
                       A fashion retailer&apos;s mobile experience redesigned around the moment most
@@ -280,7 +278,7 @@ export default function HomePage() {
                 <Link className="work-card tilt" href="/work/notion">
                   <span className="tilt-glare" aria-hidden="true"></span>
                   <div>
-                    <p className="work-index">03 — Productivity</p>
+                    <p className="work-index">03 · Productivity</p>
                     <h3>Notion: architecture before pixels</h3>
                     <p className="work-desc">
                       Information architecture for template discovery, search, and export, carried
@@ -306,7 +304,7 @@ export default function HomePage() {
                 <Link className="work-card tilt" href="/work/family-foundations">
                   <span className="tilt-glare" aria-hidden="true"></span>
                   <div>
-                    <p className="work-index">04 — Social impact</p>
+                    <p className="work-index">04 · Social impact</p>
                     <h3>Family Foundations: designing for the hardest conversation</h3>
                     <p className="work-desc">
                       A high-fidelity app for families navigating adoption, with a privacy-first AI
@@ -401,15 +399,28 @@ export default function HomePage() {
             <div className="xp-grid">
               <div className="timeline">
                 <div className="timeline-item reveal">
-                  <span className="timeline-when">Sep 2024 — Present</span>
+                  <span className="timeline-when">Jan 2025 to May 2026</span>
+                  <h3>Teaching Assistant, Understanding Design</h3>
+                  <p className="timeline-org">Northeastern University</p>
+                  <p>
+                    Coached 60+ design students across three semesters to defend decisions with
+                    user evidence instead of taste, running weekly critiques and project-based
+                    exercises and owning grading and progress tracking end to end.
+                  </p>
+                  <ul className="tags">
+                    <Badge as="li">Design education</Badge>
+                    <Badge as="li">Critique</Badge>
+                  </ul>
+                </div>
+                <div className="timeline-item reveal">
+                  <span className="timeline-when">Sep 2024 to May 2025</span>
                   <h3>Graduate Research Assistant</h3>
                   <p className="timeline-org">Northeastern University</p>
                   <p>
-                    Cut merger and acquisition entity-matching time by 85% by rebuilding the
-                    fuzzy-matching system with Levenshtein scoring and custom caching on
-                    Northeastern&apos;s high-performance cluster, holding company matching 100%
-                    unbiased across subsidiary networks. Owned the pipeline end to end, from
-                    algorithm design through validation on Revelio Labs data.
+                    Cut merger-and-acquisition entity-matching time 85% on Revelio Labs data by
+                    rebuilding a fuzzy-matching pipeline with Levenshtein scoring and custom caching
+                    on a high-performance cluster, delivering same-day results with 100% unbiased
+                    matching across subsidiary networks.
                   </p>
                   <ul className="tags">
                     <Badge as="li">High-performance computing</Badge>
@@ -417,47 +428,32 @@ export default function HomePage() {
                   </ul>
                 </div>
                 <div className="timeline-item reveal">
-                  <span className="timeline-when">Jan 2025 — May 2026</span>
-                  <h3>Understanding Design, Teaching Assistant</h3>
-                  <p className="timeline-org">Northeastern University · College of Arts &amp; Media</p>
-                  <p>
-                    Retained by faculty across three semesters to co-teach design theory and
-                    practice. Led weekly critiques and project-based exercises, owned grading
-                    workflows and student progress tracking end to end, and coached students until
-                    they could defend design decisions with evidence instead of taste. Teaching a
-                    room to argue about design every week is the best stakeholder training there is.
-                  </p>
-                  <ul className="tags">
-                    <Badge as="li">Design principles</Badge>
-                    <Badge as="li">Critique &amp; feedback</Badge>
-                  </ul>
-                </div>
-                <div className="timeline-item reveal">
-                  <span className="timeline-when">Jul 2024 — Sep 2024</span>
-                  <h3>Full Stack UI Designer</h3>
+                  <span className="timeline-when">Jan 2024 to May 2024</span>
+                  <h3>Project Management Intern</h3>
                   <p className="timeline-org">
-                    HeadStarter ·{" "}
+                    Debatecon ·{" "}
                     <a href="https://huskybot.vercel.app/" target="_blank" rel="noopener">
                       huskybot.vercel.app
                     </a>
                   </p>
                   <p>
-                    Drove a 30% lift in user engagement, verified through the real-time analytics I
-                    wired in myself, by architecting and shipping full-stack Next.js and TypeScript
-                    apps with Firebase auth. Cut page load 40% and hit a 95 accessibility score with
-                    responsive Material UI components and custom hooks. Owned the product from Figma
-                    frame to production deploy, with no handoff loss because both sides of the
-                    handoff were me.
+                    Launched a competitive-debate platform on schedule by running sprint planning,
+                    cross-functional standups, and release coordination across a design-and-engineering
+                    team, turning a stalled backlog into a shipped product users could rely on.
+                  </p>
+                  <p>
+                    Grew user engagement 30% by reprioritizing the roadmap around usability-test
+                    findings and validating every release against real-time product analytics.
                   </p>
                   <ul className="tags">
-                    <Badge as="li">Next.js</Badge>
-                    <Badge as="li">Material UI</Badge>
-                    <Badge as="li" tone="green">95 accessibility score</Badge>
+                    <Badge as="li">Product delivery</Badge>
+                    <Badge as="li">Roadmapping</Badge>
+                    <Badge as="li">Analytics</Badge>
                   </ul>
                 </div>
                 <div className="timeline-item reveal">
-                  <span className="timeline-when">Jan 2024 — May 2024</span>
-                  <h3>UX Design Intern, Project Management</h3>
+                  <span className="timeline-when">Jan 2024 to May 2024</span>
+                  <h3>UI/UX Design Fellow</h3>
                   <p className="timeline-org">
                     Foruppo ·{" "}
                     <a href="https://quibate.webflow.io/" target="_blank" rel="noopener">
@@ -465,29 +461,29 @@ export default function HomePage() {
                     </a>
                   </p>
                   <p>
-                    Took a product from zero to live by leading a cross-functional team through the
-                    full research-to-ship cycle: stakeholder interviews, competitor benchmarking,
-                    heuristic evaluations, personas, and moderated usability sessions whose findings
-                    directly shaped the hi-fi design that shipped on Webflow. Carried the project
-                    management as well, keeping design, content, and build on one schedule with zero
-                    missed milestones.
+                    Designed Quibate (Master Debates) end to end as a design fellow: stakeholder
+                    interviews, competitor benchmarking, heuristic evaluations, personas, wireframes,
+                    and high-fidelity prototypes that shaped every core screen and carried into a
+                    live Webflow build.
                   </p>
                   <ul className="tags">
+                    <Badge as="li">End-to-end design</Badge>
                     <Badge as="li">Usability testing</Badge>
-                    <Badge as="li">Personas</Badge>
                     <Badge as="li">Hi-fi prototyping</Badge>
                   </ul>
                 </div>
                 <div className="timeline-item reveal">
-                  <span className="timeline-when">Feb 2023 — Jul 2023</span>
+                  <span className="timeline-when">Feb 2023 to Jul 2023</span>
                   <h3>Research Intern</h3>
                   <p className="timeline-org">AppsTek Corp</p>
                   <p>
-                    Reduced system latency 65% by shipping a thread-safe GUI whose winning design
-                    was chosen by A/B test rather than opinion, and delivered an 80% throughput gain
-                    by administering the team that built a multi-threaded Python scheduler. The
-                    first role where I learned that design and engineering are one job wearing two
-                    badges.
+                    Cut interface latency 65% and sped up operator task completion by designing and
+                    shipping a thread-safe GUI whose winning layout was chosen through A/B testing
+                    rather than opinion.
+                  </p>
+                  <p>
+                    Raised processing throughput 80% by coordinating the team that built a
+                    multi-threaded Python scheduler with optimized I/O and memory handling.
                   </p>
                   <ul className="tags">
                     <Badge as="li">A/B testing</Badge>
@@ -735,22 +731,16 @@ export default function HomePage() {
               <AboutReveal>
                 <p className="kicker">About</p>
                 <p className="lead">
-                  I came to design from engineering, which means I have sat on both sides of the
-                  handoff. I know what happens to a beautiful mockup when the edge cases were never
-                  designed, so I design them first.
+                  I&apos;m a UI/UX designer and front-end engineer. I came to design from
+                  engineering, so I have sat on both sides of the handoff, and I design the edge
+                  cases first because I know what happens to a mockup when nobody did.
                 </p>
                 <p>
-                  I am finishing my Master&apos;s in Information Systems at Northeastern University,
-                  with coursework in UX design and testing, application engineering, and algorithms.
-                  My path has zigzagged on purpose: UX internship where I led the research,
-                  full-stack role where I shipped the designs myself, research assistantship where I
-                  optimize algorithms, and a semester teaching design to undergraduates. Every zig
-                  made the other side stronger.
-                </p>
-                <p>
-                  What I want next: a team building software people rely on for things that matter,
-                  where good design is measured by whether the work day got easier. That is the kind
-                  of problem I stay late for.
+                  Across product, research, and teaching roles my work has moved real numbers: 30%
+                  more engagement on a platform I helped ship, research pipelines 85% faster, and
+                  interfaces that hold WCAG AA. I hold an MS in Information Systems from Northeastern.
+                  What I want next is a team building software people rely on for things that matter,
+                  where good design is measured by whether the work day got easier.
                 </p>
                 <DesignNote>
                   <b>Why cream, ink, vermilion, and iris.</b> White portfolios read like templates;
@@ -777,16 +767,12 @@ export default function HomePage() {
               <div className="reveal">
                 <ul className="fact-list">
                   <li>
-                    <span>Currently</span>
-                    <span>MS Information Systems, Northeastern</span>
+                    <span>Role</span>
+                    <span>UI/UX Designer &amp; Front-End Engineer</span>
                   </li>
                   <li>
-                    <span>Graduating</span>
-                    <span>May 2026</span>
-                  </li>
-                  <li>
-                    <span>Focus</span>
-                    <span>UX design &amp; engineering</span>
+                    <span>Education</span>
+                    <span>MS Information Systems, Northeastern (2026)</span>
                   </li>
                   <li>
                     <span>Location</span>

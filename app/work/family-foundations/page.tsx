@@ -9,7 +9,7 @@ import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
-  title: "Family Foundations: designing for the hardest conversation — Hotragn Pettugani",
+  title: "Family Foundations: designing for the hardest conversation · Hotragn Pettugani",
   description:
     "Case study: a high-fidelity mobile app for families navigating adoption, with an AI-powered Q&A, designed and usability-tested end to end.",
   alternates: { canonical: "/work/family-foundations" },
@@ -63,7 +63,7 @@ export default function FamilyFoundationsCaseStudy() {
               </div>
               <div>
                 <dt>Timeline</dt>
-                <dd>Nov — Dec 2024</dd>
+                <dd>Nov · Dec 2024</dd>
               </div>
             </dl>
           </div>

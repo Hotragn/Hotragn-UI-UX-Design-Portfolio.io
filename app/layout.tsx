@@ -21,7 +21,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hotragnpettugani-design.vercel.app"),
-  title: "Hotragn Pettugani — UX Designer & Engineer",
+  title: "Hotragn Pettugani · UX Designer & Engineer",
   description:
     "Portfolio of Hotragn Pettugani, a UX designer and engineer who researches real workflows, maps information architecture, designs forgiving flows, and ships the result in code.",
 };

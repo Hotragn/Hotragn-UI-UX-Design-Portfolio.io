@@ -10,7 +10,7 @@ import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
-  title: "PayPal Wallet: forgiving flows for money tasks — Hotragn Pettugani",
+  title: "PayPal Wallet: forgiving flows for money tasks · Hotragn Pettugani",
   description:
     "Case study: wireframing a PayPal wallet experience where sign-in, bank linking, and rewards redemption all have designed recovery paths.",
   alternates: { canonical: "/work/paypal" },

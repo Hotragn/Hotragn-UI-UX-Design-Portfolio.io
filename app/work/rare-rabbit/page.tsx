@@ -10,7 +10,7 @@ import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
-  title: "Rare Rabbit: a redesign aimed at the abandoned cart — Hotragn Pettugani",
+  title: "Rare Rabbit: a redesign aimed at the abandoned cart · Hotragn Pettugani",
   description:
     "Case study: redesigning a fashion retailer's website around the cart, backed by published research on why shoppers abandon checkout.",
   alternates: { canonical: "/work/rare-rabbit" },

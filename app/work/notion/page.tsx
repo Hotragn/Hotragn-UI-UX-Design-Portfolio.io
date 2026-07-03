@@ -10,7 +10,7 @@ import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
 
 export const metadata: Metadata = {
-  title: "Notion templates: architecture before pixels — Hotragn Pettugani",
+  title: "Notion templates: architecture before pixels · Hotragn Pettugani",
   description:
     "Case study: information architecture for Notion template discovery, search, and export, scoped with a MoSCoW matrix published as a FigJam community template.",
   alternates: { canonical: "/work/notion" },

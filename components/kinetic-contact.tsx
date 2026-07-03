@@ -26,7 +26,14 @@ export function KineticContact() {
 
     let split: SplitText | null = null;
     const ctx = gsap.context(() => {
-      split = new SplitText(heading, { type: "chars", charsClass: "kinetic-char" });
+      // Split into words AND chars: chars carry the kinetic motion, word
+      // wrappers stay atomic (white-space:nowrap in CSS) so a word never
+      // breaks mid-way and no single word orphans onto its own line.
+      split = new SplitText(heading, {
+        type: "words,chars",
+        charsClass: "kinetic-char",
+        wordsClass: "kinetic-word",
+      });
       const chars = split.chars as HTMLElement[];
       const setters = chars.map((c) => ({
         el: c,
@@ -163,6 +170,8 @@ export function KineticContact() {
       <p className="kicker" style={{ justifyContent: "center" }}>
         Let&apos;s talk
       </p>
+      {/* SplitText wraps each word (nowrap) so words stay whole and
+          text-wrap: balance distributes lines evenly with no orphan. */}
       <h2 ref={headingRef} className="kinetic-heading">
         Have a workflow your users quietly struggle with?
       </h2>

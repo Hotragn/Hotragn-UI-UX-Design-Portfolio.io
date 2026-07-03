@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Page not found — Hotragn Pettugani",
+  title: "Page not found · Hotragn Pettugani",
   robots: { index: false },
 };
 
