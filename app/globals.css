@@ -994,7 +994,7 @@ h1, h2, .contact h2 { text-wrap: balance; }
   body.has-cursor a, body.has-cursor button { cursor: none; }
 }
 
-.cursor-dot, .cursor-ring {
+.cursor-dot, .cursor-ring, .cursor-trail {
   position: fixed;
   top: 0; left: 0;
   pointer-events: none;
@@ -1002,46 +1002,62 @@ h1, h2, .contact h2 { text-wrap: balance; }
   z-index: 999;
   will-change: transform;
 }
+/* Brand core: a small gradient dot with a soft glow */
 .cursor-dot {
-  width: 7px; height: 7px;
-  background: var(--accent);
+  width: 10px; height: 10px;
+  background: var(--grad);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--plum) 55%, transparent);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease;
+}
+.cursor-dot.is-dim { opacity: 0; }
+/* Comet trail: gradient dots that shrink and fade behind the core */
+.cursor-trail {
+  width: calc(7px - var(--i) * 1.6px);
+  height: calc(7px - var(--i) * 1.6px);
+  background: var(--grad);
+  opacity: calc(0.4 - var(--i) * 0.1);
   transform: translate(-50%, -50%);
 }
+/* Context ring: hidden until over an interactive element, then blooms */
 .cursor-ring {
-  width: 34px; height: 34px;
-  border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  width: 30px; height: 30px;
+  border: 1.5px solid transparent;
   transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-}
-.cursor-ring {
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease;
 }
 .cursor-ring.is-hover {
-  width: 52px; height: 52px;
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  border-color: var(--accent);
+  opacity: 1;
+  width: 46px; height: 46px;
+  border-color: color-mix(in srgb, var(--plum) 60%, transparent);
+  background: color-mix(in srgb, var(--iris) 8%, transparent);
 }
-/* Over a case-study card the ring grows and invites the click */
 .cursor-label {
-  font: 680 0.58rem var(--font-body);
+  font: 680 0.56rem var(--font-body);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent-ink);
   opacity: 0;
   transition: opacity 0.2s ease;
 }
-.cursor-ring.is-view {
-  width: 76px; height: 76px;
-  background: color-mix(in srgb, var(--paper) 80%, transparent);
+/* Over a case card ("View") or an outbound link / live product ("Open") */
+.cursor-ring.is-view,
+.cursor-ring.is-open {
+  opacity: 1;
+  width: 74px; height: 74px;
   border-color: var(--accent);
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
-.cursor-ring.is-view .cursor-label { opacity: 1; }
+.cursor-ring.is-view .cursor-label,
+.cursor-ring.is-open .cursor-label { opacity: 1; }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .cursor-dot, .cursor-ring { display: none; }
+  .cursor-dot, .cursor-ring, .cursor-trail { display: none; }
   body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: auto; }
 }
 
