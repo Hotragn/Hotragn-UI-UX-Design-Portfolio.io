@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { Cursor } from "@/components/fx/cursor";
 import { PointerFx } from "@/components/fx/pointer-fx";
 import { IntroGlimpse } from "@/components/intro-glimpse";
+import { BackToTop } from "@/components/back-to-top";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -45,6 +46,7 @@ export default function RootLayout({
           <IntroGlimpse />
           <Cursor />
           <PointerFx />
+          <BackToTop />
           {children}
         </Providers>
       </body>

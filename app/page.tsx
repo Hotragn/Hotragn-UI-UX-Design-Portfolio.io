@@ -21,6 +21,8 @@ import { KineticContact } from "@/components/kinetic-contact";
 import { ProjectsFx } from "@/components/projects-fx";
 import { ProjectsHorizontal } from "@/components/projects-horizontal";
 import { Frameworks } from "@/components/systems/frameworks";
+import { ScrollCue } from "@/components/scroll-cue";
+import { NotesCoachmark } from "@/components/notes-coachmark";
 
 export const metadata: Metadata = {
   title: "Hotragn Pettugani · UX Designer & Engineer",
@@ -193,10 +195,12 @@ export default function HomePage() {
 
             <ArtifactStage />
           </div>
+          <ScrollCue />
         </section>
 
         {/* ============ MARQUEE ============ */}
         <Marquee />
+        <NotesCoachmark />
 
         {/* ============ WORK ============ */}
         <section className="section" id="work">

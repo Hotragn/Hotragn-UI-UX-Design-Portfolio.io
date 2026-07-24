@@ -183,8 +183,12 @@ export function IntroGlimpse() {
         </div>
       </div>
       <div className="intro-curtain" aria-hidden="true" />
+      {/* Visibility of system status: a thin gradient line fills across the
+          intro's run so the visitor knows it is brief and ending. */}
+      <span className="intro-progress" aria-hidden="true" />
+      {/* User control: always-visible skip with a keyboard hint. */}
       <button type="button" ref={skipRef} className="intro-skip" onClick={dismiss}>
-        Skip intro
+        Skip <span className="intro-skip-hint">· Esc</span>
       </button>
     </div>
   );

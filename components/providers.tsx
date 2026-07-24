@@ -31,6 +31,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       const next = !on;
       try {
         sessionStorage.setItem("design-notes", next ? "on" : "off");
+        // Recognition for the first-visit hint: once someone has used the
+        // toggle, the coach-mark never needs to introduce it.
+        localStorage.setItem("notes-used", "1");
       } catch {}
       return next;
     });

@@ -269,7 +269,8 @@ a:hover { color: var(--ink); }
   transition: color 0.2s ease;
 }
 .nav-link:hover { color: var(--ink); }
-.nav-link.is-active { color: var(--ink); font-weight: 580; }
+/* Wayfinding: the active section is unmistakable in both themes */
+.nav-link.is-active { color: var(--accent-ink); font-weight: 620; }
 
 /* Sliding pill indicator behind the active/hovered primary link */
 .nav-pill {
@@ -278,8 +279,8 @@ a:hover { color: var(--ink); }
   top: 0.2rem; bottom: 0.2rem;
   left: 0;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
   pointer-events: none;
   transition: opacity 0.2s ease;
 }
@@ -288,7 +289,7 @@ a:hover { color: var(--ink); }
               width 0.32s cubic-bezier(0.22, 1, 0.36, 1),
               opacity 0.2s ease;
 }
-.dark .nav-pill { background: color-mix(in srgb, var(--accent) 16%, transparent); }
+.dark .nav-pill { background: color-mix(in srgb, var(--accent) 22%, transparent); }
 
 .nav-cta {
   background: var(--ink);
@@ -2030,6 +2031,124 @@ h1, h2, .contact h2 { text-wrap: balance; }
   color: var(--ink-soft);
 }
 
+/* ---------- Onboarding: hero scroll cue ---------- */
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 1.1rem;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  color: var(--muted);
+  z-index: 2;
+  pointer-events: none;
+}
+.scroll-cue-label {
+  font-size: 0.68rem;
+  font-weight: 660;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.scroll-cue-chevron {
+  animation: scroll-cue-bob 1.6s ease-in-out infinite;
+}
+@keyframes scroll-cue-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-chevron { animation: none; }
+}
+
+/* ---------- Onboarding: Design-notes coach-mark ---------- */
+
+.notes-coachmark {
+  position: fixed;
+  /* sits just below the header, near the utility cluster, never over it */
+  top: 4.4rem;
+  right: clamp(1rem, 4vw, 3.5rem);
+  z-index: 140;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  max-width: 280px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lift);
+  padding: 0.8rem 0.9rem;
+  animation: coachmark-in 0.3s ease-out;
+}
+.dark .notes-coachmark {
+  backdrop-filter: blur(14px);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.notes-coachmark-arrow {
+  position: absolute;
+  top: -6px;
+  right: 4.5rem;
+  width: 12px; height: 12px;
+  background: var(--card);
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+.notes-coachmark-text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.notes-coachmark-close {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.notes-coachmark-close:hover { border-color: var(--accent); color: var(--ink); }
+.notes-coachmark-close:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@keyframes coachmark-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notes-coachmark { animation: none; }
+}
+
+/* ---------- Wayfinding: back to top ---------- */
+
+.back-to-top {
+  position: fixed;
+  bottom: 1.4rem;
+  right: 1.4rem;
+  z-index: 135;
+  display: inline-grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: var(--shadow-lift);
+  cursor: pointer;
+  animation: coachmark-in 0.25s ease-out;
+}
+.back-to-top:hover { background: var(--accent-ink); }
+.dark .back-to-top:hover { color: var(--dark); }
+.back-to-top:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top { animation: none; }
+}
+
 } /* end @layer components */
 
 /* ==========================================================================
@@ -2178,11 +2297,33 @@ h1, h2, .contact h2 { text-wrap: balance; }
   .intro-glimpse.is-playing .intro-wordmark,
   .intro-glimpse.is-playing .intro-tagline,
   .intro-glimpse.is-playing .intro-poster,
+  .intro-glimpse.is-playing .intro-progress,
   .intro-glimpse.is-playing .intro-curtain { animation: none; }
 }
 
+/* Visibility of status: a thin gradient line fills across the intro's
+   run length so the visitor can see it is brief and ending. */
+.intro-progress {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--spectra-line);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  z-index: 3;
+}
+.intro-glimpse.is-playing .intro-progress {
+  animation: intro-progress 2.4s linear forwards;
+}
+@keyframes intro-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 /* Skip control: light pill with dark text, high contrast on the dark
-   Spectra surface in both site themes */
+   Spectra surface in both site themes; the Esc hint aids discoverability */
 .intro-skip {
   position: fixed;
   bottom: 1.4rem;
@@ -2198,3 +2339,4 @@ h1, h2, .contact h2 { text-wrap: balance; }
 }
 .intro-skip:hover { background: #fff; }
 .intro-skip:focus-visible { outline: 3px solid #f3f1fb; outline-offset: 3px; }
+.intro-skip-hint { font-weight: 500; opacity: 0.75; }
