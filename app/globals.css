@@ -112,11 +112,18 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+/* The page background lives on the root, not on body. The persistent 3D
+   artifact sits at z-index -1, which paints behind body but in front of
+   the root background, so body must stay transparent or it would cover
+   the artifact completely. */
+html {
+  scroll-behavior: smooth;
+  background: var(--paper);
+}
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: transparent;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 1.0625rem;
