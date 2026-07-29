@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { EASE } from "@/lib/motion";
 
 /**
  * Floating artifact cards beside the hero: depth-weighted mouse parallax
@@ -29,7 +30,7 @@ export function ArtifactStage() {
           duration: 2.2 + i * 0.45,
           yoyo: true,
           repeat: -1,
-          ease: "sine.inOut",
+          ease: EASE.drift,
           delay: i * 0.35,
           paused: true,
         });

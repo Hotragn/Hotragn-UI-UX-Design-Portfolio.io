@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { DUR, EASE } from "@/lib/motion";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -48,7 +49,7 @@ export function ProjectsHorizontal({ children }: { children: React.ReactNode }) 
 
         const tween = gsap.to(track, {
           x: () => -getScrollAmount(),
-          ease: "none",
+          ease: EASE.none,
         });
 
         const st = ScrollTrigger.create({
@@ -79,7 +80,7 @@ export function ProjectsHorizontal({ children }: { children: React.ReactNode }) 
           if (index < 0) return;
           const target = st.start + (st.end - st.start) * (index / (cards.length - 1));
           if (scrollToReady) {
-            gsap.to(window, { scrollTo: { y: target }, duration: 0.5, ease: "power2.out" });
+            gsap.to(window, { scrollTo: { y: target }, duration: DUR.base, ease: EASE.softOut });
           } else {
             window.scrollTo({ top: target, behavior: "smooth" });
           }

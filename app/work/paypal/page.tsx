@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Header, type NavLink } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
@@ -8,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { JourneyStrip } from "@/components/case/journey-strip";
 import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
+import { CaseFx } from "@/components/case/case-fx";
+import { CaseNavigator } from "@/components/case/case-navigator";
+import { CasePager } from "@/components/case/case-pager";
+import { Exhibit } from "@/components/case/exhibit";
 
 export const metadata: Metadata = {
   title: "PayPal Wallet: forgiving flows for money tasks · Hotragn Pettugani",
@@ -36,6 +39,8 @@ export default function PayPalCaseStudy() {
     <>
       <ProgressBar />
       <Header links={navLinks} />
+      <CaseFx />
+      <CaseNavigator />
 
       <main id="main">
         <section className="case-hero">
@@ -71,7 +76,7 @@ export default function PayPalCaseStudy() {
 
         <div className="case-body">
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">The problem</span>
               <h2>Money tasks fail at the edges, not the center</h2>
               <p>
@@ -97,7 +102,7 @@ export default function PayPalCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">The structure</span>
               <h2>Four flows, mapped before a single screen was drawn</h2>
               <p>
@@ -178,7 +183,7 @@ export default function PayPalCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Key decisions</span>
               <h2>Small choices that carry the trust</h2>
               <ul>
@@ -213,7 +218,7 @@ export default function PayPalCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Research &amp; validation</span>
               <h2>Watching people try to move money</h2>
               <ul className="method-chips">
@@ -229,16 +234,18 @@ export default function PayPalCaseStudy() {
                 the action had actually worked, because in a finance product feeling unsure is
                 nearly as bad as failing.
               </p>
-              <JourneyStrip
-                label="Journey before and after the redesign: sign-in stays calm; linking a bank, hitting an invalid one-time code, recovering, and confirming all move from friction to calm."
-                stages={[
-                  { label: "Sign in", before: "calm", after: "calm" },
-                  { label: "Link a bank", before: "pain", after: "calm" },
-                  { label: "Invalid OTP", before: "pain", after: "calm" },
-                  { label: "Recover", before: "pain", after: "calm" },
-                  { label: "Confirmed", before: "pain", after: "calm" },
-                ]}
-              />
+              <Exhibit kind="Journey map" label="Emotion before and after the redesign">
+                <JourneyStrip
+                  label="Journey before and after the redesign: sign-in stays calm; linking a bank, hitting an invalid one-time code, recovering, and confirming all move from friction to calm."
+                  stages={[
+                    { label: "Sign in", before: "calm", after: "calm" },
+                    { label: "Link a bank", before: "pain", after: "calm" },
+                    { label: "Invalid OTP", before: "pain", after: "calm" },
+                    { label: "Recover", before: "pain", after: "calm" },
+                    { label: "Confirmed", before: "pain", after: "calm" },
+                  ]}
+                />
+              </Exhibit>
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -304,7 +311,7 @@ export default function PayPalCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Outcome &amp; learnings</span>
               <h2>What this project taught me</h2>
               <div className="stat-band">
@@ -356,16 +363,10 @@ export default function PayPalCaseStudy() {
           </section>
         </div>
 
-        <nav className="case-nav" aria-label="More case studies">
-          <div className="wrap case-nav-row">
-            <Link href="/#work">
-              <small>Back</small>All work
-            </Link>
-            <Link href="/work/rare-rabbit" style={{ textAlign: "right" }}>
-              <small>Next case study</small>Rare Rabbit: the abandoned cart →
-            </Link>
-          </div>
-        </nav>
+        <CasePager
+          prev={{ href: "/#work", eyebrow: "Back", title: "All work" }}
+          next={{ slug: "rare-rabbit", eyebrow: "Next case study" }}
+        />
       </main>
 
       <Footer variant="case" />

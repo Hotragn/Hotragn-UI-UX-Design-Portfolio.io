@@ -60,8 +60,12 @@ components/
   kinetic-contact.tsx       SplitText cursor-reactive heading + confetti reward
   fisheye-dock.tsx          desktop fisheye dock over the real header nav
   art/                      four hand-drawn SVG case posters
-  case/                     journey strip, before/after, user voice
+  case/                     journey strip, before/after, user voice, exhibit frame,
+                            sticky section navigator, poster pagination, case choreography
   fx/                       cursor, delegated pointer effects, ScrollTrigger setup
+lib/
+  motion.ts                 Motion vocabulary: durations, eases, staggers, offsets
+  utils.ts                  cn() class merge
 public/assets/              Wireframe PDFs served first-party
 .github/workflows/          CI/CD (see below)
 ```
@@ -71,6 +75,7 @@ public/assets/              Wireframe PDFs served first-party
 Everything animated respects `prefers-reduced-motion`, and everything pointer-driven is gated on `pointer: fine`, so touch and assistive-tech users get a calm, fully functional site.
 
 - **GLSL hero particle field** built with React Three Fiber: a custom vertex/fragment shader drives roughly 20,000 points (4,000 on narrow screens) resting in a soft sphere, displaced by pointer velocity and springing back, tinted along the vermilion to iris gradient with a subtle chromatic lift. The render loop pauses off-screen, DPR is capped, and the canvas never mounts for reduced-motion, touch, or no-WebGL visitors, who get the original static gradient hero.
+- **One motion vocabulary**: `lib/motion.ts` holds every duration, ease, stagger, and travel distance the site uses. Three durations, one house ease matching the CSS `cubic-bezier(0.22, 1, 0.36, 1)`, two stagger steps. Every GSAP call imports from it, so the homepage and the case studies move like one hand drew them, and retuning the whole site is a single file.
 - **GSAP scroll choreography**: section reveals with grid children entering in 70ms sequence, the work and prototype grids settling in with a slight rotateX and a soft elastic ease, the experience timeline line drawing itself in as you scroll, and subtle parallax on section kickers, all cleaned up per navigation.
 - **Masked section-title reveals**: every section title splits into words at runtime (accessible name preserved) and rises out of an overflow mask when it scrolls into view.
 - **Gradient curtain route transitions**: navigating sweeps a brand-gradient curtain up and off the viewport while the next page swaps in behind it. Reduced motion gets a short fade instead.
@@ -85,6 +90,16 @@ Everything animated respects `prefers-reduced-motion`, and everything pointer-dr
 - **Gradient-sweep button hover**: primary buttons cross-fade to the brand gradient and drift its position on hover, 250ms and nothing more.
 - **Illustrated project posters**: each case-study card carries a hand-drawn SVG poster built from the design tokens, so the artwork recolors itself when the theme flips.
 - **Design-notes mode**: a nav toggle that reveals margin annotations telling the real story behind each design decision. State persists per session, the notes wear a proper sticky-note skin in both themes, and the palette note even changes its closing sentence depending on which theme you are reading it in.
+
+### Inside a case study
+
+The case pages are what a hiring manager actually reads, so they carry their own quiet choreography.
+
+- **Sticky section navigator**: a slim in-page index on wide screens, built from the page's own kicker and heading pairs so it can never drift out of sync with the writing. An IntersectionObserver marks the current section with `aria-current`, and the whole thing only appears while the case body is on screen so it never crowds the hero or the footer. Below 1300px, and without JavaScript, it simply is not there and the case reads top to bottom as before.
+- **Editorial reveals**: the kicker rises out of a mask, the heading follows word by word, body copy fades up in reading order, findings and before/after rows deal in, and flow-diagram chips arrive in path order so the diagram draws itself the way you would read it aloud. Everything animates from a hidden state with `immediateRender: false` and `clearProps`, so the rendered HTML is the finished state and a failed tween costs nothing.
+- **Labelled exhibits**: prototypes, sitemaps, and journey maps sit in a framed stage with a bar naming what you are looking at, so a scanning reader knows before they look. Iframes stay lazy and keep their titles.
+- **Counting stats**: outcome numbers count up from zero once, then settle on the authored value. Under reduced motion, and if the ticker is ever throttled, the authored value is what shows.
+- **Poster pagination**: the bottom of each case ends in two cards carrying the neighbouring case's own poster art, with the same lift on hover and on `:focus-visible`.
 
 ### Section-by-section interaction
 

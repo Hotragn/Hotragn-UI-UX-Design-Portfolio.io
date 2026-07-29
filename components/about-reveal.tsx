@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { EASE } from "@/lib/motion";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
@@ -35,7 +36,7 @@ export function AboutReveal({ children }: { children: React.ReactNode }) {
           {
             clipPath: "circle(150% at 20% 30%)",
             opacity: 1,
-            ease: "power2.out",
+            ease: EASE.softOut,
             scrollTrigger: {
               trigger: root,
               start: "top 78%",

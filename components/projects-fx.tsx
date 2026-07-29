@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
+import { DUR, EASE } from "@/lib/motion";
 
 /**
  * Two project-card enhancements, both desktop + fine-pointer + not-reduced:
@@ -89,14 +90,14 @@ export function ProjectsFx() {
         top: window.innerHeight * 0.12,
         width: targetW,
         height: targetH,
-        duration: 0.45,
-        ease: "power3.inOut",
+        duration: DUR.base,
+        ease: EASE.inOut,
         onComplete: () => {
           router.push(href);
           // fade the clone after the route has a moment to mount + curtain
           gsap.to(clone, {
             opacity: 0,
-            duration: 0.3,
+            duration: DUR.fast,
             delay: 0.35,
             onComplete: () => clone.remove(),
           });

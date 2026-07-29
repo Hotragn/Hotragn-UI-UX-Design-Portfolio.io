@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Header, type NavLink } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
@@ -7,6 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { JourneyStrip } from "@/components/case/journey-strip";
 import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
+import { CaseFx } from "@/components/case/case-fx";
+import { CaseNavigator } from "@/components/case/case-navigator";
+import { CasePager } from "@/components/case/case-pager";
+import { Exhibit } from "@/components/case/exhibit";
 
 export const metadata: Metadata = {
   title: "Family Foundations: designing for the hardest conversation · Hotragn Pettugani",
@@ -36,6 +39,8 @@ export default function FamilyFoundationsCaseStudy() {
     <>
       <ProgressBar />
       <Header links={navLinks} />
+      <CaseFx />
+      <CaseNavigator />
 
       <main id="main">
         <section className="case-hero">
@@ -71,7 +76,7 @@ export default function FamilyFoundationsCaseStudy() {
 
         <div className="case-body">
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Try it first</span>
               <h2>The prototype, playable</h2>
               <p>
@@ -79,38 +84,44 @@ export default function FamilyFoundationsCaseStudy() {
                 welcome screen; the happy path runs from preferences through search to the AI
                 Q&amp;A.
               </p>
-              <div className="embed-frame">
-                <iframe
-                  src="https://embed.figma.com/proto/IYrpX6zsniSgYqQOr8DJkG/Family-Foundations?node-id=2-1417&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A1283&embed-host=share"
-                  title="Family Foundations interactive prototype"
-                  loading="lazy"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <p className="embed-caption">
-                Interactive Figma prototype, embedded live. Prefer a bigger canvas?{" "}
-                <a
-                  href="https://www.figma.com/proto/IYrpX6zsniSgYqQOr8DJkG/Family-Foundations?node-id=2-1417&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A1283"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Open it full screen
-                </a>{" "}
-                or inspect the{" "}
-                <a
-                  href="https://www.figma.com/design/IYrpX6zsniSgYqQOr8DJkG/Family-Foundations?node-id=0-1"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  full design file
-                </a>
-                , layers and all.
-              </p>
+              <Exhibit
+                kind="Prototype · Figma"
+                label="Welcome screen through to the AI Q&amp;A"
+                ratio="16 / 10"
+                caption={
+                  <>
+                    Prefer a bigger canvas?{" "}
+                    <a
+                      href="https://www.figma.com/proto/IYrpX6zsniSgYqQOr8DJkG/Family-Foundations?node-id=2-1417&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A1283"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Open it full screen
+                    </a>{" "}
+                    or inspect the{" "}
+                    <a
+                      href="https://www.figma.com/design/IYrpX6zsniSgYqQOr8DJkG/Family-Foundations?node-id=0-1"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      full design file
+                    </a>
+                    , layers and all.
+                  </>
+                }
+              >
+                  <iframe
+                    src="https://embed.figma.com/proto/IYrpX6zsniSgYqQOr8DJkG/Family-Foundations?node-id=2-1417&p=f&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2%3A1283&embed-host=share"
+                    title="Family Foundations interactive prototype"
+                    loading="lazy"
+                    allowFullScreen
+                  ></iframe>
+              </Exhibit>
             </div>
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">The problem</span>
               <h2>Adoption information is everywhere. Reassurance is nowhere.</h2>
               <p>
@@ -137,7 +148,7 @@ export default function FamilyFoundationsCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Key decisions</span>
               <h2>Warmth you can defend in a design review</h2>
               <ul>
@@ -168,7 +179,7 @@ export default function FamilyFoundationsCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Research &amp; validation</span>
               <h2>Tested before it was called finished</h2>
               <ul className="method-chips">
@@ -183,16 +194,18 @@ export default function FamilyFoundationsCaseStudy() {
                 profile, and get an answer through the Q&amp;A. Round one surfaced real problems;
                 round two verified the fixes.
               </p>
-              <JourneyStrip
-                label="Journey before and after round-two fixes: searching and saving a profile stay calm; setting preferences, asking the AI, and acting on its answers move from friction to calm."
-                stages={[
-                  { label: "Set preferences", before: "pain", after: "calm" },
-                  { label: "Search", before: "calm", after: "calm" },
-                  { label: "Save a profile", before: "calm", after: "calm" },
-                  { label: "Ask the AI", before: "pain", after: "calm" },
-                  { label: "Act on answers", before: "pain", after: "calm" },
-                ]}
-              />
+              <Exhibit kind="Journey map" label="Emotion before and after the redesign">
+                <JourneyStrip
+                  label="Journey before and after round-two fixes: searching and saving a profile stay calm; setting preferences, asking the AI, and acting on its answers move from friction to calm."
+                  stages={[
+                    { label: "Set preferences", before: "pain", after: "calm" },
+                    { label: "Search", before: "calm", after: "calm" },
+                    { label: "Save a profile", before: "calm", after: "calm" },
+                    { label: "Ask the AI", before: "pain", after: "calm" },
+                    { label: "Act on answers", before: "pain", after: "calm" },
+                  ]}
+                />
+              </Exhibit>
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -267,7 +280,7 @@ export default function FamilyFoundationsCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Learnings</span>
               <h2>What this project taught me</h2>
               <p>
@@ -286,16 +299,10 @@ export default function FamilyFoundationsCaseStudy() {
           </section>
         </div>
 
-        <nav className="case-nav" aria-label="More case studies">
-          <div className="wrap case-nav-row">
-            <Link href="/work/notion">
-              <small>Previous</small>← Notion
-            </Link>
-            <Link href="/#contact" style={{ textAlign: "right" }}>
-              <small>Seen enough?</small>Let&apos;s talk →
-            </Link>
-          </div>
-        </nav>
+        <CasePager
+          prev={{ slug: "notion", eyebrow: "Previous" }}
+          next={{ href: "/#contact", eyebrow: "Seen enough?", title: "Let’s talk" }}
+        />
       </main>
 
       <Footer variant="case" />

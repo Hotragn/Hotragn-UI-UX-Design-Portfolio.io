@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { DUR, EASE, OFFSET, STAGGER, prefersReducedMotion } from "@/lib/motion";
 
 /**
  * Word-by-word hero headline reveal, driven by GSAP: each word rises out
@@ -24,21 +25,26 @@ export function HeroHeadline() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (prefersReducedMotion()) {
       el.classList.add("words-in");
       return;
     }
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".word > span",
-        { yPercent: 110, rotation: 2.6, filter: "blur(6px)", transformOrigin: "0% 100%" },
+        {
+          yPercent: OFFSET.maskRise,
+          rotation: 2.6,
+          filter: "blur(6px)",
+          transformOrigin: "0% 100%",
+        },
         {
           yPercent: 0,
           rotation: 0,
           filter: "blur(0px)",
-          duration: 0.9,
-          ease: "power4.out",
-          stagger: 0.06,
+          duration: DUR.slow,
+          ease: EASE.out,
+          stagger: STAGGER.tight,
           onComplete: () => {
             el.classList.add("words-in");
             gsap.set(el.querySelectorAll(".word > span"), { clearProps: "all" });

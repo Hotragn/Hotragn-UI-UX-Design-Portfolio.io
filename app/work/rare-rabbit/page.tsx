@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Header, type NavLink } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
@@ -8,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { JourneyStrip } from "@/components/case/journey-strip";
 import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
+import { CaseFx } from "@/components/case/case-fx";
+import { CaseNavigator } from "@/components/case/case-navigator";
+import { CasePager } from "@/components/case/case-pager";
+import { Exhibit } from "@/components/case/exhibit";
 
 export const metadata: Metadata = {
   title: "Rare Rabbit: a redesign aimed at the abandoned cart · Hotragn Pettugani",
@@ -36,6 +39,8 @@ export default function RareRabbitCaseStudy() {
     <>
       <ProgressBar />
       <Header links={navLinks} />
+      <CaseFx />
+      <CaseNavigator />
 
       <main id="main">
         <section className="case-hero">
@@ -71,7 +76,7 @@ export default function RareRabbitCaseStudy() {
 
         <div className="case-body">
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">The problem</span>
               <h2>Shoppers do not leave stores. They leave carts.</h2>
               <p>
@@ -116,7 +121,7 @@ export default function RareRabbitCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">The approach</span>
               <h2>Fix the moment of commitment, then work backwards</h2>
               <p>
@@ -181,7 +186,7 @@ export default function RareRabbitCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Research &amp; validation</span>
               <h2>Two carts, twelve shoppers, one winner</h2>
               <ul className="method-chips">
@@ -199,16 +204,18 @@ export default function RareRabbitCaseStudy() {
                 five-second tests on the redesigned product page to check that the brand still read
                 as premium.
               </p>
-              <JourneyStrip
-                label="Journey before and after the redesign: browsing stays calm; the product page, cart, checkout, and order tracking all move from friction to calm."
-                stages={[
-                  { label: "Browse", before: "calm", after: "calm" },
-                  { label: "Product page", before: "pain", after: "calm" },
-                  { label: "Cart", before: "pain", after: "calm" },
-                  { label: "Checkout", before: "pain", after: "calm" },
-                  { label: "Tracking", before: "pain", after: "calm" },
-                ]}
-              />
+              <Exhibit kind="Journey map" label="Emotion before and after the redesign">
+                <JourneyStrip
+                  label="Journey before and after the redesign: browsing stays calm; the product page, cart, checkout, and order tracking all move from friction to calm."
+                  stages={[
+                    { label: "Browse", before: "calm", after: "calm" },
+                    { label: "Product page", before: "pain", after: "calm" },
+                    { label: "Cart", before: "pain", after: "calm" },
+                    { label: "Checkout", before: "pain", after: "calm" },
+                    { label: "Tracking", before: "pain", after: "calm" },
+                  ]}
+                />
+              </Exhibit>
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -274,7 +281,7 @@ export default function RareRabbitCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Outcome &amp; learnings</span>
               <h2>What this project taught me</h2>
               <p>
@@ -327,16 +334,10 @@ export default function RareRabbitCaseStudy() {
           </section>
         </div>
 
-        <nav className="case-nav" aria-label="More case studies">
-          <div className="wrap case-nav-row">
-            <Link href="/work/paypal">
-              <small>Previous</small>← PayPal Wallet
-            </Link>
-            <Link href="/work/notion" style={{ textAlign: "right" }}>
-              <small>Next case study</small>Notion: architecture before pixels →
-            </Link>
-          </div>
-        </nav>
+        <CasePager
+          prev={{ slug: "paypal", eyebrow: "Previous" }}
+          next={{ slug: "notion", eyebrow: "Next case study" }}
+        />
       </main>
 
       <Footer variant="case" />

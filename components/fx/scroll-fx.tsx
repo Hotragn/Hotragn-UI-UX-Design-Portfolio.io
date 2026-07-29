@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { DUR, EASE, OFFSET, STAGGER, TRIGGER } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -49,21 +50,21 @@ export function ScrollFx() {
       const cleanups: Array<() => void> = [];
       // Masked per-word section-title reveals
       gsap.utils
-        .toArray<HTMLElement>(".section-title, .case-section h2")
+        .toArray<HTMLElement>(".section-title, .case-section h2, .case-hero h1")
         .forEach((title) => {
           splitTitle(title);
           const words = title.querySelectorAll(".st-word > span");
           if (!words.length) return;
           gsap.from(words, {
-            yPercent: 110,
-            duration: 0.8,
-            ease: "power4.out",
-            stagger: 0.045,
+            yPercent: OFFSET.maskRise,
+            duration: DUR.slow,
+            ease: EASE.out,
+            stagger: STAGGER.tight,
             immediateRender: false,
             clearProps: "transform",
             scrollTrigger: {
               trigger: title,
-              start: "top 88%",
+              start: TRIGGER.start,
               once: true,
             },
           });
@@ -77,14 +78,14 @@ export function ScrollFx() {
         )
       );
       if (reveals.length) {
-        gsap.set(reveals, { opacity: 0, y: 26, scale: 0.985 });
+        gsap.set(reveals, { opacity: 0, y: OFFSET.md, scale: 0.985 });
         gsap.set([...gridReveals], {
           rotationX: 8,
           transformPerspective: 700,
           transformOrigin: "50% 100%",
         });
         ScrollTrigger.batch(reveals, {
-          start: "top 88%",
+          start: TRIGGER.start,
           once: true,
           onEnter: (els) => {
             const grid = (els as HTMLElement[]).filter((el) => gridReveals.has(el));
@@ -94,9 +95,9 @@ export function ScrollFx() {
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                duration: 0.75,
-                ease: "power4.out",
-                stagger: 0.07,
+                duration: DUR.slow,
+                ease: EASE.out,
+                stagger: STAGGER.step,
                 overwrite: true,
                 clearProps: "opacity,transform",
               });
@@ -104,17 +105,17 @@ export function ScrollFx() {
             if (grid.length) {
               gsap.to(grid, {
                 opacity: 1,
-                duration: 0.45,
-                ease: "power2.out",
-                stagger: 0.07,
+                duration: DUR.base,
+                ease: EASE.softOut,
+                stagger: STAGGER.step,
               });
               gsap.to(grid, {
                 y: 0,
                 scale: 1,
                 rotationX: 0,
                 duration: 1.1,
-                ease: "elastic.out(1, 0.75)",
-                stagger: 0.07,
+                ease: EASE.elastic,
+                stagger: STAGGER.step,
                 clearProps: "opacity,transform",
               });
             }
@@ -147,7 +148,7 @@ export function ScrollFx() {
           {
             "--tl-draw": 1,
             "--tl-marker": 1,
-            ease: "none",
+            ease: EASE.none,
             scrollTrigger: {
               trigger: timeline,
               start: "top 78%",
@@ -169,17 +170,17 @@ export function ScrollFx() {
         gsap.utils.toArray<HTMLElement>(".timeline-item").forEach((item, i) => {
           gsap.from(item, {
             opacity: 0,
-            y: 56,
+            y: OFFSET.lg,
             x: -18,
             rotation: i % 2 === 0 ? -4 : 4,
             transformOrigin: "0% 100%",
-            duration: 0.85,
-            ease: "power3.out",
+            duration: DUR.slow,
+            ease: EASE.out,
             immediateRender: false,
             clearProps: "opacity,transform",
             scrollTrigger: {
               trigger: item,
-              start: "top 88%",
+              start: TRIGGER.start,
               toggleActions: "play none none none",
               once: true,
             },
@@ -203,15 +204,15 @@ export function ScrollFx() {
           gsap.from(step, {
             // slide each card back toward the center of the row (the "hand")
             xPercent: -fromCenter * 96,
-            y: 26,
+            y: OFFSET.md,
             rotation: fromCenter * -5,
             scale: 0.94,
             opacity: 0,
             transformOrigin: "50% 100%",
             transformPerspective: 900,
-            duration: 0.7,
-            ease: "power3.out",
-            delay: i * 0.09,
+            duration: DUR.slow,
+            ease: EASE.out,
+            delay: i * STAGGER.step,
             immediateRender: false,
             clearProps: "transform,opacity",
             scrollTrigger: { trigger: grid ?? step, start: "top 80%", once: true },
@@ -224,13 +225,13 @@ export function ScrollFx() {
       if (miniCards.length) {
         gsap.from(miniCards, {
           opacity: 0,
-          y: 22,
-          duration: 0.65,
-          ease: "power2.out",
-          stagger: 0.08,
+          y: OFFSET.md,
+          duration: DUR.base,
+          ease: EASE.softOut,
+          stagger: STAGGER.step,
           immediateRender: false,
           clearProps: "opacity,transform",
-          scrollTrigger: { trigger: ".cards-3", start: "top 82%", once: true },
+          scrollTrigger: { trigger: ".cards-3", start: TRIGGER.startLate, once: true },
         });
       }
 
@@ -239,13 +240,13 @@ export function ScrollFx() {
       if (pubItems.length) {
         gsap.from(pubItems, {
           opacity: 0,
-          x: -18,
-          duration: 0.5,
-          ease: "power2.out",
-          stagger: 0.1,
+          x: -OFFSET.sm,
+          duration: DUR.base,
+          ease: EASE.softOut,
+          stagger: STAGGER.step,
           immediateRender: false,
           clearProps: "opacity,transform",
-          scrollTrigger: { trigger: ".pub-list", start: "top 82%", once: true },
+          scrollTrigger: { trigger: ".pub-list", start: TRIGGER.startLate, once: true },
         });
       }
 
@@ -256,7 +257,7 @@ export function ScrollFx() {
           { y: 18 },
           {
             y: -6,
-            ease: "none",
+            ease: EASE.none,
             scrollTrigger: {
               trigger: kicker,
               start: "top 95%",

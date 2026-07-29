@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Header, type NavLink } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ProgressBar } from "@/components/progress-bar";
@@ -8,6 +7,10 @@ import { Button } from "@/components/ui/button";
 import { JourneyStrip } from "@/components/case/journey-strip";
 import { BeforeAfter } from "@/components/case/before-after";
 import { UserVoice } from "@/components/case/user-voice";
+import { CaseFx } from "@/components/case/case-fx";
+import { CaseNavigator } from "@/components/case/case-navigator";
+import { CasePager } from "@/components/case/case-pager";
+import { Exhibit } from "@/components/case/exhibit";
 
 export const metadata: Metadata = {
   title: "Notion templates: architecture before pixels · Hotragn Pettugani",
@@ -36,6 +39,8 @@ export default function NotionCaseStudy() {
     <>
       <ProgressBar />
       <Header links={navLinks} />
+      <CaseFx />
+      <CaseNavigator />
 
       <main id="main">
         <section className="case-hero">
@@ -72,7 +77,7 @@ export default function NotionCaseStudy() {
 
         <div className="case-body">
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">The problem</span>
               <h2>Powerful tools fail at the front door</h2>
               <p>
@@ -91,7 +96,7 @@ export default function NotionCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">The architecture</span>
               <h2>One map, every path accounted for</h2>
               <p>
@@ -100,80 +105,86 @@ export default function NotionCaseStudy() {
                 design attention, were template discovery and content export.
               </p>
 
-              <div
-                className="ia-tree"
-                role="img"
-                aria-label="Sitemap: Homepage branches into browse templates, sign in, template workspace, search, and global navigation"
+              <Exhibit
+                kind="Information architecture"
+                label="Sitemap, drawn in FigJam"
+                caption={
+                  <>
+      This is the working board, not a cleaned-up export:{" "}
+      <a
+      href="https://www.figma.com/board/v2l5GqRwgriAXW14dzSR20/Information-Arch_Notion"
+      target="_blank"
+      rel="noopener"
+      >
+      open the live FigJam sitemap
+      </a>{" "}
+      to see the thinking at full messiness, or the{" "}
+      <a
+      href="https://www.figma.com/board/jxZ18Ifdu2tQDRpk81oZkO/Information-Architecture-FigJam"
+      target="_blank"
+      rel="noopener"
+      >
+      companion IA board
+      </a>
+      .
+                  </>
+                }
               >
-                <span className="ia-root">Homepage</span>
-                <div className="ia-branches">
-                  <div className="ia-branch">
-                    <h4>Browse</h4>
-                    <ul>
-                      <li>Browse templates</li>
-                      <li>Most-used suggestions</li>
-                      <li>Scroll results</li>
-                      <li>Filter templates</li>
-                    </ul>
-                  </div>
-                  <div className="ia-branch">
-                    <h4>Account</h4>
-                    <ul>
-                      <li>Sign in</li>
-                      <li>Single sign-on</li>
-                      <li>Login</li>
-                      <li>Sign up</li>
-                    </ul>
-                  </div>
-                  <div className="ia-branch">
-                    <h4>Workspace</h4>
-                    <ul>
-                      <li>Template list</li>
-                      <li>Add work content</li>
-                      <li>Select done</li>
-                      <li>Export dropdown</li>
-                      <li>Export format → path</li>
-                    </ul>
-                  </div>
-                  <div className="ia-branch">
-                    <h4>Search</h4>
-                    <ul>
-                      <li>Global search</li>
-                      <li>Search templates / work</li>
-                      <li>Advanced filters</li>
-                      <li>Saved searches</li>
-                    </ul>
-                  </div>
-                  <div className="ia-branch">
-                    <h4>Global</h4>
-                    <ul>
-                      <li>Navigation bar</li>
-                      <li>Any page</li>
-                      <li>Logout</li>
-                    </ul>
+                <div
+                  className="ia-tree"
+                  role="img"
+                  aria-label="Sitemap: Homepage branches into browse templates, sign in, template workspace, search, and global navigation"
+                >
+                  <span className="ia-root">Homepage</span>
+                  <div className="ia-branches">
+                    <div className="ia-branch">
+                      <h4>Browse</h4>
+                      <ul>
+                        <li>Browse templates</li>
+                        <li>Most-used suggestions</li>
+                        <li>Scroll results</li>
+                        <li>Filter templates</li>
+                      </ul>
+                    </div>
+                    <div className="ia-branch">
+                      <h4>Account</h4>
+                      <ul>
+                        <li>Sign in</li>
+                        <li>Single sign-on</li>
+                        <li>Login</li>
+                        <li>Sign up</li>
+                      </ul>
+                    </div>
+                    <div className="ia-branch">
+                      <h4>Workspace</h4>
+                      <ul>
+                        <li>Template list</li>
+                        <li>Add work content</li>
+                        <li>Select done</li>
+                        <li>Export dropdown</li>
+                        <li>Export format → path</li>
+                      </ul>
+                    </div>
+                    <div className="ia-branch">
+                      <h4>Search</h4>
+                      <ul>
+                        <li>Global search</li>
+                        <li>Search templates / work</li>
+                        <li>Advanced filters</li>
+                        <li>Saved searches</li>
+                      </ul>
+                    </div>
+                    <div className="ia-branch">
+                      <h4>Global</h4>
+                      <ul>
+                        <li>Navigation bar</li>
+                        <li>Any page</li>
+                        <li>Logout</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <p className="embed-caption">
-                This is the working board, not a cleaned-up export:{" "}
-                <a
-                  href="https://www.figma.com/board/v2l5GqRwgriAXW14dzSR20/Information-Arch_Notion"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  open the live FigJam sitemap
-                </a>{" "}
-                to see the thinking at full messiness, or the{" "}
-                <a
-                  href="https://www.figma.com/board/jxZ18Ifdu2tQDRpk81oZkO/Information-Architecture-FigJam"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  companion IA board
-                </a>
-                .
-              </p>
+              </Exhibit>
               <ul>
                 <li>
                   <strong>Discovery leads with social proof.</strong> The browse path surfaces
@@ -199,7 +210,7 @@ export default function NotionCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Prioritization</span>
               <h2>MoSCoW: deciding what earns engineering time</h2>
               <p>
@@ -227,33 +238,39 @@ export default function NotionCaseStudy() {
                 and support for diverse attachment formats. The architecture decided what got built;
                 the prototype proved it could feel effortless. Try it here:
               </p>
-              <div className="embed-frame">
-                <iframe
-                  src="https://embed.figma.com/proto/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=89-1324&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=67%3A77&embed-host=share"
-                  title="Notion mobile high-fidelity interactive prototype"
-                  loading="lazy"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <p className="embed-caption">
-                Interactive hi-fi prototype, embedded live.{" "}
-                <a
-                  href="https://www.figma.com/proto/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=89-1324&p=f&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=67%3A77"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Open full screen
-                </a>{" "}
-                or inspect the{" "}
-                <a
-                  href="https://www.figma.com/design/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=0-1"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  design file
-                </a>
-                .
-              </p>
+              <Exhibit
+                kind="Prototype · Figma"
+                label="Notion mobile, high fidelity"
+                ratio="16 / 10"
+                caption={
+                  <>
+                    Click through it here, or{" "}
+                    <a
+                      href="https://www.figma.com/proto/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=89-1324&p=f&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=67%3A77"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Open full screen
+                    </a>{" "}
+                    or inspect the{" "}
+                    <a
+                      href="https://www.figma.com/design/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=0-1"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      design file
+                    </a>
+                    .
+                  </>
+                }
+              >
+                  <iframe
+                    src="https://embed.figma.com/proto/xXvsNvjReGuh8k3Mjk4N9U/Notion-High-Fidelelity?node-id=89-1324&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=67%3A77&embed-host=share"
+                    title="Notion mobile high-fidelity interactive prototype"
+                    loading="lazy"
+                    allowFullScreen
+                  ></iframe>
+              </Exhibit>
               <div className="artifacts">
                 <Button
                   as="a"
@@ -287,7 +304,7 @@ export default function NotionCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Research &amp; validation</span>
               <h2>Testing the structure, then the screens</h2>
               <ul className="method-chips">
@@ -302,16 +319,18 @@ export default function NotionCaseStudy() {
                 the sitemap-level prototype and watched their first clicks. Two structural fixes
                 came out of it, then the hi-fi prototype went through the same tasks.
               </p>
-              <JourneyStrip
-                label="Journey before and after the redesign: needing a template stays calm; finding it, previewing it, and exporting move from friction to calm, and applying stays calm."
-                stages={[
-                  { label: "Need a template", before: "calm", after: "calm" },
-                  { label: "Find it", before: "pain", after: "calm" },
-                  { label: "Preview", before: "pain", after: "calm" },
-                  { label: "Apply", before: "calm", after: "calm" },
-                  { label: "Export", before: "pain", after: "calm" },
-                ]}
-              />
+              <Exhibit kind="Journey map" label="Emotion before and after the redesign">
+                <JourneyStrip
+                  label="Journey before and after the redesign: needing a template stays calm; finding it, previewing it, and exporting move from friction to calm, and applying stays calm."
+                  stages={[
+                    { label: "Need a template", before: "calm", after: "calm" },
+                    { label: "Find it", before: "pain", after: "calm" },
+                    { label: "Preview", before: "pain", after: "calm" },
+                    { label: "Apply", before: "calm", after: "calm" },
+                    { label: "Export", before: "pain", after: "calm" },
+                  ]}
+                />
+              </Exhibit>
               <div className="findings">
                 <div className="finding">
                   <p className="saw">
@@ -379,7 +398,7 @@ export default function NotionCaseStudy() {
           </section>
 
           <section className="case-section">
-            <div className="wrap-narrow reveal">
+            <div className="wrap-narrow">
               <span className="case-num">Outcome &amp; learnings</span>
               <h2>What this project taught me</h2>
               <p>
@@ -403,16 +422,10 @@ export default function NotionCaseStudy() {
           </section>
         </div>
 
-        <nav className="case-nav" aria-label="More case studies">
-          <div className="wrap case-nav-row">
-            <Link href="/work/rare-rabbit">
-              <small>Previous</small>← Rare Rabbit
-            </Link>
-            <Link href="/work/family-foundations" style={{ textAlign: "right" }}>
-              <small>Next case study</small>Family Foundations →
-            </Link>
-          </div>
-        </nav>
+        <CasePager
+          prev={{ slug: "rare-rabbit", eyebrow: "Previous" }}
+          next={{ slug: "family-foundations", eyebrow: "Next case study" }}
+        />
       </main>
 
       <Footer variant="case" />

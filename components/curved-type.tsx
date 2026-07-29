@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { EASE } from "@/lib/motion";
 
 /**
  * A slow looping label riding a curved SVG path (<textPath> on a <path>),
@@ -25,7 +26,7 @@ export function CurvedType() {
     const tween = gsap.to(state, {
       off: -50,
       duration: 18,
-      ease: "none",
+      ease: EASE.none,
       repeat: -1,
       onUpdate: () => el.setAttribute("startOffset", `${state.off}%`),
     });
