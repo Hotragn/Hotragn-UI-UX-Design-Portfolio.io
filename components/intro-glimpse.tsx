@@ -1,17 +1,20 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { OnboardingShowcase } from "@/components/onboarding-showcase";
 
 const SESSION_KEY = "intro-seen";
 
 /**
  * First-load intro: a short cinematic title sequence on the modern
  * "Spectra" palette (scoped locally, it does not touch the global theme).
- *  Beat 1: a thin perceptual-gradient line draws across a dark surface.
- *  Beat 2: the line blooms into the "Hotragn Pettugani" wordmark with the
- *          Spectra gradient fill, and a tagline fades in under it.
- *  Beat 3: a quick fan of poster silhouettes, then the gradient curtain
- *          wipes up to reveal the hero.
+ *  Beat 1: a compact run of the onboarding device from the homepage
+ *          exhibit walks its four screens in 1.28s, so the first thing
+ *          the visitor sees is the thing the site is about.
+ *  Beat 2: the device drops away and the "Hotragn Pettugani" wordmark
+ *          blooms with the Spectra gradient fill, tagline under it.
+ *  Beat 3: the gradient curtain wipes up to reveal the hero.
+ * Total run 2.53s, with the guaranteed dismiss at 2.55s.
  * Shown ONCE per session, skipped entirely under reduced motion, fully
  * skippable (focusable Skip button, Esc, any key, pointerdown, scroll).
  * The overlay is pointer-events:none except the Skip button and does not
@@ -107,8 +110,9 @@ export function IntroGlimpse() {
     requestAnimationFrame(() => root.classList.add("is-playing"));
 
     // hard guarantee: dismiss after the sequence completes (curtain wipe
-    // finishes near 2.3s), no matter what
-    const autoTimer = window.setTimeout(dismiss, 2400);
+    // finishes near 2.5s), no matter what. This fires whether or not the
+    // onboarding device, GSAP, or any keyframe ever ran.
+    const autoTimer = window.setTimeout(dismiss, 2550);
 
     // Dismiss on the first real interaction. The overlay is
     // pointer-events:none, so these fire from interactions with the page
@@ -147,8 +151,10 @@ export function IntroGlimpse() {
       aria-label="Intro animation"
     >
       <div className="intro-stage" aria-hidden="true">
-        {/* Beat 1: perceptual-gradient line draws across the center */}
-        <span className="intro-line" />
+        {/* Beat 1: a compact autoplay run of the onboarding exhibit */}
+        <div className="intro-device">
+          <OnboardingShowcase autoplay compact />
+        </div>
         {/* Beat 2: wordmark blooms with the Spectra gradient fill */}
         <svg
           className="intro-wordmark"
@@ -174,13 +180,6 @@ export function IntroGlimpse() {
           </text>
         </svg>
         <p className="intro-tagline">I design software people can trust.</p>
-        {/* Beat 3: quick poster-silhouette glimpse */}
-        <div className="intro-posters" aria-hidden="true">
-          <span className="intro-poster" />
-          <span className="intro-poster" />
-          <span className="intro-poster" />
-          <span className="intro-poster" />
-        </div>
       </div>
       <div className="intro-curtain" aria-hidden="true" />
       {/* Visibility of system status: a thin gradient line fills across the

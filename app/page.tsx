@@ -23,6 +23,8 @@ import { ProjectsHorizontal } from "@/components/projects-horizontal";
 import { Frameworks } from "@/components/systems/frameworks";
 import { ScrollCue } from "@/components/scroll-cue";
 import { NotesCoachmark } from "@/components/notes-coachmark";
+import { OnboardingShowcase } from "@/components/onboarding-showcase";
+import { ScrollMoments } from "@/components/fx/scroll-moments";
 
 export const metadata: Metadata = {
   title: "Hotragn Pettugani · UX Designer & Engineer",
@@ -152,6 +154,7 @@ export default function HomePage() {
   return (
     <>
       <Header links={navLinks} showNotesToggle spy />
+      <ScrollMoments />
 
       <main id="main">
         {/* ============ HERO ============ */}
@@ -203,7 +206,7 @@ export default function HomePage() {
         <NotesCoachmark />
 
         {/* ============ WORK ============ */}
-        <section className="section" id="work">
+        <section className="section" id="work" data-chapter="Selected work">
           <div className="wrap">
             <div className="section-head reveal">
               <div>
@@ -382,7 +385,12 @@ export default function HomePage() {
         </section>
 
         {/* ============ EXPERIENCE ============ */}
-        <section className="section" id="experience" style={{ background: "var(--paper-deep)" }}>
+        <section
+          className="section"
+          id="experience"
+          data-chapter="Experience"
+          style={{ background: "var(--paper-deep)" }}
+        >
           <div className="wrap">
             <div className="section-head reveal">
               <div>
@@ -509,20 +517,22 @@ export default function HomePage() {
                   </ul>
                 </div>
               </div>
+              {/* The four cards drift at four different rates as you pass
+                  them, so the column reads as depth rather than a block. */}
               <aside className="xp-side reveal" aria-label="Career totals">
-                <Card className="stat">
+                <Card className="stat" data-parallax="0.16">
                   <b>5</b>
                   <span>roles across design, engineering, and teaching</span>
                 </Card>
-                <Card className="stat">
+                <Card className="stat" data-parallax="0.07">
                   <b>30%</b>
                   <span>engagement lift on the product I both designed and built</span>
                 </Card>
-                <Card className="stat">
+                <Card className="stat" data-parallax="0.2">
                   <b>95</b>
                   <span>accessibility score on shipped Material UI work</span>
                 </Card>
-                <Card className="stat">
+                <Card className="stat" data-parallax="0.1">
                   <b>3</b>
                   <span>semesters teaching design students to defend their decisions</span>
                 </Card>
@@ -532,7 +542,7 @@ export default function HomePage() {
         </section>
 
         {/* ============ PROCESS ============ */}
-        <section className="section section-dark" id="process">
+        <section className="section section-dark" id="process" data-chapter="How I work">
           <div className="wrap">
             <div className="section-head reveal">
               <div>
@@ -590,11 +600,163 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
+
+            {/* Pull quote: rises word by word out of a mask, with a
+                gradient wash that crosses it as it crosses the screen.
+                The text colour never changes, so contrast is constant. */}
+            <figure className="pull-quote">
+              <span className="pq-sweep" aria-hidden="true" />
+              <blockquote className="pq-line">
+                Onboarding is the one flow every single user walks through. Get it wrong and the
+                best feature in the product never gets found.
+              </blockquote>
+              <figcaption className="pq-by">Which is why the next section is a demo</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        {/* ============ ONBOARDING SHOWCASE ============ */}
+        <section
+          className="section ob-section"
+          id="onboarding"
+          data-chapter="Interaction design"
+        >
+          <div className="wrap">
+            <div className="section-head reveal">
+              <div>
+                <p className="kicker">Interaction design</p>
+                <h2 className="section-title">Onboarding, designed step by step</h2>
+                <DesignNote>
+                  <b>Why a live demo instead of a screen recording.</b> A video of an interaction
+                  proves you can record a screen. This device is DOM and SVG on the same design
+                  tokens as the rest of the page, so it re-themes when you flip to dark, it reads
+                  as text to a screen reader through the list beside it, and the finger you are
+                  watching is a real tween on a real timeline that your scroll position drives. If
+                  I claim I build what I design, the portfolio should be able to show it without a
+                  video player.
+                </DesignNote>
+              </div>
+              <p className="section-lede">
+                Good onboarding teaches without nagging: one decision per screen, a reason before
+                every permission, and an ending you can see coming. This is a working demo, not a
+                video. Scroll to walk through it.
+              </p>
+            </div>
+
+            <div className="ob-layout">
+              <div className="ob-sticky">
+                <div className="ob-stage">
+                  <span className="ob-orb ob-orb--a" aria-hidden="true" data-parallax="0.3" />
+                  <span className="ob-orb ob-orb--b" aria-hidden="true" data-parallax="-0.18" />
+                  <OnboardingShowcase />
+                  {/* Spec sheet: measurement rules and labels that draw
+                      themselves in as the device arrives. Decorative. */}
+                  <div className="ob-spec" aria-hidden="true">
+                    <span className="ob-spec-tick ob-spec-tick--l" />
+                    <span className="ob-spec-tick ob-spec-tick--r" />
+                    <span className="ob-spec-rule ob-spec-rule--top" />
+                    <span className="ob-spec-label ob-spec-label--top">375 pt frame</span>
+                    <span className="ob-spec-rule ob-spec-rule--tap" />
+                    <span className="ob-spec-label ob-spec-label--tap">44 pt target</span>
+                    <span className="ob-spec-rule ob-spec-rule--grid" />
+                    <span className="ob-spec-label ob-spec-label--grid">8 pt scale</span>
+                    <span className="ob-spec-label ob-spec-label--contrast">AA in both themes</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* The device is decorative. Every word on all four screens
+                  is also here, as ordinary readable text, for screen
+                  readers and for anyone without JavaScript. */}
+              <ol className="ob-notes">
+                <li className="ob-note" data-ob-note="1">
+                  <span className="ob-note-num">01</span>
+                  <div className="ob-note-body">
+                    <h3 className="ob-note-title">Welcome</h3>
+                    <p className="ob-note-screen">
+                      Screen: &quot;Welcome to Atlas. Three quick questions and your workspace is
+                      ready.&quot; Buttons: Get started, and I already have an account.
+                    </p>
+                    <p className="ob-note-why">
+                      One decision per screen. The welcome asks for nothing except a yes, so the
+                      first thing a new person does in the product is succeed at something. The
+                      returning-user route is right there and is not disguised as the primary
+                      action.
+                    </p>
+                    <span className="ob-principle">Progressive disclosure</span>
+                  </div>
+                </li>
+                <li className="ob-note" data-ob-note="2">
+                  <span className="ob-note-num">02</span>
+                  <div className="ob-note-body">
+                    <h3 className="ob-note-title">Preferences</h3>
+                    <p className="ob-note-screen">
+                      Screen: &quot;Step 1 of 3. What do you work on? Pick a couple. You can change
+                      this later in Settings.&quot; Choices: Research, Prototyping, Design systems,
+                      Front-end. Button: Continue.
+                    </p>
+                    <p className="ob-note-why">
+                      The dots at the top count the steps and fill as you go, so the end is visible
+                      from the beginning. The same fact is written out as &quot;Step 1 of 3&quot;
+                      for anyone who does not read dots. Options are recognised from a list rather
+                      than recalled into an empty field, and the copy says out loud that the answer
+                      is reversible.
+                    </p>
+                    <span className="ob-principle">Visible progress</span>
+                  </div>
+                </li>
+                <li className="ob-note" data-ob-note="3">
+                  <span className="ob-note-num">03</span>
+                  <div className="ob-note-body">
+                    <h3 className="ob-note-title">Permission</h3>
+                    <p className="ob-note-screen">
+                      Screen: &quot;Step 2 of 3. Notifications, only when they help. We will tell
+                      you when a teammate comments on your work. Nothing else, and never at night.
+                      You can turn this off any time.&quot; Toggle: Comment alerts. Buttons: Turn
+                      on notifications, and Not now.
+                    </p>
+                    <p className="ob-note-why">
+                      The reason comes before the ask, in the words a person would actually use,
+                      and it is specific about what will not happen as well as what will.
+                      &quot;Not now&quot; is a real option set in the same size type as the yes,
+                      because a permission prompt that only has one honest answer is not a request,
+                      it is a toll gate.
+                    </p>
+                    <span className="ob-principle">Plain-language permission rationale</span>
+                  </div>
+                </li>
+                <li className="ob-note" data-ob-note="4">
+                  <span className="ob-note-num">04</span>
+                  <div className="ob-note-body">
+                    <h3 className="ob-note-title">Confirmation</h3>
+                    <p className="ob-note-screen">
+                      Screen: &quot;Your workspace is ready. We saved Research and Design systems to
+                      your profile, and comment alerts are on.&quot; Button: Open workspace.
+                    </p>
+                    <p className="ob-note-why">
+                      The tick draws rather than appears, so the ending has a beat you can feel,
+                      and the copy repeats the choices back so you know exactly what the product now
+                      believes about you. A setup flow that ends without telling you what it saved
+                      has taught you nothing.
+                    </p>
+                    <span className="ob-principle">Confirmation feedback</span>
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <p className="ob-footnote">
+              No video and no images. The bezel, the four screens, the status bar, the finger and
+              the tick are DOM nodes and SVG paths built from this site&apos;s own design tokens,
+              which is why the whole thing flips when you flip the theme. Reduced motion gets the
+              finished success screen with no movement at all, and the four steps read the same
+              either way.
+            </p>
           </div>
         </section>
 
         {/* ============ WRITING & RESEARCH ============ */}
-        <section className="section" id="writing">
+        <section className="section" id="writing" data-chapter="Research and writing">
           <div className="wrap">
             <div className="section-head reveal">
               <div>
@@ -666,7 +828,7 @@ export default function HomePage() {
         </section>
 
         {/* ============ RESEARCH FRAMEWORKS ============ */}
-        <section className="section" id="systems">
+        <section className="section" id="systems" data-chapter="Methodology">
           <div className="wrap">
             <div className="section-head reveal">
               <div>
@@ -762,7 +924,7 @@ export default function HomePage() {
         </section>
 
         {/* ============ ABOUT ============ */}
-        <section className="section" id="about">
+        <section className="section" id="about" data-chapter="About">
           <div className="wrap">
             <div className="about-grid">
               <AboutReveal>
@@ -802,7 +964,7 @@ export default function HomePage() {
                 <SkillsSection />
               </AboutReveal>
               <div className="reveal">
-                <ul className="fact-list">
+                <ul className="fact-list" data-parallax="0.12">
                   <li>
                     <span>Role</span>
                     <span>UI/UX Designer &amp; Front-End Engineer</span>

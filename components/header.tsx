@@ -47,7 +47,9 @@ export function Header({
   }, []);
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 720px)");
+    // Matches the drawer breakpoint in globals.css; the full nav row needs
+    // roughly 940px, so it collapses before the links can crowd.
+    const mq = window.matchMedia("(max-width: 980px)");
     const update = () => setIsMobile(mq.matches);
     update();
     mq.addEventListener("change", update);

@@ -277,7 +277,10 @@ export function ScrollFx() {
       // still at ~0 opacity. Covers the groups that do not carry the
       // generic .reveal class (timeline items, process steps, etc.).
       const guarded = gsap.utils.toArray<HTMLElement>(
-        ".timeline-item, .process-step, .cards-3 .mini-card, .pub-list li"
+        ".timeline-item, .process-step, .cards-3 .mini-card, .pub-list li, " +
+          // homepage scroll moments and the onboarding exhibit's readable
+          // half (components/fx/scroll-moments.tsx, onboarding-showcase.tsx)
+          ".ob-note, .ob-note-body > *, .pull-quote, .pq-line, .fact-list, .xp-side .stat"
       );
       const guardTimer = window.setTimeout(() => {
         guarded.forEach((el) => {

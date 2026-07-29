@@ -59,10 +59,12 @@ components/
   projects-fx.tsx           RGB-shift poster hover + cinematic expand on click
   kinetic-contact.tsx       SplitText cursor-reactive heading + confetti reward
   fisheye-dock.tsx          desktop fisheye dock over the real header nav
+  onboarding-showcase.tsx   four-screen onboarding device, scroll-scrubbed or autoplay
   art/                      four hand-drawn SVG case posters
   case/                     journey strip, before/after, user voice, exhibit frame,
                             sticky section navigator, poster pagination, case choreography
-  fx/                       cursor, delegated pointer effects, ScrollTrigger setup
+  fx/                       cursor, delegated pointer effects, ScrollTrigger setup,
+                            homepage scroll moments (parallax, pull quote, counters, chapters)
 lib/
   motion.ts                 Motion vocabulary: durations, eases, staggers, offsets
   utils.ts                  cn() class merge
@@ -89,6 +91,8 @@ Everything animated respects `prefers-reduced-motion`, and everything pointer-dr
 - **Word-by-word headline reveal** pre-split at build time and driven by GSAP: each word rises out of a mask with a slight blur and rotation that settles, and the gradient phrase carries a slow shimmer.
 - **Gradient-sweep button hover**: primary buttons cross-fade to the brand gradient and drift its position on hover, 250ms and nothing more.
 - **Illustrated project posters**: each case-study card carries a hand-drawn SVG poster built from the design tokens, so the artwork recolors itself when the theme flips.
+- **A working onboarding flow as an exhibit**: the Interaction design section holds a phone drawn entirely in CSS and SVG, running a real four-step onboarding flow: welcome, preferences with selectable chips, a permission step with a rationale and a physical toggle, and a success state whose checkmark draws itself. A simulated finger travels to each control, pauses the way a person pauses, presses with a ripple, and the screens cross-fade while the progress dots advance. The whole timeline is scrubbed by your scroll position, so scrolling literally walks the flow, and the same builder runs a 1.4s autoplay version inside the first-load intro. It is DOM and GSAP only, no video, no images and no third canvas, and it re-themes with the page because every colour is a design token. The device is `aria-hidden`; all four screens' words also exist as an ordinary numbered list beside it, each naming the principle it demonstrates. Reduced motion parks the device on the finished success screen with nothing moving.
+- **Authored scroll moments on the homepage**: stat cards drift at four different rates against the reading column, a spec sheet of measurement rules and labels draws itself around the onboarding device as it arrives, a pull quote rises word by word out of a mask while a gradient wash crosses it, the career totals count up once and settle on the authored value, and a small chapter label bottom-left renames itself as you move between sections. Each one is quiet on its own; none of them shifts layout or reserves scroll.
 - **Design-notes mode**: a nav toggle that reveals margin annotations telling the real story behind each design decision. State persists per session, the notes wear a proper sticky-note skin in both themes, and the palette note even changes its closing sentence depending on which theme you are reading it in.
 
 ### Inside a case study
@@ -110,7 +114,8 @@ Each major section carries its own signature so no two animate the same way:
 - **Skills**: on a capable desktop the Research, Design, and Build chips become draggable, throwable 3D chips with gravity and collision walls (React Three Rapier). Let go and an idle attractor gently tidies them back into three columns; a reset control snaps them home. Everywhere else it is the calm chip grid, and the labels always exist in the DOM for screen readers.
 - **Projects**: the four case studies become a pinned horizontal track that vertical scrolling drives sideways, with a progress bar and natural release at both ends. Tabbing a card scrolls it into view. Hovering a poster splits it with a pointer-tracked RGB shift, and clicking one clones the poster into a fixed overlay that expands toward the case hero before the route swaps, so navigation reads as a shared-element expand. Touch and reduced-motion keep the normal vertical grid.
 - **Experience**: the timeline line still draws in, and each entry now wipes in with a left-to-right clip-path.
-- **Process**: the dark-band steps assemble with a subtle staggered 3D rotateY flip.
+- **Process**: the dark-band steps assemble with a subtle staggered 3D rotateY flip, and the band closes on a pull quote that reveals a word at a time.
+- **Interaction design**: the onboarding device above, sticky beside its four annotated steps. CSS sticky rather than a GSAP pin, so no pin spacer is inserted and the section reserves no scroll of its own.
 - **Writing**: cards reveal with a vertical-blinds clip, distinct from the projects wipe.
 - **Publications**: entries clip in line by line, like lines being typed.
 - **Contact**: the heading splits into characters (GSAP SplitText) that skew and spread toward the cursor by proximity and velocity, and activating the mailto fires a short palette-matched confetti burst as a reward.
