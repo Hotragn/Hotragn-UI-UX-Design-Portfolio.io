@@ -4,7 +4,7 @@ import { Header, type NavLink } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Marquee } from "@/components/marquee";
 import { HeroHeadline } from "@/components/hero-headline";
-import { HeroScene } from "@/components/hero-scene";
+import { PersistentArtifact } from "@/components/fx/persistent-artifact";
 import { ArtifactStage } from "@/components/artifact-stage";
 import { DesignNote } from "@/components/design-note";
 import { PayPalPoster } from "@/components/art/paypal-poster";
@@ -155,12 +155,15 @@ export default function HomePage() {
     <>
       <Header links={navLinks} showNotesToggle spy />
       <ScrollMoments />
+      {/* One fixed, full-viewport 3D layer behind every word on this
+          page. Homepage only: a case study is a reading page and stays
+          light. See components/fx/persistent-artifact.tsx. */}
+      <PersistentArtifact />
 
       <main id="main">
         {/* ============ HERO ============ */}
         <section className="hero">
           <div className="hero-bg" aria-hidden="true"></div>
-          <HeroScene />
           <div className="wrap hero-stage">
             <div>
               <p className="kicker">UX Designer &amp; Engineer · Remote or anywhere in the US</p>

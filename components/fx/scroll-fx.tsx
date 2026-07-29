@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { DUR, EASE, OFFSET, STAGGER, TRIGGER } from "@/lib/motion";
+import { DUR, EASE, OFFSET, STAGGER, TRIGGER, calmModeOn } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,10 +44,36 @@ function splitTitle(title: HTMLElement) {
  * static content, and reverted on unmount.
  */
 export function ScrollFx() {
+  const calmVersion = useCalmVersion();
+
   useEffect(() => {
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Calm mode: the whole choreography below is replaced by one plain
+      // opacity fade per block. No travel, no rotation, no elastic, no
+      // parallax, no word splitting, no scrubbing. Every element still
+      // ends at its natural position with clearProps, so a fade that
+      // never fires costs the reader nothing.
+      if (calmModeOn()) {
+        const blocks = gsap.utils.toArray<HTMLElement>(
+          ".reveal, .timeline-item, .process-step, .cards-3 .mini-card, .pub-list li"
+        );
+        if (!blocks.length) return;
+        blocks.forEach((el) => {
+          gsap.from(el, {
+            opacity: 0,
+            duration: DUR.base,
+            ease: EASE.softOut,
+            immediateRender: false,
+            clearProps: "opacity",
+            scrollTrigger: { trigger: el, start: TRIGGER.start, once: true },
+          });
+        });
+        ScrollTrigger.refresh();
+        return;
+      }
+
       const cleanups: Array<() => void> = [];
       // Masked per-word section-title reveals
       gsap.utils
@@ -295,7 +322,10 @@ export function ScrollFx() {
     });
 
     return () => mm.revert();
-  }, []);
+    // Calm mode is a class, not a media query, so gsap.matchMedia cannot
+    // watch it. Bumping this version tears the whole context down and
+    // rebuilds it in the other mode.
+  }, [calmVersion]);
 
   return null;
 }

@@ -11,6 +11,7 @@ import {
   type RapierRigidBody,
 } from "@react-three/rapier";
 import { skillGroups } from "@/components/skills/skills-data";
+import { claimGL } from "@/components/fx/gl-lock";
 
 const GROUP_COLORS = ["#1d4b3f", "#a2320f", "#5b4bd4"]; // forest, vermilion-ink, iris
 
@@ -190,6 +191,14 @@ export default function SkillsPhysicsCanvas({ resetSignal }: { resetSignal: numb
       ioActive.disconnect();
     };
   }, []);
+
+  // Hold the single-renderer lock for exactly as long as this canvas
+  // exists. The persistent artifact watches the lock and parks its own
+  // render loop, so the two 3D surfaces never draw in the same frame.
+  useEffect(() => {
+    if (!near) return;
+    return claimGL();
+  }, [near]);
 
   // Lay the chips out in three tidy columns (their idle "grid home").
   const chips = useMemo<ChipDef[]>(() => {

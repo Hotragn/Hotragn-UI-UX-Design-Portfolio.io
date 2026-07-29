@@ -6,6 +6,7 @@ import { Cursor } from "@/components/fx/cursor";
 import { PointerFx } from "@/components/fx/pointer-fx";
 import { IntroGlimpse } from "@/components/intro-glimpse";
 import { BackToTop } from "@/components/back-to-top";
+import { CommandPalette } from "@/components/command-palette";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -32,7 +33,11 @@ export const viewport: Viewport = {
   themeColor: "#faf6ef",
 };
 
-const themeScript = `(function(){document.documentElement.classList.add("js");try{var t=localStorage.getItem("theme");if(t!=="dark"&&t!=="light"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}if(t==="dark"){document.documentElement.classList.add("dark")}}catch(e){}})()`;
+// Applied before paint: the theme class (no flash of the wrong palette)
+// and the calm-mode class (no flash of motion for someone who already
+// asked for none). Both are plain classes on <html>; everything else on
+// the site reads them rather than storage.
+const themeScript = `(function(){var d=document.documentElement;d.classList.add("js");try{var t=localStorage.getItem("theme");if(t!=="dark"&&t!=="light"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}if(t==="dark"){d.classList.add("dark")}}catch(e){}try{if(localStorage.getItem("calm-mode")==="on"){d.classList.add("calm")}}catch(e){}})()`;
 
 export default function RootLayout({
   children,
@@ -47,6 +52,7 @@ export default function RootLayout({
           <Cursor />
           <PointerFx />
           <BackToTop />
+          <CommandPalette />
           {children}
         </Providers>
       </body>

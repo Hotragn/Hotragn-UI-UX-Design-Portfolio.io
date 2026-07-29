@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { EASE } from "@/lib/motion";
+import { EASE, calmModeOn } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
@@ -18,6 +19,7 @@ gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);
 export function AboutReveal({ children }: { children: React.ReactNode }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const morphRef = useRef<SVGPathElement>(null);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const root = rootRef.current;
@@ -27,6 +29,9 @@ export function AboutReveal({ children }: { children: React.ReactNode }) {
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Calm mode: no clip wipe and no morph. The content is already
+      // fully visible in the HTML and the motif holds one static shape.
+      if (calmModeOn()) return;
       // Circular mask wipe: reveal the content through a growing clip.
       const content = root.querySelector<HTMLElement>(".about-reveal-content");
       if (content) {
@@ -73,7 +78,7 @@ export function AboutReveal({ children }: { children: React.ReactNode }) {
     });
 
     return () => mm.revert();
-  }, []);
+  }, [calmVersion]);
 
   return (
     <div className="about-reveal" ref={rootRef}>

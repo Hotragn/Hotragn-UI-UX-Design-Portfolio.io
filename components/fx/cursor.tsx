@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 const TRAIL = 3;
 
@@ -25,14 +27,14 @@ export function Cursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
   const trailRefs = useRef<HTMLDivElement[]>([]);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
     const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!finePointer || prefersReduced) return;
+    if (!finePointer || motionOff()) return;
 
     document.body.classList.add("has-cursor");
 
@@ -96,7 +98,8 @@ export function Cursor() {
       if (raf) cancelAnimationFrame(raf);
       document.body.classList.remove("has-cursor");
     };
-  }, []);
+    // Calm mode hands the native cursor straight back.
+  }, [calmVersion]);
 
   return (
     <>

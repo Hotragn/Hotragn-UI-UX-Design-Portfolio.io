@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { EASE } from "@/lib/motion";
+import { EASE, motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 /**
  * Floating artifact cards beside the hero: depth-weighted mouse parallax
@@ -11,13 +12,13 @@ import { EASE } from "@/lib/motion";
  */
 export function ArtifactStage() {
   const stageRef = useRef<HTMLDivElement>(null);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
     const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
+    if (motionOff()) return;
 
     const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray<HTMLElement>(".float-card", stage);
@@ -69,7 +70,7 @@ export function ArtifactStage() {
     }, stage);
 
     return () => ctx.revert();
-  }, []);
+  }, [calmVersion]);
 
   return (
     <div className="artifact-stage" id="artifact-stage" aria-hidden="true" ref={stageRef}>

@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { COUNT_UP_DURATION, DUR, EASE, OFFSET, STAGGER, TRIGGER } from "@/lib/motion";
+import { COUNT_UP_DURATION, DUR, EASE, OFFSET, STAGGER, TRIGGER, calmModeOn } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,11 +72,17 @@ function splitWords(line: HTMLElement) {
 
 export function ScrollMoments() {
   const labelRef = useRef<HTMLDivElement>(null);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Calm mode: none of these beats run. The parallax, the sweep, the
+      // count-up and the chapter label are all decoration, and every one
+      // of them has its finished state already in the HTML.
+      if (calmModeOn()) return;
+
       const cleanups: Array<() => void> = [];
 
       // ---- 1. Parallax depth ------------------------------------------
@@ -224,7 +231,7 @@ export function ScrollMoments() {
     });
 
     return () => mm.revert();
-  }, []);
+  }, [calmVersion]);
 
   return (
     <div className="chapter-label" ref={labelRef} aria-hidden="true">

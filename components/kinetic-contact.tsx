@@ -5,6 +5,8 @@ import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { Button } from "@/components/ui/button";
 import { CurvedType } from "@/components/curved-type";
+import { motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 gsap.registerPlugin(SplitText);
 
@@ -18,11 +20,12 @@ export function KineticContact() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const burstRef = useRef<((x: number, y: number) => void) | null>(null);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const heading = headingRef.current;
     if (!heading) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (motionOff()) return;
     if (!window.matchMedia("(pointer: fine)").matches) return;
 
     let split: SplitText | null = null;
@@ -86,13 +89,13 @@ export function KineticContact() {
       split?.revert();
       ctx.revert();
     };
-  }, []);
+  }, [calmVersion]);
 
   // Lightweight canvas confetti, palette-matched, no dependency.
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (motionOff()) return;
     const c = canvas.getContext("2d");
     if (!c) return;
     const colors = ["#d0431d", "#b23a8a", "#5b4bd4", "#b98a2f", "#1d4b3f"];
@@ -153,7 +156,7 @@ export function KineticContact() {
       if (raf) cancelAnimationFrame(raf);
       burstRef.current = null;
     };
-  }, []);
+  }, [calmVersion]);
 
   const onCta = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const canvas = canvasRef.current;

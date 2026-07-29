@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { DUR, EASE, STAGGER } from "@/lib/motion";
+import { DUR, EASE, STAGGER, calmModeOn } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -297,6 +298,7 @@ export function OnboardingShowcase({
   compact?: boolean;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const root = rootRef.current;
@@ -318,6 +320,10 @@ export function OnboardingShowcase({
 
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Calm mode gets what reduced motion gets: the device parked on
+      // the finished success screen, and all four steps readable as the
+      // numbered list beside it.
+      if (calmModeOn()) return;
       const layout = root.closest<HTMLElement>(".ob-layout");
       const tl = buildTimeline(root, "scrub");
       if (!tl || !layout) return;
@@ -397,7 +403,7 @@ export function OnboardingShowcase({
     });
 
     return () => mm.revert();
-  }, [autoplay]);
+  }, [autoplay, calmVersion]);
 
   return (
     <div

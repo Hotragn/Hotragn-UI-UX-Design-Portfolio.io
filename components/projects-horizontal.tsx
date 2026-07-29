@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { DUR, EASE } from "@/lib/motion";
+import { DUR, EASE, calmModeOn } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,6 +25,7 @@ gsap.registerPlugin(ScrollTrigger);
  */
 export function ProjectsHorizontal({ children }: { children: React.ReactNode }) {
   const outerRef = useRef<HTMLDivElement>(null);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const outer = outerRef.current;
@@ -38,6 +40,9 @@ export function ProjectsHorizontal({ children }: { children: React.ReactNode }) 
     mm.add(
       "(min-width: 1000px) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
       () => {
+        // Calm mode falls back to the plain vertical .work-grid, which is
+        // the same markup with no pin and no horizontal jack.
+        if (calmModeOn()) return;
         const cards = gsap.utils.toArray<HTMLElement>(".ph-track > .tilt-wrap");
         if (cards.length < 2) return;
 
@@ -101,7 +106,7 @@ export function ProjectsHorizontal({ children }: { children: React.ReactNode }) 
     );
 
     return () => mm.revert();
-  }, []);
+  }, [calmVersion]);
 
   return (
     <div className="ph-outer" ref={outerRef}>

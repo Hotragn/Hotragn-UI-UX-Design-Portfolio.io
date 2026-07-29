@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { DUR, EASE, OFFSET, STAGGER, prefersReducedMotion } from "@/lib/motion";
+import { DUR, EASE, OFFSET, STAGGER, motionOff } from "@/lib/motion";
 
 /**
  * Word-by-word hero headline reveal, driven by GSAP: each word rises out
@@ -25,7 +25,7 @@ export function HeroHeadline() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (prefersReducedMotion()) {
+    if (motionOff()) {
       el.classList.add("words-in");
       return;
     }

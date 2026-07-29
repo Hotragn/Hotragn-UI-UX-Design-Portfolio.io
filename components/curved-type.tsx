@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { EASE } from "@/lib/motion";
+import { EASE, motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 /**
  * A slow looping label riding a curved SVG path (<textPath> on a <path>),
@@ -14,11 +15,12 @@ import { EASE } from "@/lib/motion";
  */
 export function CurvedType() {
   const textPathRef = useRef<SVGTextPathElement>(null);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const el = textPathRef.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (motionOff()) return;
 
     // animate the startOffset from 0 to -50% and loop; the phrase is
     // duplicated so the wrap is seamless
@@ -33,7 +35,7 @@ export function CurvedType() {
     return () => {
       tween.kill();
     };
-  }, []);
+  }, [calmVersion]);
 
   const phrase = "Design · Research · Build · ";
   return (

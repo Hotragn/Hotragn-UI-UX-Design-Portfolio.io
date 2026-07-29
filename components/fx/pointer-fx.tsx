@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 /**
  * Delegated pointer effects, attached once at the layout level so they
@@ -11,10 +13,11 @@ import { useEffect } from "react";
  * All gated on pointer:fine and prefers-reduced-motion.
  */
 export function PointerFx() {
+  const calmVersion = useCalmVersion();
+
   useEffect(() => {
     const finePointer = window.matchMedia("(pointer: fine)").matches;
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!finePointer || prefersReduced) return;
+    if (!finePointer || motionOff()) return;
 
     const onPointerMove = (e: PointerEvent) => {
       const target = e.target as Element | null;
@@ -73,7 +76,7 @@ export function PointerFx() {
       document.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("pointerout", onPointerOut, true);
     };
-  }, []);
+  }, [calmVersion]);
 
   return null;
 }

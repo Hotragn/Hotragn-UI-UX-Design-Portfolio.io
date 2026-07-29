@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { COUNT_UP_DURATION, DUR, EASE, OFFSET, STAGGER, TRIGGER } from "@/lib/motion";
+import { COUNT_UP_DURATION, DUR, EASE, OFFSET, STAGGER, TRIGGER, calmModeOn } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,6 +46,8 @@ function parseStat(raw: string) {
  * deliberately does not touch them.
  */
 export function CaseFx() {
+  const calmVersion = useCalmVersion();
+
   useEffect(() => {
     const mm = gsap.matchMedia();
 
@@ -52,6 +55,9 @@ export function CaseFx() {
     // motion it simply writes the final value. The markup already
     // contains the final value, so this is a no-op there.
     mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Calm mode: the case reads exactly as it is written, with no
+      // reveals at all. Nothing here carries content.
+      if (calmModeOn()) return;
       const cleanups: Array<() => void> = [];
 
       // Kickers rise out of a mask, just like the section titles.
@@ -197,6 +203,7 @@ export function CaseFx() {
     // string; under reduced motion (or without JS) that is what shows.
     const statCtx = gsap.matchMedia();
     statCtx.add("(prefers-reduced-motion: no-preference)", () => {
+      if (calmModeOn()) return;
       const guards: number[] = [];
       gsap.utils.toArray<HTMLElement>(".stat b").forEach((node) => {
         const raw = (node.textContent || "").trim();
@@ -250,7 +257,7 @@ export function CaseFx() {
       mm.revert();
       statCtx.revert();
     };
-  }, []);
+  }, [calmVersion]);
 
   return null;
 }

@@ -3,7 +3,8 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
-import { DUR, EASE } from "@/lib/motion";
+import { DUR, EASE, motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 /**
  * Two project-card enhancements, both desktop + fine-pointer + not-reduced:
@@ -22,9 +23,10 @@ import { DUR, EASE } from "@/lib/motion";
  */
 export function ProjectsFx() {
   const router = useRouter();
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (motionOff()) return;
     if (!window.matchMedia("(pointer: fine)").matches) return;
 
     const cards = Array.from(document.querySelectorAll<HTMLAnchorElement>("a.work-card"));
@@ -115,7 +117,7 @@ export function ProjectsFx() {
       });
       document.querySelectorAll(".expand-clone").forEach((n) => n.remove());
     };
-  }, [router]);
+  }, [router, calmVersion]);
 
   return null;
 }

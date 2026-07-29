@@ -38,6 +38,28 @@ export function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+/**
+ * Calm mode: the site's own reduced-motion switch, for visitors who
+ * cannot change the operating-system setting. It is a class on <html>
+ * written before paint by the bootstrap script in app/layout.tsx, so
+ * reading it here is always current, even on the very first effect.
+ * The writer and the React hooks live in lib/calm.ts; this stays a plain
+ * DOM read so lib/motion.ts keeps no imports.
+ */
+export function calmModeOn(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.documentElement.classList.contains("calm");
+}
+
+/**
+ * The single question every animated component should ask: "should I sit
+ * still?" True when the OS asks for reduced motion OR the visitor has
+ * turned calm mode on here.
+ */
+export function motionOff(): boolean {
+  return prefersReducedMotion() || calmModeOn();
+}
+
 export const DUR = {
   fast: 0.28,
   base: 0.5,
@@ -81,3 +103,31 @@ export const TRIGGER = {
 
 /** The count-up duration for stat numbers, in seconds. */
 export const COUNT_UP_DURATION = 1.2;
+
+/**
+ * The persistent site artifact (components/fx/persistent-artifact*).
+ *
+ *   enter*          the one-time arrival. A first-time visitor gets the
+ *                   full build; someone who has already watched it once
+ *                   gets the brisk version, because a signature that
+ *                   replays at full length on every visit is a toll.
+ *   scrub           ScrollTrigger smoothing on the section-to-section
+ *                   travel. Low enough that the object still reads as
+ *                   directly coupled to the wheel.
+ *   idleTickMs      the heartbeat of the demand-driven render loop when
+ *                   nothing is scrolling. 8 frames a second of a
+ *                   sub-100-triangle scene.
+ *   idleSpin        radians per second of ambient rotation. Slow enough
+ *                   that 8fps is indistinguishable from 60fps.
+ *   satelliteSpin   the same, for the three small companions.
+ */
+export const ARTIFACT = {
+  enterDuration: 1.6,
+  enterDelay: 0.3,
+  enterDurationReturning: 0.7,
+  enterDelayReturning: 0.08,
+  scrub: 0.8,
+  idleTickMs: 120,
+  idleSpin: 0.05,
+  satelliteSpin: 0.16,
+} as const;

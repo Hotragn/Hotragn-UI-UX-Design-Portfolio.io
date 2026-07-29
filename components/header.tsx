@@ -7,6 +7,10 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { NotesToggle } from "@/components/design-note";
+import { CalmToggle } from "@/components/calm-toggle";
+import { CommandPaletteHint } from "@/components/command-palette";
+import { motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 export type NavLink = { href: string; label: string };
 
@@ -38,6 +42,7 @@ export function Header({
     visible: false,
   });
   const [reduced, setReduced] = useState(false);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -56,13 +61,15 @@ export function Header({
     return () => mq.removeEventListener("change", update);
   }, []);
 
+  // The sliding pill snaps instead of sliding for anyone who asked for
+  // less motion, at the OS level or through calm mode.
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduced(mq.matches);
+    const update = () => setReduced(motionOff());
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
-  }, []);
+  }, [calmVersion]);
 
   // Scroll-spy: mark the section currently in view. Only on the home page,
   // where the links are in-page anchors.
@@ -199,7 +206,9 @@ export function Header({
           </li>
 
           <li className="nav-util">
+            <CommandPaletteHint />
             {showNotesToggle && <NotesToggle />}
+            <CalmToggle />
             <ThemeToggle />
             <a className="nav-cta magnetic" href="mailto:pettugani.h@northeastern.edu" onClick={closeMenu}>
               Get in touch

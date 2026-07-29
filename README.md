@@ -25,7 +25,7 @@ The first version of this site was framework-free on principle, and that princip
 | Framework | Next.js 15 (App Router) + TypeScript | Static export (`output: 'export'`); React 19 Server Components for all content |
 | Styling | Tailwind CSS v4 | CSS-first config via `@theme`; the original design tokens map 1:1 to utilities |
 | Components | shadcn/ui patterns, hand-rolled | `button`, `badge`, `card` built on class-variance-authority + `cn()` |
-| 3D | React Three Fiber + drei + GLSL | Custom vertex/fragment shader particle field in the hero, capability-gated |
+| 3D | React Three Fiber + drei | One persistent low-poly glass artifact behind the whole homepage, scroll-choreographed and capability-gated |
 | Physics | React Three Rapier | Skills section as a draggable, throwable chip playground on capable desktops |
 | Scroll motion | GSAP + ScrollTrigger + Flip + SplitText + MorphSVG + ScrollTo | Section reveals, horizontal-scroll pin, kinetic type, SVG morph, shared-element expand |
 | UI transitions | Framer Motion | Fisheye dock, mobile menu, design-notes toggle, gradient-curtain route wipe |
@@ -51,8 +51,8 @@ app/
     family-foundations/page.tsx  Case study 04, sensitive-domain design, embedded prototype
 components/
   ui/                       button, badge, card (cva + cn)
-  hero-scene.tsx            GLSL particle hero, gated on motion, pointer, and WebGL
-  hero-scene-canvas.tsx     The R3F Canvas + shader material (dynamic, ssr:false)
+  command-palette.tsx       Cmd/Ctrl+K dialog: sections, cases, theme, calm, notes
+  calm-toggle.tsx           the reduce-motion switch this site owns itself
   skills/                   physics playground (Rapier), fallback grid, shared data
   about-reveal.tsx          scroll-tied clip mask + MorphSVG background motif
   projects-horizontal.tsx   pinned horizontal-scroll track + progress
@@ -64,9 +64,14 @@ components/
   case/                     journey strip, before/after, user voice, exhibit frame,
                             sticky section navigator, poster pagination, case choreography
   fx/                       cursor, delegated pointer effects, ScrollTrigger setup,
-                            homepage scroll moments (parallax, pull quote, counters, chapters)
+                            homepage scroll moments (parallax, pull quote, counters,
+                            chapters), the persistent 3D artifact and its canvas, and
+                            the GL lock the two 3D surfaces share
 lib/
-  motion.ts                 Motion vocabulary: durations, eases, staggers, offsets
+  motion.ts                 Motion vocabulary: durations, eases, staggers, offsets, and
+                            motionOff(), the one question every animated component asks
+  calm.ts                   Calm-mode state, persistence and subscription
+  theme.ts                  Theme state, shared by the header toggle and the palette
   utils.ts                  cn() class merge
 public/assets/              Wireframe PDFs served first-party
 .github/workflows/          CI/CD (see below)
@@ -76,7 +81,11 @@ public/assets/              Wireframe PDFs served first-party
 
 Everything animated respects `prefers-reduced-motion`, and everything pointer-driven is gated on `pointer: fine`, so touch and assistive-tech users get a calm, fully functional site.
 
-- **GLSL hero particle field** built with React Three Fiber: a custom vertex/fragment shader drives roughly 20,000 points (4,000 on narrow screens) resting in a soft sphere, displaced by pointer velocity and springing back, tinted along the vermilion to iris gradient with a subtle chromatic lift. The render loop pauses off-screen, DPR is capped, and the canvas never mounts for reduced-motion, touch, or no-WebGL visitors, who get the original static gradient hero.
+- **One persistent 3D artifact for the whole homepage**: a single low-poly faceted glass icosahedron with three small companions, in one fixed full-viewport canvas behind every word on the page. It arrives once on load, scaling and unwinding out of nothing with the house ease, then travels to a different position, rotation, scale and accent colour for each band of the page: hero, work, experience, process, interaction design, frameworks, about, contact. Eight authored stops and seven scrubbed ScrollTriggers between them, so the travel is coupled to the wheel rather than played back on a timer, and the object turns just over one full revolution between the top of the page and the bottom. It sits at `z-index: -1`, which paints it after the page background but before any content, so it is genuinely behind the words rather than a film over them and no contrast ratio on the site is touched. Under 100 triangles, no post-processing, no shadows, no transmission, DPR capped at 1.5. The loop is `frameloop="demand"`: scroll asks for frames, the entrance asks for frames, and a 120ms heartbeat asks for the rest, so an idle page costs about 8 renders a second and a hidden tab costs zero. It never mounts at all below 900px, without WebGL, or for anyone who asked for less motion, and the static gradient hero background is the whole fallback.
+- **Exactly one live renderer, enforced**: the artifact and the Rapier skills playground share a small lock (`components/fx/gl-lock.ts`). The playground is the heavier and the interactive one, so it wins: while it is mounted the artifact switches to `frameloop="never"` and fades to zero, then resumes at whatever pose the scroll moved to while it was parked. The two 3D surfaces never draw in the same frame.
+- **Command palette**: Cmd+K or Ctrl+K opens a real dialog that jumps to any band of the homepage, opens any case study, flips the theme, turns design notes on, turns calm mode on, or replays the intro. Esc closes it, focus moves into the field on open and returns to whatever had it before on close, Tab cannot leave the panel, and the list uses the combobox and `aria-activedescendant` pattern so the arrow keys move the selection without focus ever jumping around. The panel is only in the DOM while it is open; closed, it costs one small chip in the header and one keydown listener. Both the closed and the open state are audited by pa11y in CI.
+- **Calm mode**: a switch in the header, and in the palette, that turns the motion off from inside the page. The site already honours the operating-system reduced-motion setting, but plenty of people cannot reach that setting: a managed work laptop, a shared machine, a browser that never exposed it. Calm mode is one class on `<html>`, written before paint from localStorage, so a calm visitor never sees a frame of motion again. With it on the 3D artifact unmounts entirely, the scroll choreography drops to one plain opacity fade per block, the custom cursor and every pointer effect stop, the horizontal case pin becomes the ordinary vertical grid, and every CSS keyframe and transition on the page is cut. Not one word of content moves or disappears.
+- **Liquid-glass surfaces**: the header and the card surfaces carry a finer specular edge, a slightly deeper and more saturated backdrop blur, and a border that catches light instead of sitting flat. Every part of it is a border, a blur or a one-pixel highlight, so no text colour and no background colour underneath any text changes in either theme.
 - **One motion vocabulary**: `lib/motion.ts` holds every duration, ease, stagger, and travel distance the site uses. Three durations, one house ease matching the CSS `cubic-bezier(0.22, 1, 0.36, 1)`, two stagger steps. Every GSAP call imports from it, so the homepage and the case studies move like one hand drew them, and retuning the whole site is a single file.
 - **GSAP scroll choreography**: section reveals with grid children entering in 70ms sequence, the work and prototype grids settling in with a slight rotateX and a soft elastic ease, the experience timeline line drawing itself in as you scroll, and subtle parallax on section kickers, all cleaned up per navigation.
 - **Masked section-title reveals**: every section title splits into words at runtime (accessible name preserved) and rises out of an overflow mask when it scrolls into view.
@@ -109,7 +118,7 @@ The case pages are what a hiring manager actually reads, so they carry their own
 
 Each major section carries its own signature so no two animate the same way:
 
-- **Hero**: the GLSL particle field above, with the GSAP per-word headline rise and gradient shimmer layered over it. Text stays fully readable; the particles are low-opacity ambience.
+- **Hero**: the persistent artifact at its first stop, to the right of the headline at its largest and nearest, with the GSAP per-word headline rise and gradient shimmer layered over it. Text stays fully readable; the object is behind it, never over it.
 - **About**: content reveals through an expanding circular clip mask tied to scroll, and a background SVG motif morphs between geometric shapes (GSAP MorphSVG) as you scroll, the morph riding the scroll position so fast scrolling feels snappier.
 - **Skills**: on a capable desktop the Research, Design, and Build chips become draggable, throwable 3D chips with gravity and collision walls (React Three Rapier). Let go and an idle attractor gently tidies them back into three columns; a reset control snaps them home. Everywhere else it is the calm chip grid, and the labels always exist in the DOM for screen readers.
 - **Projects**: the four case studies become a pinned horizontal track that vertical scrolling drives sideways, with a progress bar and natural release at both ends. Tabbing a card scrolls it into view. Hovering a poster splits it with a pointer-tracked RGB shift, and clicking one clones the poster into a fixed overlay that expands toward the case hero before the route swaps, so navigation reads as a shared-element expand. Touch and reduced-motion keep the normal vertical grid.
@@ -126,7 +135,8 @@ Each major section carries its own signature so no two animate the same way:
 - WCAG 2.1 AA is enforced by CI on every page, not just claimed.
 - Ink-on-paper palette holds 7:1 contrast for body text; interactive states have visible focus rings. Dark-theme hues are brightened to hold AA on aubergine.
 - Fonts are self-hosted through `next/font` with no render-blocking font requests; Figma iframes are `loading="lazy"`.
-- The heavy interactions are capability-gated and degrade honestly. The shader hero, physics skills, horizontal projects, kinetic contact, and fisheye dock only run on wide, fine-pointer, non-reduced-motion viewports with WebGL where they need it; everyone else gets the calm version (static gradient hero, plain skill grid, vertical project cards, plain heading, header menu). Every WebGL and physics canvas mounts only when it is near the viewport and unmounts when scrolled far away, so the browser never juggles more than one live GL context at a time. Particle counts scale by device, DPR is capped at 1.75, and render loops pause off-screen to hold a mid-range laptop at 60fps. The skill chip labels are always present in the DOM, so the 3D version never costs a screen-reader user the content.
+- The heavy interactions are capability-gated and degrade honestly. The persistent 3D artifact, physics skills, horizontal projects, kinetic contact, and fisheye dock only run on wide, fine-pointer, non-reduced-motion viewports with WebGL where they need it; everyone else gets the calm version (static gradient hero, plain skill grid, vertical project cards, plain heading, header menu). The two 3D surfaces share a lock so only one of them ever renders, the skills canvas still unmounts when it is far from the viewport, DPR is capped at 1.5 on the artifact and 1.75 on the playground, and the artifact idles at roughly 8 renders a second and stops dead in a hidden tab. The skill chip labels are always present in the DOM, so the 3D version never costs a screen-reader user the content.
+- Calm mode gives every visitor the reduced-motion experience on request, whether or not they can change their operating-system setting. It is the same code path the OS setting uses, asked as one question, `motionOff()`, by every animated component on the site.
 
 ## CI/CD
 

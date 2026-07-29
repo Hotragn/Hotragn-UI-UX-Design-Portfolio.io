@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OnboardingShowcase } from "@/components/onboarding-showcase";
+import { motionOff } from "@/lib/motion";
 
 const SESSION_KEY = "intro-seen";
 
@@ -63,7 +64,7 @@ export function IntroGlimpse() {
   }, [finish]);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = motionOff();
     let seen = false;
     try {
       seen = sessionStorage.getItem(SESSION_KEY) === "1";

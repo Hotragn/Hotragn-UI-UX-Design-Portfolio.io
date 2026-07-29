@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
+import { motionOff } from "@/lib/motion";
 
 /**
  * Wayfinding: a small back-to-top control that appears after deep scroll
@@ -36,8 +37,7 @@ export function BackToTop() {
   }, []);
 
   const toTop = () => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    window.scrollTo({ top: 0, behavior: motionOff() ? "auto" : "smooth" });
   };
 
   if (!show) return null;

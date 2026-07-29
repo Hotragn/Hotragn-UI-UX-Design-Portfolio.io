@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
+import { isDarkTheme, toggleTheme } from "@/lib/theme";
 
 /**
  * Dark/light mode toggle. The initial class is applied by an inline
@@ -11,17 +12,20 @@ import { Sun, Moon } from "lucide-react";
 export function ThemeToggle() {
   const [isDark, setIsDark] = useState<boolean | null>(null);
 
+  // Watch the class rather than only reading it once, because the
+  // command palette can flip the theme too and this button's label and
+  // pressed state must never lie about what it will do next.
   useEffect(() => {
-    setIsDark(document.documentElement.classList.contains("dark"));
+    const el = document.documentElement;
+    const update = () => setIsDark(isDarkTheme());
+    update();
+    const observer = new MutationObserver(update);
+    observer.observe(el, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
   }, []);
 
   const toggle = useCallback(() => {
-    const next = !document.documentElement.classList.contains("dark");
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      localStorage.setItem("theme", next ? "dark" : "light");
-    } catch {}
-    setIsDark(next);
+    toggleTheme();
   }, []);
 
   return (

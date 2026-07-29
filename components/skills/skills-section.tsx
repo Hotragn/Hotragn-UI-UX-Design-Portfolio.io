@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { SkillsFallback } from "@/components/skills/skills-fallback";
+import { motionOff } from "@/lib/motion";
+import { useCalmVersion } from "@/lib/calm";
 
 const SkillsPhysicsCanvas = dynamic(
   () => import("@/components/skills/skills-physics-canvas"),
@@ -18,9 +20,9 @@ const SkillsPhysicsCanvas = dynamic(
 export function SkillsSection() {
   const [physics, setPhysics] = useState(false);
   const [resetSignal, setResetSignal] = useState(0);
+  const calmVersion = useCalmVersion();
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const finePointer = window.matchMedia("(pointer: fine)").matches;
     const wide = window.innerWidth >= 900;
     let webgl = false;
@@ -30,8 +32,8 @@ export function SkillsSection() {
     } catch {
       webgl = false;
     }
-    setPhysics(!prefersReduced && finePointer && wide && webgl);
-  }, []);
+    setPhysics(!motionOff() && finePointer && wide && webgl);
+  }, [calmVersion]);
 
   if (!physics) {
     return <SkillsFallback />;
