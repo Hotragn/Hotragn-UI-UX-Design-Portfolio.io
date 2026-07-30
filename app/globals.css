@@ -1,8 +1,21 @@
 /* ==========================================================================
    Hotragn Pettugani - Portfolio
-   Design system: "Warm Editorial"
-   Paper cream canvas, ink typography, persimmon + forest accents.
-   Type: Fraunces (display) / Inter (body). WCAG AA contrast throughout.
+   Design system: "Gilded Editorial"
+
+   One monochromatic ramp, five authored stops:
+     Treasury        #DBD089
+     Martian         #B5A431
+     Muddy Brown     #8B7900
+     Ayahuasca Vine  #635100
+     Secret Passage  #392D00
+
+   A five-stop ramp cannot furnish a whole interface on its own, so the
+   near-white parchment, the borders and the muted text are derived from
+   the same hue rather than borrowed from a second palette. Every text
+   and surface pairing below is chosen to clear WCAG AA, which the CI
+   accessibility gate re-checks on every push.
+
+   Type: Fraunces (display) / Inter (body).
    ========================================================================== */
 
 @import "tailwindcss";
@@ -10,25 +23,25 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --paper: #faf6ef;
-  --paper-deep: #f3ecdf;
-  --ink: #1e1b16;
-  --ink-soft: #4a443b;
-  --muted: #6f6759;
-  --line: #e2d9c8;
-  --card: #fffdf8;
-  --accent: #d0431d;        /* vermilion, AA on paper at 18px+ bold */
-  --accent-ink: #a2320f;    /* darker vermilion, AA for body-size text */
-  --plum: #b23a8a;          /* magenta-plum, midpoint of the signature gradient */
-  --iris: #5b4bd4;          /* electric iris, cool counterweight */
-  --grad: linear-gradient(115deg, var(--accent), var(--plum) 52%, var(--iris));
-  --forest: #1d4b3f;
-  --forest-soft: #e4ede7;
-  --gold: #b98a2f;
-  --dark: #171226;          /* deep aubergine, not brown-black */
-  --dark-2: #211a33;
-  --on-dark: #f2eefa;
-  --on-dark-muted: #b3aac9;
+  --paper: #faf6e4;         /* derived parchment, the Treasury hue at near-white */
+  --paper-deep: #f0e8c6;
+  --ink: #392d00;           /* Secret Passage, 12.5:1 on paper */
+  --ink-soft: #635100;      /* Ayahuasca Vine, 7.2:1 */
+  --muted: #7e6d00;         /* derived, 4.8:1, the lightest tone still safe for body copy */
+  --line: #e3d9ae;
+  --card: #fffdf2;
+  --accent: #8b7900;        /* Muddy Brown, 4.0:1, headings and large or bold text */
+  --accent-ink: #635100;    /* Ayahuasca Vine, safe for body-size text */
+  --plum: #b5a431;          /* Martian, the ramp's midpoint */
+  --iris: #dbd089;          /* Treasury, the ramp's light end */
+  --grad: linear-gradient(115deg, var(--accent-ink), var(--accent) 46%, var(--plum));
+  --forest: #4a4b00;        /* the ramp's cool edge, used where "resolved" is meant */
+  --forest-soft: #eeeacb;
+  --gold: #b5a431;
+  --dark: #392d00;          /* Secret Passage carries the dark bands */
+  --dark-2: #4a3b00;
+  --on-dark: #dbd089;       /* Treasury on Secret Passage, 8.6:1 */
+  --on-dark-muted: #b5a431; /* Martian on Secret Passage, 5.4:1 */
   --radius: 18px;
   --radius-sm: 10px;
   --shadow: 0 2px 6px rgba(30, 27, 22, 0.05), 0 16px 40px -18px rgba(30, 27, 22, 0.22);
@@ -39,24 +52,25 @@
   --wrap-narrow: 780px;
 }
 
-/* Dark theme: aubergine glass. Same hues, brightened for AA contrast on dark. */
+/* Dark theme: the same ramp re-anchored to its darkest stop, with the
+   light stops carrying the type so every pairing still clears AA. */
 .dark {
-  --paper: #171226;
-  --paper-deep: #211a33;
-  --ink: #f2eefa;
-  --ink-soft: #cfc7e2;
-  --muted: #b3aac9;
-  --line: rgba(255, 255, 255, 0.1);
-  --card: rgba(33, 26, 51, 0.62);
-  --accent: #ff6a3f;
-  --accent-ink: #ff9273;
-  --plum: #e070bd;
-  --iris: #a99bff;
-  --forest: #7ac7ab;
-  --forest-soft: rgba(122, 199, 171, 0.14);
-  --gold: #dcb25e;
-  --dark: #100b1d;
-  --dark-2: #191330;
+  --paper: #221b00;
+  --paper-deep: #2e2500;
+  --ink: #dbd089;           /* Treasury, 10.8:1 on the dark surface */
+  --ink-soft: #c9bb6b;
+  --muted: #a99a45;         /* Martian, lifted slightly, 5.5:1 */
+  --line: rgba(219, 208, 137, 0.14);
+  --card: rgba(57, 45, 0, 0.62);
+  --accent: #c9b63c;
+  --accent-ink: #dbd089;    /* Treasury for body-size text on dark */
+  --plum: #b5a431;
+  --iris: #e6dda6;
+  --forest: #b9c46a;
+  --forest-soft: rgba(185, 196, 106, 0.14);
+  --gold: #dbd089;
+  --dark: #191400;
+  --dark-2: #241c00;
   --shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 16px 40px -18px rgba(0, 0, 0, 0.6);
   --shadow-lift: 0 4px 10px rgba(0, 0, 0, 0.4), 0 28px 56px -20px rgba(0, 0, 0, 0.7);
   color-scheme: dark;
