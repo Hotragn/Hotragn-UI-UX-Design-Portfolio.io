@@ -27,7 +27,7 @@
   --paper-deep: #f0e8c6;
   --ink: #392d00;           /* Secret Passage, 12.5:1 on paper */
   --ink-soft: #635100;      /* Ayahuasca Vine, 7.2:1 */
-  --muted: #7e6d00;         /* derived, 4.8:1, the lightest tone still safe for body copy */
+  --muted: #6b5c00;         /* derived, 5.4:1 on the deeper parchment, which is the tighter case */
   --line: #e3d9ae;
   --card: #fffdf2;
   --accent: #8b7900;        /* Muddy Brown, 4.0:1, headings and large or bold text */
@@ -37,11 +37,11 @@
   --grad: linear-gradient(115deg, var(--accent-ink), var(--accent) 46%, var(--plum));
   --forest: #4a4b00;        /* the ramp's cool edge, used where "resolved" is meant */
   --forest-soft: #eeeacb;
-  --gold: #b5a431;
+  --gold: #cbbb63;          /* Martian lifted; it only ever sits on the dark bands */
   --dark: #392d00;          /* Secret Passage carries the dark bands */
   --dark-2: #4a3b00;
   --on-dark: #dbd089;       /* Treasury on Secret Passage, 8.6:1 */
-  --on-dark-muted: #b5a431; /* Martian on Secret Passage, 5.4:1 */
+  --on-dark-muted: #cbbb63; /* Martian lifted, 5.7:1 on the lighter dark band too */
   --radius: 18px;
   --radius-sm: 10px;
   --shadow: 0 2px 6px rgba(30, 27, 22, 0.05), 0 16px 40px -18px rgba(30, 27, 22, 0.22);
