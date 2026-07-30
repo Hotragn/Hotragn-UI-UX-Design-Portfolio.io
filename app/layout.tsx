@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#faf6e4",
+  themeColor: "#faf6ef",
 };
 
 // Applied before paint: the theme class (no flash of the wrong palette)

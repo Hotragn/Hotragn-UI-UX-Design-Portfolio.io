@@ -25,10 +25,8 @@ gsap.registerPlugin(ScrollTrigger);
  */
 
 /** The signature gradient, light theme then dark theme. */
-// The brand ramp, dark end to light: Ayahuasca Vine, Muddy Brown, Martian.
-const ACCENTS_LIGHT = ["#635100", "#8b7900", "#b5a431"];
-// On the dark surface the same ramp runs brighter so it still reads.
-const ACCENTS_DARK = ["#b5a431", "#c9b63c", "#dbd089"];
+const ACCENTS_LIGHT = ["#d0431d", "#b23a8a", "#5b4bd4"]; // vermilion, plum, iris
+const ACCENTS_DARK = ["#ff6a3f", "#e070bd", "#a99bff"];
 
 type Pose = {
   x: number;
@@ -293,7 +291,7 @@ function Artifact({
           <meshPhysicalMaterial
             ref={shell}
             flatShading
-            color={isDark ? "#2e2500" : "#f4eed6"}
+            color={isDark ? "#2a2140" : "#f6f1e6"}
             roughness={0.12}
             metalness={0.02}
             clearcoat={1}

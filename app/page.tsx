@@ -945,24 +945,23 @@ export default function HomePage() {
                   where good design is measured by whether the work day got easier.
                 </p>
                 <DesignNote>
-                  <b>Why one colour, five stops.</b> Most portfolios reach for a second hue the
-                  moment they need emphasis. This one does not. Everything you see is a single
-                  ramp, from Treasury at the light end through Martian and Muddy Brown to Secret
-                  Passage at the dark end, and the only thing that changes between a heading, a
-                  link and a whole dark band is how far along that ramp it sits. Working inside one
-                  hue is harder than picking a contrasting accent, because depth has to come from
-                  value rather than from a colour wheel, and that constraint is exactly why the
-                  page reads as one object instead of a set of parts. Every pairing still clears
-                  WCAG AA, because craft that excludes people is not craft. Fraunces carries the
-                  voice, Inter carries the information. Two typefaces, two jobs.{" "}
+                  <b>Why cream, ink, vermilion, and iris.</b> White portfolios read like templates;
+                  cream reads like paper, and paper is where my thinking actually happens, in
+                  sketches and margins. The gradient running from warm vermilion through plum to
+                  cool iris is the signature thread of this site, and it is also my story in color:
+                  engineering warmth on one end, design curiosity on the other. Every combination
+                  still clears WCAG AA contrast, because craft that excludes people is not craft.
+                  Fraunces carries the voice, Inter carries the information. Two typefaces, two
+                  jobs.{" "}
                   <span className="note-light-only">
-                    In daylight the page sits on parchment rather than white, because a warm
-                    surface holds this ramp without the type having to shout over glare.
+                    And if the page looks like cream paper right now, that is the point: cream is
+                    kinder to the eyes in a bright room, which is where most daytime reading
+                    actually happens.
                   </span>
                   <span className="note-dark-only">
-                    In the dark the same ramp simply flips: Secret Passage becomes the room and
-                    Treasury becomes the ink, so the palette never gets swapped out, only
-                    re-anchored.
+                    And since you flipped this site to dark: the background is aubergine instead of
+                    black because pure black flattens every shadow, and the glass panels only earn
+                    their blur when there is a little color left glowing behind them.
                   </span>
                 </DesignNote>
                 <SkillsSection />
